@@ -1,0 +1,14 @@
+from gameprimatives.gamescene import *
+from car import *
+
+class CarScene(GameScene):
+    
+    def __init__(self, game_state):
+        self.gameobjs = [Car(game_state)]
+
+    def update(self, game_state):
+        for event in game_state.events:
+            if not hasattr(event, 'key') or event.type != KEYDOWN: continue
+            if event.key == K_p: self.gameobjs.insert(0, Car(game_state))
+
+        super(CarScene, self).update(game_state)
