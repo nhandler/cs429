@@ -29,7 +29,6 @@ class Car(GameObject):
             elif event.key == K_LEFT: self.k_left = down * 5
             elif event.key == K_UP: self.k_up = down * 2
             elif event.key == K_DOWN: self.k_down = down * -2
-            elif event.key == K_ESCAPE: sys.exit(0)
 
         self.speed += (self.k_up + self.k_down)
         if self.speed > MAX_FORWARD_SPEED: self.speed = MAX_FORWARD_SPEED
