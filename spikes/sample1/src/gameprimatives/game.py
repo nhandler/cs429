@@ -17,8 +17,8 @@ class Game:
     def launch(self, game_state):
         
         game_state.screen = pygame.display.set_mode(self.size)
-        while(1):
-            print self.clock.tick(self.fps)
+        while(game_state.is_running):
+            print "Running at: " + str(self.clock.tick(self.fps)) + " FPS."
             game_state.events = pygame.event.get()
 
             for event in game_state.events:
@@ -32,8 +32,11 @@ class Game:
 
             game_state.screen.fill(BLACK)
             for scene in reversed(game_state.gameobjs):
-                print scene
                 if scene.should_render(game_state):
                     scene.render(game_state)
                  
             pygame.display.flip()
+
+        for scene in game_state.gameobjs:
+            scene.cleanup(game_state)
+

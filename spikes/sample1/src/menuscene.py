@@ -19,7 +19,7 @@ class MenuScene(GameScene):
             if event.key == K_UP: self.decrease()
             elif event.key == K_DOWN: self.increase()
             elif event.key == K_q: game_state.pop_scene()
-
+            elif event.key == K_RETURN: game_state.is_running = False
 
     def render(self, game_state):
         bigfont = pygame.font.SysFont("monospace", 20)

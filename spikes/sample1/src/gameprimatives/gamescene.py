@@ -1,7 +1,7 @@
 from gameobject import *
 
 class GameScene(GameObject):
-    gameobjs = None
+    gameobjs = []
 
     def __init__(self):
         gameobjs = []
@@ -16,3 +16,8 @@ class GameScene(GameObject):
             if obj.should_render(game_state):
                 obj.render(game_state)
         
+
+    def cleanup(self, game_state):
+        super(GameScene, self).cleanup(game_state)
+        for obj in self.gameobjs:
+            obj.cleanup(game_state)

@@ -20,3 +20,7 @@ class GameObject(object):
 
     def should_render(self, game_state):
         return True
+
+    def cleanup(self, game_state):
+        print "cleaning up" + str(self)
+        return
