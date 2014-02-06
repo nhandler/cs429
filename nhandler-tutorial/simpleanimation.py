@@ -1,6 +1,8 @@
 import sys
 import pygame
 
+from utils import Timer
+
 
 class SimpleAnimation(object):
     """ A simple animation. Scrolls cyclically through a list of
@@ -22,13 +24,12 @@ class SimpleAnimation(object):
         self.screen = screen
         self.images = images
         self.pos = pos
-        self.scroll_period = scroll_period
+        self.img_ptr = 0
+        self.active = True
         self.duration = duration
         
-        self.img_ptr = 0
-        self.duration_count = 0
-        self.scroll_count = 0
-        self.active = True
+        self.scroll_timer = Timer(scroll_period, self._advance_img)
+        self.active_timer = Timer(duration, self._inactivate, True)
     
     def is_active(self):
         """ Is the animation active ?
@@ -44,15 +45,8 @@ class SimpleAnimation(object):
             time_passed:
                 The time passed (in ms) since the previous update.
         """
-        self.scroll_count += time_passed
-        if self.scroll_count > self.scroll_period:
-            self.scroll_count -= self.scroll_period
-            self.img_ptr = (self.img_ptr + 1) % len(self.images)
-        
-        if self.duration >= 0:
-            self.duration_count += time_passed
-            if self.duration_count > self.duration:
-                self.active = False
+        for timer in [self.scroll_timer, self.active_timer]:
+            timer.update(time_passed)
 
     def draw(self):
         """ Draw the animation onto the screen.
@@ -61,6 +55,13 @@ class SimpleAnimation(object):
             cur_img = self.images[self.img_ptr]
             self.draw_rect = cur_img.get_rect().move(self.pos)
             self.screen.blit(cur_img, self.draw_rect)
+            
+    def _inactivate(self):
+        if self.duration >= 0:
+            self.active = False
+    
+    def _advance_img(self):
+        self.img_ptr = (self.img_ptr + 1) % len(self.images)
 
 
 if __name__ == "__main__":
@@ -71,7 +72,7 @@ if __name__ == "__main__":
     explosion_img = pygame.image.load('images/explosion1.png').convert_alpha()
     images = [explosion_img, pygame.transform.rotate(explosion_img, 90)]
 
-    expl = SimpleAnimation(screen, (100, 100), images, 100, 2000)
+    expl = SimpleAnimation(screen, (100, 100), images, 100, 2120)
 
     while True:
         time_passed = clock.tick(50)
