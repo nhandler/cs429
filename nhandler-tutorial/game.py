@@ -1,13 +1,14 @@
+from random import uniform
 # Game parameters
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 400
 BG_COLOR = (150, 150, 80)
 CREEP_FILENAMES = [
-	'bluecreep.png',
-	'pinkcreep.png',
-	'graycreep.png',
+	('bluecreep.png', 20),
+	('pinkcreep.png', 20),
+	('graycreep.png', 60),
 ]
-N_CREEPS = 20
+N_CREEPS = 100
 CREEP_SPEED = 0.1	# 0.1 px/ms or 100 pixels per second
 
 pygame.init()
@@ -19,7 +20,7 @@ clock = pygame.time.Clock()
 creeps = []
 for i in range(N_CREEPS):
 	creeps.append(Creep(screen,
-						choice(CREEP_FILENAMES),
+						w_choice(CREEP_FILENAMES),
 						(	randint(0, SCREEN_WIDTH),
 							randint(0, SCREEN_HEIGHT)),
 						(	choice([-1, 1]),
@@ -43,3 +44,13 @@ while True:
         creep.blitme()
 
     pygame.display.flip()
+
+# From http://stackoverflow.com/a/4113549
+def w_choice(seq):
+    total_prob = sum(item[1] for item in seq)
+    chocsen = random.uniform(0, total_prob)
+    cumulative = 0
+    for item, probability in seq:
+        cumulative += probability
+        if cumulative > chosen:
+            return item
