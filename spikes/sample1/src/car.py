@@ -18,8 +18,7 @@ class Car(GameObject):
         self.image = pygame.image.load(game_state.resource('car.png'))
         self.position = (100, 100)
 
-    def update(self, game_state):
-        
+    def update(self, game_state):        
 
         for event in game_state.events:
             if not hasattr(event, 'key'): continue
@@ -39,4 +38,10 @@ class Car(GameObject):
         rad = self.rotation * math.pi/180
         x += -self.speed*math.sin(rad)
         y += -self.speed*math.cos(rad)
+        min_x = min_y = 0
+        max_x, max_y = game_state.screen.get_size()
+        if x < min_x: x = min_x
+        if x > max_x: x = max_x
+        if y < min_y: y = min_y
+        if y > max_y: y = max_y
         self.position = (x,y)
