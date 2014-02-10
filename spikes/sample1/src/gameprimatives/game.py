@@ -12,11 +12,15 @@ class Game:
     def __init__(self, size):
         self.size = size
         self.clock = pygame.time.Clock()
+        pygame.mixer.init()
         
 
     def launch(self, game_state):
         
         game_state.screen = pygame.display.set_mode(self.size)
+        pygame.mixer.music.load('../res/Battle Escape.mp3')
+        pygame.mixer.music.play(-1)
+
         while(game_state.is_running):
             print "Running at: " + str(self.clock.tick(self.fps)) + " FPS."
             game_state.events = pygame.event.get()
