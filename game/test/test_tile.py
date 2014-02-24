@@ -1,6 +1,6 @@
 import pygame, sys
 from pygame.locals import *
-from cs429.tile.tile import Tile
+from cs429.game.src.tile import Tile
 
 FPS = 30
 fpsClock = pygame.time.Clock()
@@ -9,7 +9,7 @@ fpsClock = pygame.time.Clock()
 def main():
     pygame.init()
     DISPLAYSURF = pygame.display.set_mode((1000, 800))
-    new_tile = Tile('./cs429/tests/tileset/example.tmx')
+    new_tile = Tile('./cs429/game/test/tileset/example.tmx')
 
     while True:
         for event in pygame.event.get():
