@@ -1,8 +1,8 @@
+import pygame
+from pygame.locals import *
 from cs429.pytmx import tmxloader
 
 class Tile():
-    #TODO: find a way to stretch the image size if the screen is set to large.
-
     def __init__(self, filename):
         tmxdata = tmxloader.load_pygame(filename, pixelalpha=True)
         self.height = tmxdata.height
@@ -40,11 +40,24 @@ class Tile():
         new_y = (y * surface.get_height()) / self.height
         return (new_x, new_y)
 
+    def _scale(self, element, surface):
+        width = surface.get_width()
+        height = surface.get_height()
+        num_rows = len(self.background)
+        num_columns = len(self.background[0])
+
+        return pygame.transform.scale(
+            element, (width/num_rows, height/num_columns)
+        )
+
     def _draw(self, surface, data):
         for x, column in enumerate(data):
             for y, element in enumerate(column):
                 if element:
-                    surface.blit(element, self._convert(surface, x, y))
+                    surface.blit(
+                        self._scale(element, surface), 
+                        self._convert(surface, x, y)
+                    )
 
     def draw_background(self, surface):
         self._draw(surface, self.background)

@@ -8,7 +8,7 @@ fpsClock = pygame.time.Clock()
 # Manual test to load images from tileset/example.tmx
 def main():
     pygame.init()
-    DISPLAYSURF = pygame.display.set_mode((400, 300))
+    DISPLAYSURF = pygame.display.set_mode((1000, 800))
     new_tile = Tile('./cs429/tests/tileset/example.tmx')
 
     while True:
