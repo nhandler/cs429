@@ -21,3 +21,8 @@ class ObjectSprite (pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.center = self.position
+
+    def takeHit(self):
+        self.image = self.hit
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position

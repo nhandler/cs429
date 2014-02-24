@@ -1,8 +1,9 @@
 import pygame, math, sys
 from pygame.locals import *
-sys.path.insert(0, '/home/ian/CS428/cs429/game/src')
+#sys.path.insert(0, '/home/ian/CS428/cs429/game/src')
+sys.path.append('/home/verzak1/cs429/project/cs429/game/src')
 import unittest
-from player import PlayerSprite
+from player import PlayerSprite, Direction, HorizontalMovement, VerticalMovement
 
 class TestPlayerMovement(unittest.TestCase):
 
@@ -18,27 +19,36 @@ class TestPlayerMovement(unittest.TestCase):
         self.player = PlayerSprite('Hero.png', (5, 5))
 
     def test_move_up(self):
-        self.player.up = True
+        self.player.horizontalMovement = HorizontalMovement.none
+        self.player.verticalMovement = VerticalMovement.up
         self.player.update(self.clock.tick(60))
         self.assertEqual((5, 4), self.player.coords)
+        self.assertEqual(self.player.direction, Direction.up)
 
     def test_move_down(self):
-        self.player.down = True
+        self.player.horizontalMovement = HorizontalMovement.none
+        self.player.verticalMovement = VerticalMovement.down
         self.player.update(self.clock.tick(60))
         self.assertEqual((5, 6), self.player.coords)
+        self.assertEqual(self.player.direction, Direction.down)
 
     def test_move_left(self):
-        self.player.left = True
+        self.player.horizontalMovement = HorizontalMovement.left
+        self.player.verticalMovement = VerticalMovement.none
         self.player.update(self.clock.tick(60))
         self.assertEqual((4, 5), self.player.coords)
+        self.assertEqual(self.player.direction, Direction.left)
 
     def test_move_right(self):
-        self.player.right = True
+        self.player.horizontalMovement = HorizontalMovement.right
+        self.player.verticalMovement = VerticalMovement.none
         self.player.update(self.clock.tick(60))
         self.assertEqual((6, 5), self.player.coords)
+        self.assertEqual(self.player.direction, Direction.right)
 
     def test_top_edge_collision(self):
-        self.player.up = True
+        self.player.horizontalMovement = HorizontalMovement.none
+        self.player.verticalMovement = VerticalMovement.up
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
@@ -49,7 +59,8 @@ class TestPlayerMovement(unittest.TestCase):
         self.assertEqual((5, 0), self.player.coords)
 
     def test_bottom_edge_collision(self):
-        self.player.down = True
+        self.player.horizontalMovement = HorizontalMovement.none
+        self.player.verticalMovement = VerticalMovement.down
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
@@ -60,7 +71,8 @@ class TestPlayerMovement(unittest.TestCase):
         self.assertEqual((5, 9), self.player.coords)
 
     def test_right_edge_collision(self):
-        self.player.right = True
+        self.player.horizontalMovement = HorizontalMovement.right
+        self.player.verticalMovement = VerticalMovement.none
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
@@ -71,7 +83,8 @@ class TestPlayerMovement(unittest.TestCase):
         self.assertEqual((9, 5), self.player.coords)
 
     def test_left_edge_collision(self):
-        self.player.left = True
+        self.player.horizontalMovement = HorizontalMovement.left
+        self.player.verticalMovement = VerticalMovement.none
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
         self.player.update(self.clock.tick(60))
