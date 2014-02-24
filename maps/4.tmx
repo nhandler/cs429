@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="8" height="8" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="grass-tiles-2-small" tilewidth="32" tileheight="32">
+  <image source="tileset/grass-tiles-2-small.png" width="384" height="192"/>
+ </tileset>
+ <tileset firstgid="73" name="tree2-final" tilewidth="256" tileheight="256">
+  <image source="tileset/tree2-final.png" width="256" height="256"/>
+ </tileset>
+ <layer name="Background" width="8" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQCZsfBJkUeGRNrFznyyBgAPjAAfQ==
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="8" height="8">
+  <object x="64" y="64" width="32" height="96"/>
+  <object x="64" y="128" width="128" height="32"/>
+  <object x="160" y="64" width="32" height="160"/>
+ </objectgroup>
+</map>
