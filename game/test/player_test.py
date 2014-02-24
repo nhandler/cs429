@@ -1,7 +1,7 @@
 import pygame, math, sys
 from pygame.locals import *
 #sys.path.insert(0, '/home/ian/CS428/cs429/game/src')
-sys.path.append('/home/verzak1/cs429/project/cs429/game/src')
+sys.path.append('../src')
 import unittest
 from player import PlayerSprite, Direction, HorizontalMovement, VerticalMovement
 
