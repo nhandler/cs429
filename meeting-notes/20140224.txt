@@ -1,0 +1,31 @@
+Iteration 2 Meeting
+Monday, February 24, 2014 5:30pm
+
+Moderator: Andrew Roth
+Scribe: Nathan Handler
+Reviewer/Author: Everyone
+
+1) Discussed Iteration 2 Milestones
+    a) Tiled tmx format for maps
+        ii) Saves in tmx (XML-like) format
+    b) pytmx for parsing maps
+        i) Tile class
+        ii) 3 arrays: Background, Foreground, Top
+        iii) Square is walkable if nothing in the square in foreground
+        iv) Only manual test for now
+    c) Add movable character
+        i) Will work on being able to draw character on actual maps
+    d) Automated tests
+        i) All pass
+    e) Animations
+        i) Take sprite sheet, split into smaller sets
+        ii) Iterate through list of images
+        iii) Up, Down, Left, Right images
+        iv) Manual Test Only, need to split up functions more to automate tests
+2) Notes for Next Time
+    a) Use Issue title for actual/estimated time
+    b) Make note when we move an issue from one milestone to the next
+    c) Make sure we go through the iteration requirements and document the fact that we went through them
+    d) Upload meeting notes to University wiki
+    e) Tag each iteration in master
+    f) Notify TA if any issues with group members
