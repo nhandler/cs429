@@ -29,3 +29,4 @@ Reviewer/Author: Everyone
     d) Upload meeting notes to University wiki
     e) Tag each iteration in master
     f) Notify TA if any issues with group members
+    g) Need to reschedule iteration 4 meeting (Spring Break) or do over video chat
