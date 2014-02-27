@@ -11,6 +11,16 @@
    eJxjZGBgYKQCZkfDhNQSMoNU/aTYj4wBQ9AAjw==
   </data>
  </layer>
+ <layer name="Foreground" width="8" height="8">
+   <data encoding="base64" compression="zlib">
+     eJxjZGBgYKQCZkfDhNQSMoNU/aTYj4wBQ9AAjw==
+   </data>
+ </layer>
+ <layer name="Top" width="8" height="8">
+   <data encoding="base64" compression="zlib">
+     eJxjZGBgYKQCZkfDhNQSMoNU/aTYj4wBQ9AAjw==
+   </data>
+ </layer>
  <objectgroup name="Collision" width="8" height="8">
   <object x="64" y="64" width="128" height="32"/>
   <object x="160" y="64" width="32" height="160"/>

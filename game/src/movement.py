@@ -4,6 +4,7 @@ import sys
 from pygame.locals import *
 from player import PlayerSprite, Direction, HorizontalMovement, VerticalMovement
 from crate import ObjectSprite
+from tileMap import *
 
 height = 10
 width = 10
@@ -52,6 +53,10 @@ keydown_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.rig
 keyup_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.none), K_a : (player.changeHorizontalMovement, HorizontalMovement.none), 
                 K_w : (player.changeVerticalMovement, VerticalMovement.none), K_s : (player.changeVerticalMovement, VerticalMovement.none)}
 
+tileMap = TileMap("../../maps/main_map.json")
+
+player_group.update(10)
+
 while 1:
     deltat = clock.tick(10)
     for event in pygame.event.get():
@@ -84,12 +89,18 @@ while 1:
                 player.verticalMovement = VerticalMovement.none
             '''
 
-    player_group.update(deltat)
     collisions = pygame.sprite.spritecollide(player, crate_group, False, did_crate_collide)
     collide = pygame.sprite.spritecollide(player, crate_group_2, True, did_collide)
     #crate_group.update(collisions)
-    screen.blit(background, (0, 0))
+    
+    #screen.blit(background, (0, 0))
+    
+    if(tileMap.update(deltat, player)):
+        player_group.update(deltat)
+    tileMap.draw(screen)
     crate_group.draw(screen)
     crate_group_2.draw(screen)
     player_group.draw(screen)
+    
     pygame.display.flip()
+    

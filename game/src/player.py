@@ -2,10 +2,8 @@ import pygame, math, sys
 from pygame.locals import *
 import spritesheet
 from SpriteSheetAnim import SpriteStripAnim
+from tileMap import *
 
-height = 10
-width = 10
-BLOCK_SIZE = 60
 
 class HorizontalMovement:
     none = 0
@@ -28,7 +26,7 @@ class PlayerSprite (pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
         self.coords = position
-        self.position = (((self.coords[0] * BLOCK_SIZE) + (BLOCK_SIZE/2)), ((self.coords[1] * BLOCK_SIZE) + (BLOCK_SIZE/2)))
+        self.position = (((self.coords[0] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((self.coords[1] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
         self.horizontalMovement = HorizontalMovement.none
         self.verticalMovement = VerticalMovement.none
         self.direction = Direction.down
@@ -75,6 +73,24 @@ class PlayerSprite (pygame.sprite.Sprite):
     def changeVerticalMovement(self, dir):
         self.verticalMovement = dir
 
+    def isOutOfBounds(self, deltat):
+        (x,y) = self.coords
+        if self.horizontalMovement == HorizontalMovement.left:
+            x -= 1
+        elif self.horizontalMovement == HorizontalMovement.right:
+            x +=1
+
+        if self.verticalMovement == VerticalMovement.up:
+            y -= 1
+        elif self.verticalMovement == VerticalMovement.down:
+            y += 1
+        
+        if x < 0: return (TILE_LEFT, y)
+        if x > TileMap.width - 1: return (TILE_RIGHT, y)
+        if y < 0: return (x, TILE_UP)
+        if y > TileMap.height - 1: return (x, TILE_DOWN)
+        return (x, y)
+
     def update (self, deltat):
         if self.horizontalMovement == HorizontalMovement.left:
             self.moveLeft(deltat)
@@ -93,15 +109,16 @@ class PlayerSprite (pygame.sprite.Sprite):
             self.image = self.currentStrip.next()
 
         (x, y) = self.coords
-
+        
         if x < 0: x = 0
-        if x > width - 1: x = width - 1
+        if x > TileMap.width - 1: x = TileMap.width - 1
         if y < 0: y = 0
-        if y > height - 1: y = height - 1
+        if y > TileMap.height - 1: y = TileMap.height - 1
 
         self.coords = (x, y)
 
-        self.position = (((x * BLOCK_SIZE) + (BLOCK_SIZE/2)), ((y * BLOCK_SIZE) + (BLOCK_SIZE/2)))
+        self.position = (((x * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((y * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
         self.rect.center = self.position
+    
