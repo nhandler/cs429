@@ -19,6 +19,7 @@ class BulletSprite (pygame.sprite.Sprite):
         self.coords = position
         self.position = (((self.coords[0] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((self.coords[1] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
         self.direction = direction
+        self.rect = self.image.get_rect()
         self.rect_center = self.position
 
     def move(self):
