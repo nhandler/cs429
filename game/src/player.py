@@ -106,9 +106,11 @@ class PlayerSprite (pygame.sprite.Sprite):
 
         if self.currentStrip is self.strips[self.direction]:
             self.image = self.currentStrip.next()
+            self.image = pygame.Surface.convert(self.image)
         else:
             self.currentStrip = self.strips[self.direction]
             self.image = self.currentStrip.next()
+            self.image = pygame.Surface.convert(self.image)
 
         (x, y) = self.coords
         
