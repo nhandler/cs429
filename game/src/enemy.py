@@ -30,7 +30,7 @@ class EnemySprite (pygame.sprite.Sprite):
         self.coords = position
         self.position = (((self.coords[0] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((self.coords[1] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
         self.horizontalMovement = HorizontalMovement.none
-        self.verticalMovement = VerticalMovement.none
+        self.verticalMovement = VerticalMovement.up
         self.direction = Direction.down
         self.strips = self.imageStrips(self.src_image)
         self.currentStrip = self.strips[self.direction]
@@ -51,12 +51,14 @@ class EnemySprite (pygame.sprite.Sprite):
         y -= 1
         self.coords = (x, y)
         self.direction = Direction.up
+        self.verticalMovement = VerticalMovement.up
 
     def moveDown(self, deltat):
         (x, y) = self.coords
         y += 1
         self.coords = (x, y)
         self.direction = Direction.down
+        self.verticalMovement = VerticalMovement.down
 
     def moveLeft(self, deltat):
         (x, y) = self.coords
@@ -70,11 +72,17 @@ class EnemySprite (pygame.sprite.Sprite):
         self.coords = (x, y)
         self.direction = Direction.right
 
-    def changeHorizontalMovement(self, dir):
-        self.horizontalMovement = dir
+    def changeHorizontalMovement(self, direction):
+        self.horizontalMovement = direction
 
-    def changeVerticalMovement(self, dir):
-        self.verticalMovement = dir
+    def changeVerticalMovement(self, direction):
+        self.verticalMovement = direction
+
+    def changeVerticalMovementOpposite(self):
+        if self.verticalMovement == VerticalMovement.up:
+            self.verticalMovement = VerticalMovement.down
+        else:
+            self.verticalMovement = VerticalMovement.up
 
     def isOutOfBounds(self, deltat):
         (x,y) = self.coords
