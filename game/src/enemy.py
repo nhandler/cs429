@@ -40,10 +40,10 @@ class EnemySprite (pygame.sprite.Sprite):
     def imageStrips(image, other_var):
         print other_var
         strips = dict()
-        strips[Direction.up] = SpriteStripAnim('Hero.png', (0,0,16,16), 4, 1, True, 4)
-        strips[Direction.down] = SpriteStripAnim('Hero.png', (16*4+1,0,16,16), 4, 1, True, 4)
-        strips[Direction.right] =  SpriteStripAnim('Hero.png', (16*4+1, 17, 16, 16), 4, 1, True, 4)
-        strips[Direction.left] = SpriteStripAnim('Hero.png', (0,17,16,16), 4, 1, True, 4)
+        strips[Direction.up] = SpriteStripAnim('Enemy.png', (0,0,16,16), 4, 1, True, 4)
+        strips[Direction.down] = SpriteStripAnim('Enemy.png', (16*4+1,0,16,16), 4, 1, True, 4)
+        strips[Direction.right] =  SpriteStripAnim('Enemy.png', (16*4+1, 17, 16, 16), 4, 1, True, 4)
+        strips[Direction.left] = SpriteStripAnim('Enemy.png', (0,17,16,16), 4, 1, True, 4)
         return strips
 
     def moveUp(self, deltat):
@@ -93,6 +93,10 @@ class EnemySprite (pygame.sprite.Sprite):
         if y < 0: return (x, TILE_UP)
         if y > TileMap.height - 1: return (x, TILE_DOWN)
         return (x, y)
+
+    def takeHit(self):
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
 
     def update (self, deltat):
         if self.horizontalMovement == HorizontalMovement.left:

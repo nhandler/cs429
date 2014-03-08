@@ -30,7 +30,7 @@ crates = [
 
 crate_group = pygame.sprite.RenderPlain(*crates)
 player = PlayerSprite('Hero.png', (5, 5))
-enemy1 = EnemySprite('Hero.png', (3, 3))
+enemy1 = EnemySprite('Enemy.png', (3, 3))
 
 player_group = pygame.sprite.RenderPlain(player)
 enemy_group = pygame.sprite.RenderPlain(enemy1)
@@ -87,9 +87,13 @@ while 1:
         collisions = pygame.sprite.spritecollide(bullet, crate_group, False, did_crate_collide)
         for crate in collisions:
             bullet_group.remove(bullet)
+        collisions = pygame.sprite.spritecollide(bullet, enemy_group, False, did_crate_collide)
+        for enemy in collisions:
+            bullet_group.remove(bullet)
         (x, y) = bullet.coords
         if y < 0 or y > TileMap.height - 1: bullet_group.remove(bullet)
         if x < 0 or x > TileMap.width - 1: bullet_group.remove(bullet)
+
 
     if(tileMap.update(deltat, player)):
         bullet_group.update(deltat)
