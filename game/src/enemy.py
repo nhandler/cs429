@@ -23,7 +23,7 @@ class Direction:
     left = 2
     right = 3
 
-class PlayerSprite (pygame.sprite.Sprite):
+class EnemySprite (pygame.sprite.Sprite):
     def __init__ (self, image, position):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
@@ -37,7 +37,8 @@ class PlayerSprite (pygame.sprite.Sprite):
         self.image = self.currentStrip.next()
         self.rect_center = self.position
 
-    def imageStrips(image):
+    def imageStrips(image, other_var):
+        print other_var
         strips = dict()
         strips[Direction.up] = SpriteStripAnim('Hero.png', (0,0,16,16), 4, 1, True, 4)
         strips[Direction.down] = SpriteStripAnim('Hero.png', (16*4+1,0,16,16), 4, 1, True, 4)
@@ -125,4 +126,6 @@ class PlayerSprite (pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
         self.rect.center = self.position
+
+
     

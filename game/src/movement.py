@@ -3,6 +3,7 @@ import math
 import sys
 from pygame.locals import *
 from player import PlayerSprite, Direction, HorizontalMovement, VerticalMovement
+from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
@@ -29,7 +30,10 @@ crates = [
 
 crate_group = pygame.sprite.RenderPlain(*crates)
 player = PlayerSprite('Hero.png', (5, 5))
+enemy1 = EnemySprite('Hero.png', (3, 3))
+
 player_group = pygame.sprite.RenderPlain(player)
+enemy_group = pygame.sprite.RenderPlain(enemy1)
 bullet_group = pygame.sprite.Group()
 
 def did_crate_collide(sprite_one, crate_sprite):
@@ -55,6 +59,7 @@ keyup_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.none)
 tileMap = TileMap("../../maps/main_map.json")
 
 player_group.update(10)
+enemy_group.update(10)
 
 can_fire = True
 def fire():
@@ -85,14 +90,18 @@ while 1:
         (x, y) = bullet.coords
         if y < 0 or y > TileMap.height - 1: bullet_group.remove(bullet)
         if x < 0 or x > TileMap.width - 1: bullet_group.remove(bullet)
-        
+
     if(tileMap.update(deltat, player)):
-        player_group.update(deltat)
         bullet_group.update(deltat)
+        enemy_group.update(deltat)
+        player_group.update(deltat)
+
     tileMap.draw(screen)
     crate_group.draw(screen)
-    player_group.draw(screen)
     bullet_group.draw(screen)
-    
+    player_group.draw(screen)
+    enemy_group.draw(screen)
+
+
     pygame.display.flip()
-    
+
