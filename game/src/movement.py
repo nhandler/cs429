@@ -62,7 +62,7 @@ keyup_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.none)
 tileMap = TileMap("../../maps/main_map.json")
 
 player_group.update(10)
-enemy_group.update(10)
+enemy_group.update(5)
 
 can_fire = True
 def fire():
@@ -91,7 +91,6 @@ while 1:
         print y
         print height
         if y == 0 or y == height  - 1:
-            print "TESTSSSSS"
             enemy.changeVerticalMovementOpposite()
         else:
             direction = enemy.verticalMovement
@@ -103,7 +102,7 @@ while 1:
         collisions = pygame.sprite.spritecollide(bullet, crate_group, False, did_crate_collide)
         for crate in collisions:
             bullet_group.remove(bullet)
-        collisions = pygame.sprite.spritecollide(bullet, enemy_group, False, did_crate_collide)
+        collisions = pygame.sprite.spritecollide(bullet, enemy_group, True, did_crate_collide)
         for enemy in collisions:
             bullet_group.remove(bullet)
         (x, y) = bullet.coords
