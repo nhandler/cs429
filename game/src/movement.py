@@ -61,8 +61,8 @@ keyup_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.none)
 
 tileMap = TileMap("../../maps/main_map.json")
 
-player_group.update(10)
-enemy_group.update(5)
+player_group.update()
+enemy_group.update()
 
 can_fire = True
 def fire():
@@ -71,7 +71,6 @@ def fire():
         bullet_group.add(bullet)
 
 while 1:
-    deltat = clock.tick(10)
     for event in pygame.event.get():
         if not hasattr(event, 'key'): continue
         if event.key == K_ESCAPE: sys.exit(0)
@@ -108,10 +107,10 @@ while 1:
         if x < 0 or x > TileMap.width - 1: bullet_group.remove(bullet)
 
 
-    if(tileMap.update(deltat, player)):
-        bullet_group.update(deltat)
-        player_group.update(deltat)
-        enemy_group.update(deltat)
+    if(tileMap.update(player)):
+        bullet_group.update()
+        player_group.update()
+        enemy_group.update()
 
     tileMap.draw(screen)
     crate_group.draw(screen)
@@ -119,6 +118,5 @@ while 1:
     player_group.draw(screen)
     enemy_group.draw(screen)
 
-
     pygame.display.flip()
-
+    clock.tick(10)

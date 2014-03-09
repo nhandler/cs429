@@ -24,17 +24,18 @@ class CreatureSprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
         self.coords = position
-        self.position = (
-            (self.coords[0]*TileMap.BLOCK_SIZE/2),
-            (self.coords[1]*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2)
-        )
         self.horizontalMovement = HorizontalMovement.none
         self.verticalMovement = VerticalMovement.none
         self.direction = Direction.down
         self.strips = self.imageStrips(image)
         self.currentStrip = self.strips[self.direction]
         self.image = self.currentStrip.next()
-        self.rect_center = self.position
+        self.rect_center = self.convertCoords()
+
+    def convertCoords(self):
+        x = self.coords[0]*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2
+        y = self.coords[1]*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2
+        return (x, y)
 
     def imageStrips(self, image):
         strips = dict()
@@ -74,7 +75,7 @@ class CreatureSprite(pygame.sprite.Sprite):
     def changeVerticalMovement(self, direction):
         self.verticalMovement = direction
     
-    def isOutOfBounds(self, deltat):
+    def isOutOfBounds(self):
         (x, y) = self.coords
         if self.horizontalMovement == HorizontalMovement.left:
             x -= 1
@@ -92,7 +93,7 @@ class CreatureSprite(pygame.sprite.Sprite):
         if y > TileMap.height - 1: return (x, TILE_DOWN)
         return (x, y)
 
-    def update (self, deltat):
+    def update (self):
         if self.horizontalMovement == HorizontalMovement.left:
             self.moveLeft()
         elif self.horizontalMovement == HorizontalMovement.right:
@@ -112,18 +113,12 @@ class CreatureSprite(pygame.sprite.Sprite):
             self.image = pygame.Surface.convert(self.image)
 
         (x, y) = self.coords
-
         if x < 0: x = 0
         if x > TileMap.width - 1: x = TileMap.width - 1
         if y < 0: y = 0
         if y > TileMap.height - 1: y = TileMap.height - 1
-
         self.coords = (x, y)
 
-        self.position = (
-            (x*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2), 
-            (y*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2)
-        )
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
-        self.rect.center = self.position
+        self.rect.center = self.convertCoords()

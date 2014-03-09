@@ -27,9 +27,9 @@ class TileMap():
         self.tilemapping = zip(*mapdata["map"]) # A little magic to rotate the array
         self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
 
-    def update(self, deltat, player):
+    def update(self, player):
         
-        (px, py) = player.isOutOfBounds(deltat)
+        (px, py) = player.isOutOfBounds()
         if (px == TILE_LEFT and self.x - 1 >= 0):
             self.x -= 1
             self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
