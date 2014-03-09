@@ -23,26 +23,27 @@ class Direction:
     left = 2
     right = 3
 
-class PlayerSprite (pygame.sprite.Sprite):
+class EnemySprite (pygame.sprite.Sprite):
     def __init__ (self, image, position):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
         self.coords = position
         self.position = (((self.coords[0] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((self.coords[1] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
         self.horizontalMovement = HorizontalMovement.none
-        self.verticalMovement = VerticalMovement.none
+        self.verticalMovement = VerticalMovement.up
         self.direction = Direction.down
         self.strips = self.imageStrips(self.src_image)
         self.currentStrip = self.strips[self.direction]
         self.image = self.currentStrip.next()
         self.rect_center = self.position
 
-    def imageStrips(image, dummy):
+    def imageStrips(image, other_var):
+        print other_var
         strips = dict()
-        strips[Direction.up] = SpriteStripAnim('Hero.png', (0,0,16,16), 4, 1, True, 4)
-        strips[Direction.down] = SpriteStripAnim('Hero.png', (16*4+1,0,16,16), 4, 1, True, 4)
-        strips[Direction.right] =  SpriteStripAnim('Hero.png', (16*4+1, 17, 16, 16), 4, 1, True, 4)
-        strips[Direction.left] = SpriteStripAnim('Hero.png', (0,17,16,16), 4, 1, True, 4)
+        strips[Direction.up] = SpriteStripAnim('Enemy.png', (0,0,16,16), 4, 1, True, 4)
+        strips[Direction.down] = SpriteStripAnim('Enemy.png', (16*4+1,0,16,16), 4, 1, True, 4)
+        strips[Direction.right] =  SpriteStripAnim('Enemy.png', (16*4+1, 17, 16, 16), 4, 1, True, 4)
+        strips[Direction.left] = SpriteStripAnim('Enemy.png', (0,17,16,16), 4, 1, True, 4)
         return strips
 
     def moveUp(self, deltat):
@@ -50,12 +51,14 @@ class PlayerSprite (pygame.sprite.Sprite):
         y -= 1
         self.coords = (x, y)
         self.direction = Direction.up
+        self.verticalMovement = VerticalMovement.up
 
     def moveDown(self, deltat):
         (x, y) = self.coords
         y += 1
         self.coords = (x, y)
         self.direction = Direction.down
+        self.verticalMovement = VerticalMovement.down
 
     def moveLeft(self, deltat):
         (x, y) = self.coords
@@ -69,11 +72,17 @@ class PlayerSprite (pygame.sprite.Sprite):
         self.coords = (x, y)
         self.direction = Direction.right
 
-    def changeHorizontalMovement(self, dir):
-        self.horizontalMovement = dir
+    def changeHorizontalMovement(self, direction):
+        self.horizontalMovement = direction
 
-    def changeVerticalMovement(self, dir):
-        self.verticalMovement = dir
+    def changeVerticalMovement(self, direction):
+        self.verticalMovement = direction
+
+    def changeVerticalMovementOpposite(self):
+        if self.verticalMovement == VerticalMovement.up:
+            self.verticalMovement = VerticalMovement.down
+        else:
+            self.verticalMovement = VerticalMovement.up
 
     def isOutOfBounds(self, deltat):
         (x,y) = self.coords
@@ -92,6 +101,10 @@ class PlayerSprite (pygame.sprite.Sprite):
         if y < 0: return (x, TILE_UP)
         if y > TileMap.height - 1: return (x, TILE_DOWN)
         return (x, y)
+
+    def takeHit(self):
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
 
     def update (self, deltat):
         if self.horizontalMovement == HorizontalMovement.left:
@@ -125,4 +138,6 @@ class PlayerSprite (pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
         self.rect.center = self.position
+
+
     

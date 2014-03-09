@@ -3,6 +3,7 @@ import math
 import sys
 from pygame.locals import *
 from player import PlayerSprite, Direction, HorizontalMovement, VerticalMovement
+from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
@@ -29,7 +30,13 @@ crates = [
 
 crate_group = pygame.sprite.RenderPlain(*crates)
 player = PlayerSprite('Hero.png', (5, 5))
+enemies = [
+    EnemySprite("enemy.png", (7, 7)),
+    EnemySprite("enemy.png", (3, 3))
+]
+
 player_group = pygame.sprite.RenderPlain(player)
+enemy_group = pygame.sprite.RenderPlain(*enemies)
 bullet_group = pygame.sprite.Group()
 
 def did_crate_collide(sprite_one, crate_sprite):
@@ -55,6 +62,7 @@ keyup_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.none)
 tileMap = TileMap("../../maps/main_map.json")
 
 player_group.update(10)
+enemy_group.update(5)
 
 can_fire = True
 def fire():
@@ -78,21 +86,41 @@ while 1:
             (move, arg) = keyup_moves.get(event.key, (lambda arg: None, 0))
             move(arg)
 
+    for enemy in enemy_group:
+        (x,y) = enemy.coords
+        print y
+        print height
+        if y == 0 or y == height  - 1:
+            enemy.changeVerticalMovementOpposite()
+        else:
+            direction = enemy.verticalMovement
+            enemy.changeVerticalMovement(direction)
+
+
+
     for bullet in bullet_group:
         collisions = pygame.sprite.spritecollide(bullet, crate_group, False, did_crate_collide)
         for crate in collisions:
             bullet_group.remove(bullet)
+        collisions = pygame.sprite.spritecollide(bullet, enemy_group, True, did_crate_collide)
+        for enemy in collisions:
+            bullet_group.remove(bullet)
         (x, y) = bullet.coords
         if y < 0 or y > TileMap.height - 1: bullet_group.remove(bullet)
         if x < 0 or x > TileMap.width - 1: bullet_group.remove(bullet)
-        
+
+
     if(tileMap.update(deltat, player)):
-        player_group.update(deltat)
         bullet_group.update(deltat)
+        player_group.update(deltat)
+        enemy_group.update(deltat)
+
     tileMap.draw(screen)
     crate_group.draw(screen)
-    player_group.draw(screen)
     bullet_group.draw(screen)
-    
+    player_group.draw(screen)
+    enemy_group.draw(screen)
+
+
     pygame.display.flip()
-    
+
