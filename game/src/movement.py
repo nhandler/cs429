@@ -88,8 +88,6 @@ while 1:
 
     for enemy in enemy_group:
         (x,y) = enemy.coords
-        print y
-        print height
         if y == 0 or y == height  - 1:
             enemy.changeVerticalMovementOpposite()
         else:
