@@ -7,6 +7,7 @@ from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
+from gameOver import *
 
 height = 10
 width = 10
@@ -65,12 +66,13 @@ player_group.update(10)
 enemy_group.update(5)
 
 can_fire = True
+alive = True
 def fire():
     if can_fire:
         bullet = BulletSprite('bullet.png', player.coords, player.direction)
         bullet_group.add(bullet)
 
-while 1:
+while alive:
     deltat = clock.tick(10)
     for event in pygame.event.get():
         if not hasattr(event, 'key'): continue
@@ -79,6 +81,8 @@ while 1:
             if event.key == K_l:
                 fire()
                 can_fire = False
+            elif event.key == K_q:
+                alive = False
             (move, arg) = keydown_moves.get(event.key, (lambda arg: None, 0))
             move(arg)
         elif event.type == KEYUP:
@@ -120,7 +124,15 @@ while 1:
     bullet_group.draw(screen)
     player_group.draw(screen)
     enemy_group.draw(screen)
-
-
     pygame.display.flip()
 
+g = GameOver(width*BLOCK_SIZE, height*BLOCK_SIZE)
+while True:
+    deltat = clock.tick(10)    
+    g.update()
+    g.render(screen)
+    pygame.display.flip()
+    for event in pygame.event.get():
+        if not hasattr(event, 'key'): continue
+        if event.key == K_ESCAPE: sys.exit(0)
+        
