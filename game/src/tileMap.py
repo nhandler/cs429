@@ -27,9 +27,27 @@ class TileMap():
         self.tilemapping = zip(*mapdata["map"]) # A little magic to rotate the array
         self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
 
-    def update(self, player):
+    def update(self, player, enemy_group):
         
-        (px, py) = player.isOutOfBounds()
+        (px, py) = player.isOutOfBounds(
+            self.width, 
+            self.height, 
+            TILE_LEFT, 
+            TILE_RIGHT, 
+            TILE_UP, 
+            TILE_DOWN
+        )
+
+        for enemy in enemy_group:
+            enemy.isOutOfBounds(
+                self.width,
+                self.height,
+                TILE_LEFT,
+                TILE_RIGHT,
+                TILE_UP,
+                TILE_DOWN
+            )
+
         if (px == TILE_LEFT and self.x - 1 >= 0):
             self.x -= 1
             self.tile = Tile(map_path + self.tilemapping[self.x][self.y])

@@ -49,17 +49,31 @@ class CreatureSprite(pygame.sprite.Sprite):
             x += 1
         self.coords = (x, y)
 
-    def isOutOfBounds(self):
+    def isOutOfBounds(self, width, height, left, right, up, down):
         (x, y) = self.coords
-        if x < 0: 
-            return (TILE_LEFT, y)
-        if x > TileMap.width - 1: 
-            return (TILE_RIGHT, y)
-        if y < 0: 
-            return (x, TILE_UP)
-        if y > TileMap.height - 1: 
-            return (x, TILE_DOWN)
-        return (x, y)
+        (px, py) = (x, y)
+        
+        if x < 0:
+            x = 0
+            (px, py) = (left, y)
+        elif x > width - 1: 
+            x = width - 1
+            (px, py) =  (right, y)
+        elif y < 0: 
+            y = 0
+            (px, py) =  (x, up)
+        elif y > height - 1: 
+            y = height - 1
+            (px, py) =  (x, down)
+
+        self.coords = (x, y)
+        if (px, py) != (x, y):
+            self.handleOutOfBounds(px, py, left, right, up, down)
+        return (px, py)
+
+    # Callback function for being out of bounds
+    def handleOutOfBounds(self, px, py, left, right, up, down):
+        pass
 
     def update (self):
         if self.currentStrip is self.strips[self.direction]:
@@ -71,18 +85,6 @@ class CreatureSprite(pygame.sprite.Sprite):
             self.image = pygame.Surface.convert(
                 self.currentStrip.next()
             )
-
-        # TODO remove this
-        (x, y) = self.coords
-        if x < 0: 
-            x = 0
-        if x > TileMap.width - 1: 
-            x = TileMap.width - 1
-        if y < 0: 
-            y = 0
-        if y > TileMap.height - 1: 
-            y = TileMap.height - 1
-        self.coords = (x, y)
 
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]

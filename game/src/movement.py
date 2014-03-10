@@ -100,16 +100,8 @@ while 1:
     player.handle_input(keyboard_input)
 
     for enemy in enemy_group:
+        enemy.act()
         (x,y) = enemy.coords
-        if y == 0 or y == height  - 1:
-            pass
-            #enemy.changeVerticalMovementOpposite()
-        else:
-            pass
-            #direction = enemy.verticalMovement
-            #enemy.changeVerticalMovement(direction)
-
-
 
     for bullet in bullet_group:
         collisions = pygame.sprite.spritecollide(bullet, crate_group, False, did_crate_collide)
@@ -123,7 +115,7 @@ while 1:
         if x < 0 or x > TileMap.width - 1: bullet_group.remove(bullet)
 
 
-    if(tileMap.update(player)):
+    if(tileMap.update(player, enemy_group)):
         bullet_group.update()
         player_group.update()
         enemy_group.update()
