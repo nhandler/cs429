@@ -3,16 +3,6 @@ from pygame.locals import *
 from SpriteSheetAnim import SpriteStripAnim
 from tileMap import *
 
-class HorizontalMovement:
-    none = 0
-    left = 1
-    right = 2
-
-class VerticalMovement:
-    none = 0
-    up = 1
-    down = 2
-
 class Direction:
     up = 0
     down = 1
@@ -24,8 +14,6 @@ class CreatureSprite(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
         self.coords = position
-        self.horizontalMovement = HorizontalMovement.none
-        self.verticalMovement = VerticalMovement.none
         self.direction = Direction.down
         self.strips = self.imageStrips(image)
         self.currentStrip = self.strips[self.direction]
@@ -45,48 +33,21 @@ class CreatureSprite(pygame.sprite.Sprite):
         strips[Direction.left] = SpriteStripAnim(image, (0,17,16,16), 4, 1, True, 4)
         return strips
 
-    def moveUp(self):
+    def move(self, direction):
         (x, y) = self.coords
-        y -= 1
+        if direction == Direction.up:
+            y -= 1
+        elif direction == Direction.down:
+            y += 1
+        elif direction == Direction.left:
+            x -= 1
+        elif direction == Direction.right:
+            x += 1
         self.coords = (x, y)
-        self.direction = Direction.up
+        self.direction = direction
 
-    def moveDown(self):
-        (x, y) = self.coords
-        y += 1
-        self.coords = (x, y)
-        self.direction = Direction.down
-
-    def moveLeft(self):
-        (x, y) = self.coords
-        x -= 1
-        self.coords = (x, y)
-        self.direction = Direction.left
-
-    def moveRight(self):
-        (x, y) = self.coords
-        x += 1
-        self.coords = (x, y)
-        self.direction = Direction.right
-
-    def changeHorizontalMovement(self, direction):
-        self.horizontalMovement = direction
-
-    def changeVerticalMovement(self, direction):
-        self.verticalMovement = direction
-    
     def isOutOfBounds(self):
         (x, y) = self.coords
-        if self.horizontalMovement == HorizontalMovement.left:
-            x -= 1
-        elif self.horizontalMovement == HorizontalMovement.right:
-            x += 1
-        
-        if self.verticalMovement == VerticalMovement.up:
-            y -= 1
-        elif self.verticalMovement == VerticalMovement.down:
-            y += 1
-
         if x < 0: return (TILE_LEFT, y)
         if x > TileMap.width - 1: return (TILE_RIGHT, y)
         if y < 0: return (x, TILE_UP)
@@ -94,23 +55,15 @@ class CreatureSprite(pygame.sprite.Sprite):
         return (x, y)
 
     def update (self):
-        if self.horizontalMovement == HorizontalMovement.left:
-            self.moveLeft()
-        elif self.horizontalMovement == HorizontalMovement.right:
-            self.moveRight()
-
-        if self.verticalMovement == VerticalMovement.up:
-            self.moveUp()
-        elif self.verticalMovement == VerticalMovement.down:
-            self.moveDown()
-
         if self.currentStrip is self.strips[self.direction]:
-            self.image = self.currentStrip.next()
-            self.image = pygame.Surface.convert(self.image)
+            self.image = pygame.Surface.convert(
+                self.currentStrip.next()
+            )
         else:
             self.currentStrip = self.strips[self.direction]
-            self.image = self.currentStrip.next()
-            self.image = pygame.Surface.convert(self.image)
+            self.image = pygame.Surface.convert(
+                self.currentStrip.next()
+            )
 
         (x, y) = self.coords
         if x < 0: x = 0

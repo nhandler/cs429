@@ -2,7 +2,8 @@ import pygame
 import math
 import sys
 from pygame.locals import *
-from player import PlayerSprite, Direction, HorizontalMovement, VerticalMovement
+from player import PlayerSprite
+from creature import Direction
 from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
@@ -49,16 +50,6 @@ def did_crate_collide(sprite_one, crate_sprite):
 screen.blit(background, (0, 0))
 pygame.display.flip()
 
-keydown_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.right),
-                  K_a : (player.changeHorizontalMovement, HorizontalMovement.left), 
-                  K_w : (player.changeVerticalMovement, VerticalMovement.up),
-                  K_s : (player.changeVerticalMovement, VerticalMovement.down)}
-
-keyup_moves = { K_d : (player.changeHorizontalMovement, HorizontalMovement.none),
-                K_a : (player.changeHorizontalMovement, HorizontalMovement.none), 
-                K_w : (player.changeVerticalMovement, VerticalMovement.none),
-                K_s : (player.changeVerticalMovement, VerticalMovement.none)}
-
 tileMap = TileMap("../../maps/main_map.json")
 
 player_group.update()
@@ -72,26 +63,36 @@ def fire():
 
 while 1:
     for event in pygame.event.get():
-        if not hasattr(event, 'key'): continue
-        if event.key == K_ESCAPE: sys.exit(0)
+        if not hasattr(event, 'key'): 
+            continue
+        if event.key == K_ESCAPE: 
+            sys.exit(0)
         elif event.type == KEYDOWN:
             if event.key == K_l:
                 fire()
                 can_fire = False
-            (move, arg) = keydown_moves.get(event.key, (lambda arg: None, 0))
-            move(arg)
+
+            if event.key == K_w:
+                player.move(Direction.up)
+            elif event.key == K_s:
+                player.move(Direction.down)
+            elif event.key == K_a:
+                player.move(Direction.left)
+            elif event.key == K_d:
+                player.move(Direction.right)
         elif event.type == KEYUP:
-            if event.key == K_l: can_fire = True
-            (move, arg) = keyup_moves.get(event.key, (lambda arg: None, 0))
-            move(arg)
+            if event.key == K_l: 
+                can_fire = True
 
     for enemy in enemy_group:
         (x,y) = enemy.coords
         if y == 0 or y == height  - 1:
-            enemy.changeVerticalMovementOpposite()
+            pass
+            #enemy.changeVerticalMovementOpposite()
         else:
-            direction = enemy.verticalMovement
-            enemy.changeVerticalMovement(direction)
+            pass
+            #direction = enemy.verticalMovement
+            #enemy.changeVerticalMovement(direction)
 
 
 

@@ -1,4 +1,4 @@
-from creature import CreatureSprite, HorizontalMovement, VerticalMovement, Direction
+from creature import CreatureSprite
 
 class PlayerSprite (CreatureSprite):
     def __init__(self, image, position):
