@@ -7,6 +7,7 @@ from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
+from state import State
 
 height = 10
 width = 10
@@ -70,6 +71,12 @@ def fire():
         bullet = BulletSprite('bullet.png', player.coords, player.direction)
         bullet_group.add(bullet)
 
+def takeHit():
+    if State.health > 0:
+        State.health -= 1
+    if State.health == 0:
+        sys.exit(0)
+
 while 1:
     deltat = clock.tick(10)
     for event in pygame.event.get():
@@ -79,6 +86,8 @@ while 1:
             if event.key == K_l:
                 fire()
                 can_fire = False
+            elif event.key == K_h:
+                takeHit()
             (move, arg) = keydown_moves.get(event.key, (lambda arg: None, 0))
             move(arg)
         elif event.type == KEYUP:
@@ -88,8 +97,6 @@ while 1:
 
     for enemy in enemy_group:
         (x,y) = enemy.coords
-        print y
-        print height
         if y == 0 or y == height  - 1:
             enemy.changeVerticalMovementOpposite()
         else:

@@ -14,6 +14,7 @@ class ObjectSprite (pygame.sprite.Sprite):
         self.image = self.normal
         self.rect = self.image.get_rect()
         self.rect.center = self.position
+        self.health = 3
 
     def update (self, hit_list):
         if self in hit_list:
@@ -23,6 +24,9 @@ class ObjectSprite (pygame.sprite.Sprite):
         self.rect.center = self.position
 
     def takeHit(self):
-        self.image = self.hit
-        self.rect = self.image.get_rect()
-        self.rect.center = self.position
+        if self.health > 0:
+            self.health -= 1
+        if self.health == 0:
+            self.image = self.hit
+            self.rect = self.image.get_rect()
+            self.rect.center = self.position

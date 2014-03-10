@@ -36,9 +36,9 @@ class EnemySprite (pygame.sprite.Sprite):
         self.currentStrip = self.strips[self.direction]
         self.image = self.currentStrip.next()
         self.rect_center = self.position
+        self.health = 3
 
     def imageStrips(image, other_var):
-        print other_var
         strips = dict()
         strips[Direction.up] = SpriteStripAnim('enemy.png', (0,0,16,16), 4, 1, True, 4)
         strips[Direction.down] = SpriteStripAnim('enemy.png', (16*4+1,0,16,16), 4, 1, True, 4)
@@ -105,6 +105,7 @@ class EnemySprite (pygame.sprite.Sprite):
     def takeHit(self):
         self.rect = self.image.get_rect()
         self.rect.center = self.position
+        self.health -= 1
 
     def update (self, deltat):
         if self.horizontalMovement == HorizontalMovement.left:
@@ -138,6 +139,13 @@ class EnemySprite (pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
         self.rect.center = self.position
-
-
-    
+    def draw(self):
+            # The health bar is 15x4 px.
+            #
+            health_bar_x = self.position.x - 7
+            health_bar_y = self.position.y - self.image_h / 2 - 6
+            self.screen.fill(   Color('red'), 
+                                (health_bar_x, health_bar_y, 15, 4))
+            self.screen.fill(   Color('green'), 
+                                (   health_bar_x, health_bar_y, 
+                                    self.health, 4))
