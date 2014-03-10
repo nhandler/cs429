@@ -77,12 +77,12 @@ while 1:
         if not hasattr(event, 'key'): continue
         if event.key == K_ESCAPE: sys.exit(0)
         elif event.type == KEYDOWN:
+            if event.key == K_p:
+                State.paused = not State.paused
             if not State.paused:
                 if event.key == K_l:
                     fire()
                     can_fire = False
-                elif event.key == K_p:
-                    State.paused = not State.paused
                 (move, arg) = keydown_moves.get(event.key, (lambda arg: None, 0))
                 move(arg)
         elif event.type == KEYUP:
