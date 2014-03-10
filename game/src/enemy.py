@@ -7,6 +7,7 @@ class EnemySprite (CreatureSprite):
     def __init__(self, image, position):
         CreatureSprite.__init__(self, image, position)
         self.direction = Direction.up
+        self.health = 3
 
     def act(self):
         if self.can_take_action():
@@ -27,3 +28,5 @@ class EnemySprite (CreatureSprite):
 
     def takeHit(self):
         self.rect = self.image.get_rect()
+        self.rect.center = self.convertCoords()
+        self.health -= 1

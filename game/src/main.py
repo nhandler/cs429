@@ -72,9 +72,12 @@ keyboard_input = {
     K_w: (KEYUP, KEYUP)
 }
 
+def takeHit():
+    if State.health > 0:
+        State.health -= 1
+
 def main():
-    alive = True
-    while alive:
+    while State.health > 0:
         global keyboard_input
         # Refresh keyboard state
         keyboard_input = {
@@ -95,9 +98,8 @@ def main():
                     if event.key == K_l:
                         fire()
                         can_fire = False
-                    elif event.key == K_q:
-                        alive = False
-
+                    if event.key == K_h:
+                        takeHit()
             elif event.type == KEYUP:
                 if not State.paused:
                     if event.key == K_l: 
@@ -113,15 +115,16 @@ def main():
 
         for enemy in enemy_group:
             enemy.act()
-            (x,y) = enemy.coords
 
         for bullet in bullet_group:
             collisions = pygame.sprite.spritecollide(bullet, crate_group, False, did_crate_collide)
             for crate in collisions:
                 bullet_group.remove(bullet)
-            collisions = pygame.sprite.spritecollide(bullet, enemy_group, True, did_crate_collide)
+            collisions = pygame.sprite.spritecollide(bullet, enemy_group, False, did_crate_collide)
             for enemy in collisions:
                 bullet_group.remove(bullet)
+                if enemy.health <= 0:
+                    enemy_group.remove(enemy)
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: bullet_group.remove(bullet)
             if x < 0 or x > TileMap.width - 1: bullet_group.remove(bullet)

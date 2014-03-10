@@ -16,7 +16,8 @@ class CreatureSprite(pygame.sprite.Sprite):
         self.strips = self.imageStrips(image)
         self.currentStrip = self.strips[self.direction]
         self.image = self.currentStrip.next()
-        self.rect_center = self.convertCoords()
+        self.rect = self.image.get_rect()
+        self.rect.center = self.convertCoords()
         self.iters_until_action = 0
 
     def convertCoords(self):
