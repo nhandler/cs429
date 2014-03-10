@@ -1,151 +1,32 @@
 import pygame
-import math
-import sys
+from creature import CreatureSprite
+from locals import Direction
 from pygame.locals import *
-import spritesheet
-from SpriteSheetAnim import SpriteStripAnim
-from tileMap import *
 
-
-class HorizontalMovement:
-    none = 0
-    left = 1
-    right = 2
-
-class VerticalMovement:
-    none = 0
-    up = 1
-    down = 2
-
-class Direction:
-    up = 0
-    down = 1
-    left = 2
-    right = 3
-
-class EnemySprite (pygame.sprite.Sprite):
-    def __init__ (self, image, position):
-        pygame.sprite.Sprite.__init__(self)
-        self.src_image = pygame.image.load(image)
-        self.coords = position
-        self.position = (((self.coords[0] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((self.coords[1] * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
-        self.horizontalMovement = HorizontalMovement.none
-        self.verticalMovement = VerticalMovement.up
-        self.direction = Direction.down
-        self.strips = self.imageStrips(self.src_image)
-        self.currentStrip = self.strips[self.direction]
-        self.image = self.currentStrip.next()
-        self.rect_center = self.position
+class EnemySprite (CreatureSprite):
+    def __init__(self, image, position):
+        CreatureSprite.__init__(self, image, position)
+        self.direction = Direction.up
         self.health = 3
 
-    def imageStrips(image, other_var):
-        strips = dict()
-        strips[Direction.up] = SpriteStripAnim('enemy.png', (0,0,16,16), 4, 1, True, 4)
-        strips[Direction.down] = SpriteStripAnim('enemy.png', (16*4+1,0,16,16), 4, 1, True, 4)
-        strips[Direction.right] =  SpriteStripAnim('enemy.png', (16*4+1, 17, 16, 16), 4, 1, True, 4)
-        strips[Direction.left] = SpriteStripAnim('enemy.png', (0,17,16,16), 4, 1, True, 4)
-        return strips
+    def act(self):
+        if self.can_take_action():
+            self.move(self.direction)
 
-    def moveUp(self, deltat):
-        (x, y) = self.coords
-        y -= 1
-        self.coords = (x, y)
-        self.direction = Direction.up
-        self.verticalMovement = VerticalMovement.up
+            self.action_taken()
+        self.iters_until_action -= 1
 
-    def moveDown(self, deltat):
-        (x, y) = self.coords
-        y += 1
-        self.coords = (x, y)
-        self.direction = Direction.down
-        self.verticalMovement = VerticalMovement.down
-
-    def moveLeft(self, deltat):
-        (x, y) = self.coords
-        x -= 1
-        self.coords = (x, y)
-        self.direction = Direction.left
-
-    def moveRight(self, deltat):
-        (x, y) = self.coords
-        x += 1
-        self.coords = (x, y)
-        self.direction = Direction.right
-
-    def changeHorizontalMovement(self, direction):
-        self.horizontalMovement = direction
-
-    def changeVerticalMovement(self, direction):
-        self.verticalMovement = direction
-
-    def changeVerticalMovementOpposite(self):
-        if self.verticalMovement == VerticalMovement.up:
-            self.verticalMovement = VerticalMovement.down
-        else:
-            self.verticalMovement = VerticalMovement.up
-
-    def isOutOfBounds(self, deltat):
-        (x,y) = self.coords
-        if self.horizontalMovement == HorizontalMovement.left:
-            x -= 1
-        elif self.horizontalMovement == HorizontalMovement.right:
-            x +=1
-
-        if self.verticalMovement == VerticalMovement.up:
-            y -= 1
-        elif self.verticalMovement == VerticalMovement.down:
-            y += 1
-        
-        if x < 0: return (TILE_LEFT, y)
-        if x > TileMap.width - 1: return (TILE_RIGHT, y)
-        if y < 0: return (x, TILE_UP)
-        if y > TileMap.height - 1: return (x, TILE_DOWN)
-        return (x, y)
+    def handleOutOfBounds(self, px, py, left, right, up, down):
+        if px == left:
+            self.direction = Direction.right
+        if px == right:
+            self.direction = Direction.left
+        if py == up:
+            self.direction = Direction.down
+        if py == down:
+            self.direction = Direction.up
 
     def takeHit(self):
         self.rect = self.image.get_rect()
-        self.rect.center = self.position
+        self.rect.center = self.convertCoords()
         self.health -= 1
-
-    def update (self, deltat):
-        if self.horizontalMovement == HorizontalMovement.left:
-            self.moveLeft(deltat)
-        elif self.horizontalMovement == HorizontalMovement.right:
-            self.moveRight(deltat)
-
-        if self.verticalMovement == VerticalMovement.up:
-            self.moveUp(deltat)
-        elif self.verticalMovement == VerticalMovement.down:
-            self.moveDown(deltat)
-
-        if self.currentStrip is self.strips[self.direction]:
-            self.image = self.currentStrip.next()
-            self.image = pygame.Surface.convert(self.image)
-        else:
-            self.currentStrip = self.strips[self.direction]
-            self.image = self.currentStrip.next()
-            self.image = pygame.Surface.convert(self.image)
-
-        (x, y) = self.coords
-        
-        if x < 0: x = 0
-        if x > TileMap.width - 1: x = TileMap.width - 1
-        if y < 0: y = 0
-        if y > TileMap.height - 1: y = TileMap.height - 1
-
-        self.coords = (x, y)
-
-        self.position = (((x * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((y * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
-        self.rect = self.image.get_rect()
-        self.currentStrip = self.strips[self.direction]
-        self.rect.center = self.position
-    def draw(self):
-            # The health bar is 15x4 px.
-            #
-            health_bar_x = self.position.x - 7
-            health_bar_y = self.position.y - self.image_h / 2 - 6
-            self.screen.fill(   Color('red'), 
-                                (health_bar_x, health_bar_y, 15, 4))
-            self.screen.fill(   Color('green'), 
-                                (   health_bar_x, health_bar_y, 
-                                    self.health, 4))
