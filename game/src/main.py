@@ -8,8 +8,10 @@ from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
+from state import State
 from gameOver import *
 
+pygame.init()
 height = 10
 width = 10
 BLOCK_SIZE = 60
@@ -87,14 +89,19 @@ def main():
             if event.key == K_ESCAPE: 
                 sys.exit(0)
             elif event.type == KEYDOWN:
-                if event.key == K_l:
-                    fire()
-                    can_fire = False
-                elif event.key == K_q:
-                    alive = False
+                if event.key == K_p:
+                    State.paused = not State.paused
+                if not State.paused:
+                    if event.key == K_l:
+                        fire()
+                        can_fire = False
+                    elif event.key == K_q:
+                        alive = False
+
             elif event.type == KEYUP:
-                if event.key == K_l: 
-                    can_fire = True
+                if not State.paused:
+                    if event.key == K_l: 
+                        can_fire = True
 
 
             # If a key was pressed or released, update its value
@@ -125,11 +132,19 @@ def main():
             player_group.update()
             enemy_group.update()
 
-        tileMap.draw(screen)
-        crate_group.draw(screen)
-        bullet_group.draw(screen)
-        player_group.draw(screen)
-        enemy_group.draw(screen)
+        if not State.paused:
+            tileMap.draw(screen)
+            crate_group.draw(screen)
+            bullet_group.draw(screen)
+            player_group.draw(screen)
+            enemy_group.draw(screen)
+        else:
+            monospace_font = pygame.font.SysFont('monospace', 15)
+            screen.fill((0, 0, 0))
+            title = monospace_font.render('Game Paused', 1, (255, 255, 0))
+            health = monospace_font.render('Health: {0}'.format(State.health), 1, (255, 255, 0))
+            screen.blit(title, (100, 100))
+            screen.blit(health, (100, 110))
 
         pygame.display.flip()
         clock.tick(30)

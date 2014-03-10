@@ -27,4 +27,3 @@ class EnemySprite (CreatureSprite):
 
     def takeHit(self):
         self.rect = self.image.get_rect()
-        self.rect.center = self.convertCoords()

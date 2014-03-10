@@ -3,6 +3,7 @@ from pygame.locals import *
 from SpriteSheetAnim import SpriteStripAnim
 from tileMap import *
 from locals import Direction
+from state import State
 
 class CreatureSprite(pygame.sprite.Sprite):
     ACTION_WAIT_VAL = 10
@@ -76,16 +77,17 @@ class CreatureSprite(pygame.sprite.Sprite):
         pass
 
     def update (self):
-        if self.currentStrip is self.strips[self.direction]:
-            self.image = pygame.Surface.convert(
-                self.currentStrip.next()
-            )
-        else:
-            self.currentStrip = self.strips[self.direction]
-            self.image = pygame.Surface.convert(
-                self.currentStrip.next()
-            )
+        if not State.paused:
+            if self.currentStrip is self.strips[self.direction]:
+                self.image = pygame.Surface.convert(
+                    self.currentStrip.next()
+                )
+            else:
+                self.currentStrip = self.strips[self.direction]
+                self.image = pygame.Surface.convert(
+                    self.currentStrip.next()
+                )
 
-        self.rect = self.image.get_rect()
-        self.currentStrip = self.strips[self.direction]
-        self.rect.center = self.convertCoords()
+            self.rect = self.image.get_rect()
+            self.currentStrip = self.strips[self.direction]
+            self.rect.center = self.convertCoords()
