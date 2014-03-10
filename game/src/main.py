@@ -10,6 +10,7 @@ from bullet import BulletSprite
 from tileMap import *
 from state import State
 from gameOver import *
+from item import Item, MagicShoes
 
 pygame.init()
 height = 10
@@ -21,15 +22,16 @@ BLACK = (0,0,0)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill(BLACK)
+magicShoes = MagicShoes()
 crates = [
-    ObjectSprite((1, 1)),
-    ObjectSprite((5, 7)),
-    ObjectSprite((2, 3)),
-    ObjectSprite((9, 5)),
-    ObjectSprite((9, 2)),
-    ObjectSprite((3, 6)),
-    ObjectSprite((7, 4)),
-    ObjectSprite((8, 8)),
+    ObjectSprite((1, 1), None),
+    ObjectSprite((5, 7), None),
+    ObjectSprite((2, 3), None),
+    ObjectSprite((9, 5), None),
+    ObjectSprite((9, 2), None),
+    ObjectSprite((3, 6), magicShoes),
+    ObjectSprite((7, 4), None),
+    ObjectSprite((8, 8), None),
 ]
 
 crate_group = pygame.sprite.RenderPlain(*crates)
@@ -42,6 +44,14 @@ enemies = [
 player_group = pygame.sprite.RenderPlain(player)
 enemy_group = pygame.sprite.RenderPlain(*enemies)
 bullet_group = pygame.sprite.Group()
+
+def did_player_crate_collide(player_sprite, crate_sprite):
+    if player_sprite.coords == crate_sprite.coords:
+        crate_sprite.takeHit()
+        player.takeItem(crate_sprite)
+        return True
+    else:
+        return False
 
 def did_crate_collide(sprite_one, crate_sprite):
     if sprite_one.coords == crate_sprite.coords:
@@ -80,10 +90,10 @@ def main():
     while State.health > 0:
         global keyboard_input
         # Refresh keyboard state
-        keyboard_input = {
+        keyboard_input = { 
             key: (new_val, new_val) 
             for key, (old_val, new_val) 
-            in keyboard_input.items()
+            in keyboard_input.items() 
         }
         
         for event in pygame.event.get():
@@ -94,6 +104,8 @@ def main():
             elif event.type == KEYDOWN:
                 if event.key == K_p:
                     State.paused = not State.paused
+                if event.key == K_i:
+                        player.displayInventory()
                 if not State.paused:
                     if event.key == K_l:
                         fire()
@@ -115,6 +127,8 @@ def main():
 
         for enemy in enemy_group:
             enemy.act()
+
+        player_crate_collisions = pygame.sprite.spritecollide(player, crate_group, False, did_player_crate_collide)
 
         for bullet in bullet_group:
             collisions = pygame.sprite.spritecollide(bullet, crate_group, False, did_crate_collide)

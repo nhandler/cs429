@@ -1,10 +1,12 @@
 from creature import CreatureSprite
 from locals import Direction
 from pygame.locals import *
+from item import Item, ItemType, MagicShoes
 
 class PlayerSprite (CreatureSprite):
     def __init__(self, image, position):
         CreatureSprite.__init__(self, image, position)
+        self.inventory = {}
 
     def handle_input(self, keyboard_input):
         def handle_movement_keys(key, direction):
@@ -25,3 +27,19 @@ class PlayerSprite (CreatureSprite):
         ]:
             handle_movement_keys(key, direction)
             self.iters_until_action -= 1
+
+    def addItemToInventory(self, item):
+        if item is None:
+            return
+        if item.name not in self.inventory:
+            self.inventory[item.name] = 0
+        self.inventory[item.name] += 1
+
+    def takeItem(self, source):
+        self.addItemToInventory(source.item)
+        source.item = None
+
+    def displayInventory(self):
+        print 'Inventory:'
+        for itemtype in self.inventory:
+            print itemtype, " x ", self.inventory[itemtype]

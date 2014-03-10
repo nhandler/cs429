@@ -7,7 +7,7 @@ class ObjectSprite (pygame.sprite.Sprite):
     normal = pygame.image.load('crate.png')
     hit = pygame.image.load('burning_crate.png')
 
-    def __init__ (self, position):
+    def __init__ (self, position, item):
         pygame.sprite.Sprite.__init__(self)
         self.coords = position
         self.position = (((self.coords[0] * BLOCK_SIZE) + (BLOCK_SIZE/2)), ((self.coords[1] * BLOCK_SIZE) + (BLOCK_SIZE/2)))
@@ -15,6 +15,7 @@ class ObjectSprite (pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.position
         self.health = 3
+        self.item = item
 
     def update (self, hit_list):
         if self in hit_list:
