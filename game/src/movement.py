@@ -3,7 +3,7 @@ import math
 import sys
 from pygame.locals import *
 from player import PlayerSprite
-from creature import Direction
+from locals import Direction
 from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
@@ -61,7 +61,22 @@ def fire():
         bullet = BulletSprite('bullet.png', player.coords, player.direction)
         bullet_group.add(bullet)
 
+keyboard_input = {
+    K_a: (KEYUP, KEYUP),
+    K_d: (KEYUP, KEYUP),
+    K_l: (KEYUP, KEYUP),
+    K_s: (KEYUP, KEYUP),
+    K_w: (KEYUP, KEYUP)
+}
+
 while 1:
+    # Refresh keyboard state
+    keyboard_input = {
+        key: (new_val, new_val) 
+        for key, (old_val, new_val) 
+        in keyboard_input.items()
+    }
+    
     for event in pygame.event.get():
         if not hasattr(event, 'key'): 
             continue
@@ -72,17 +87,17 @@ while 1:
                 fire()
                 can_fire = False
 
-            if event.key == K_w:
-                player.move(Direction.up)
-            elif event.key == K_s:
-                player.move(Direction.down)
-            elif event.key == K_a:
-                player.move(Direction.left)
-            elif event.key == K_d:
-                player.move(Direction.right)
         elif event.type == KEYUP:
             if event.key == K_l: 
                 can_fire = True
+
+
+        # If a key was pressed or released, update its value
+        if event.key in keyboard_input:
+            (old_val, new_val) = keyboard_input[event.key]
+            keyboard_input[event.key] = (new_val, event.type)
+
+    player.handle_input(keyboard_input)
 
     for enemy in enemy_group:
         (x,y) = enemy.coords
@@ -120,4 +135,4 @@ while 1:
     enemy_group.draw(screen)
 
     pygame.display.flip()
-    clock.tick(10)
+    clock.tick(30)

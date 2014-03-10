@@ -1,5 +1,6 @@
 import pygame
-from creature import CreatureSprite, Direction
+from creature import CreatureSprite
+from locals import Direction
 from pygame.locals import *
 
 class EnemySprite (CreatureSprite):
