@@ -30,7 +30,7 @@ class BulletSprite (pygame.sprite.Sprite):
         elif self.direction == Direction.right: x += 1
         self.coords = (x, y)
 
-    def update (self, deltat):
+    def update (self):
         self.move()
         (x, y) = self.coords
         self.position = (((x * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((y * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
