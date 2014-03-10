@@ -9,6 +9,7 @@ from bullet import BulletSprite
 from tileMap import *
 from state import State
 
+pygame.init()
 height = 10
 width = 10
 BLOCK_SIZE = 60
@@ -120,12 +121,19 @@ while 1:
         player_group.update(deltat)
         enemy_group.update(deltat)
 
-    tileMap.draw(screen)
-    crate_group.draw(screen)
-    bullet_group.draw(screen)
-    player_group.draw(screen)
-    enemy_group.draw(screen)
-
+    if not State.paused:
+        tileMap.draw(screen)
+        crate_group.draw(screen)
+        bullet_group.draw(screen)
+        player_group.draw(screen)
+        enemy_group.draw(screen)
+    else:
+        monospace_font = pygame.font.SysFont("monospace", 15)
+        screen.fill((0,0,0))
+        title = monospace_font.render("Game Paused", 1, (255,255,0))
+        health = monospace_font.render("Health: " + State.health, 1, (255,255,0))
+        screen.blit(title, (100, 100))
+        screen.blit(health, (100,110))
 
     pygame.display.flip()
 
