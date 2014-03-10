@@ -5,7 +5,7 @@ from pygame.locals import *
 import spritesheet
 from SpriteSheetAnim import SpriteStripAnim
 from tileMap import *
-
+from state import State
 
 class HorizontalMovement:
     none = 0
@@ -107,37 +107,35 @@ class EnemySprite (pygame.sprite.Sprite):
         self.rect.center = self.position
 
     def update (self, deltat):
-        if self.horizontalMovement == HorizontalMovement.left:
-            self.moveLeft(deltat)
-        elif self.horizontalMovement == HorizontalMovement.right:
-            self.moveRight(deltat)
-
-        if self.verticalMovement == VerticalMovement.up:
-            self.moveUp(deltat)
-        elif self.verticalMovement == VerticalMovement.down:
-            self.moveDown(deltat)
-
-        if self.currentStrip is self.strips[self.direction]:
-            self.image = self.currentStrip.next()
-            self.image = pygame.Surface.convert(self.image)
-        else:
-            self.currentStrip = self.strips[self.direction]
-            self.image = self.currentStrip.next()
-            self.image = pygame.Surface.convert(self.image)
-
-        (x, y) = self.coords
-        
-        if x < 0: x = 0
-        if x > TileMap.width - 1: x = TileMap.width - 1
-        if y < 0: y = 0
-        if y > TileMap.height - 1: y = TileMap.height - 1
-
-        self.coords = (x, y)
-
-        self.position = (((x * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((y * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
-        self.rect = self.image.get_rect()
-        self.currentStrip = self.strips[self.direction]
-        self.rect.center = self.position
-
-
+        if not State.paused:
+            if self.horizontalMovement == HorizontalMovement.left:
+                self.moveLeft(deltat)
+            elif self.horizontalMovement == HorizontalMovement.right:
+                self.moveRight(deltat)
     
+            if self.verticalMovement == VerticalMovement.up:
+                self.moveUp(deltat)
+            elif self.verticalMovement == VerticalMovement.down:
+                self.moveDown(deltat)
+    
+            if self.currentStrip is self.strips[self.direction]:
+                self.image = self.currentStrip.next()
+                self.image = pygame.Surface.convert(self.image)
+            else:
+                self.currentStrip = self.strips[self.direction]
+                self.image = self.currentStrip.next()
+                self.image = pygame.Surface.convert(self.image)
+    
+            (x, y) = self.coords
+            
+            if x < 0: x = 0
+            if x > TileMap.width - 1: x = TileMap.width - 1
+            if y < 0: y = 0
+            if y > TileMap.height - 1: y = TileMap.height - 1
+    
+            self.coords = (x, y)
+    
+            self.position = (((x * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)), ((y * TileMap.BLOCK_SIZE) + (TileMap.BLOCK_SIZE/2)))
+            self.rect = self.image.get_rect()
+            self.currentStrip = self.strips[self.direction]
+            self.rect.center = self.position

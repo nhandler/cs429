@@ -7,6 +7,7 @@ from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
+from state import State
 
 height = 10
 width = 10
@@ -76,15 +77,19 @@ while 1:
         if not hasattr(event, 'key'): continue
         if event.key == K_ESCAPE: sys.exit(0)
         elif event.type == KEYDOWN:
-            if event.key == K_l:
-                fire()
-                can_fire = False
-            (move, arg) = keydown_moves.get(event.key, (lambda arg: None, 0))
-            move(arg)
+            if not State.paused:
+                if event.key == K_l:
+                    fire()
+                    can_fire = False
+                elif event.key == K_p:
+                    State.paused = not State.paused
+                (move, arg) = keydown_moves.get(event.key, (lambda arg: None, 0))
+                move(arg)
         elif event.type == KEYUP:
-            if event.key == K_l: can_fire = True
-            (move, arg) = keyup_moves.get(event.key, (lambda arg: None, 0))
-            move(arg)
+            if not State.paused:
+                if event.key == K_l: can_fire = True
+                (move, arg) = keyup_moves.get(event.key, (lambda arg: None, 0))
+                move(arg)
 
     for enemy in enemy_group:
         (x,y) = enemy.coords
