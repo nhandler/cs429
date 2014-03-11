@@ -7,3 +7,19 @@ Moderator: Ian Canaday
 Scribe: Jonathan Albrecht
 Reviewer/Author: All
 
+1.) Did a quick demo of the game to show progess so far.
+2.) Went over user stories each of us worked on
+    a.) Discussed Andrew's refactorings
+    b.) Discussed Ian's combat system
+    c.) Discussed Jonathan's enemies
+    d.) Discussed Kyle's tile switching and game over screen
+    e.) Discussed Nathan's pause screen and health features
+    f.) Discussed Matt's item collection and inventory system
+
+3.) Talked about our test cases and that we broke most of them with all the refactoring that we did.
+4.) Showed our wiki page and the new links for the meeting notes.
+
+Discussion on things to improve for next time:
+More tests/ better test suite
+Break up main loop a little bit more to make some of the functionality easier to test.
+
