@@ -9,8 +9,9 @@ from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
 from state import State
-from gameOver import *
+from gameOverScreen import *
 from item import Item, MagicShoes
+from pauseScreen import *
 
 pygame.init()
 height = 10
@@ -60,6 +61,7 @@ def did_crate_collide(sprite_one, crate_sprite):
     else: 
         return False
 
+State.screen = screen
 screen.blit(background, (0, 0))
 pygame.display.flip()
 
@@ -156,25 +158,19 @@ def main():
             player_group.draw(screen)
             enemy_group.draw(screen)
         else:
-            monospace_font = pygame.font.SysFont('monospace', 15)
-            screen.fill((0, 0, 0))
-            title = monospace_font.render('Game Paused', 1, (255, 255, 0))
-            health = monospace_font.render('Health: {0}'.format(State.health), 1, (255, 255, 0))
-            screen.blit(title, (100, 100))
-            screen.blit(health, (100, 110))
+            p = PauseScreen()
+            p.render()
 
         pygame.display.flip()
         clock.tick(30)
 
-    g = GameOver(width*BLOCK_SIZE, height*BLOCK_SIZE)
+    g = GameOverScreen(width*BLOCK_SIZE, height*BLOCK_SIZE)
     while True:
         deltat = clock.tick(10)    
         g.update()
-        g.render(screen)
+        g.render()
         pygame.display.flip()
-        for event in pygame.event.get():
-            if not hasattr(event, 'key'): continue
-            if event.key == K_ESCAPE: sys.exit(0)
+
 
 if __name__ == '__main__':
     main()
