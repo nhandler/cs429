@@ -78,17 +78,17 @@ class CreatureSprite(pygame.sprite.Sprite):
         pass
 
     def update (self):
-        if not State.paused:
-            if self.currentStrip is self.strips[self.direction]:
-                self.image = pygame.Surface.convert(
-                    self.currentStrip.next()
-                )
-            else:
-                self.currentStrip = self.strips[self.direction]
-                self.image = pygame.Surface.convert(
-                    self.currentStrip.next()
-                )
-
-            self.rect = self.image.get_rect()
+        if self.currentStrip is self.strips[self.direction]:
+            self.image = pygame.Surface.convert(
+                self.currentStrip.next()
+            )
+        else:
             self.currentStrip = self.strips[self.direction]
-            self.rect.center = self.convertCoords()
+            self.image = pygame.Surface.convert(
+                self.currentStrip.next()
+            )
+            
+        self.rect = self.image.get_rect()
+        self.currentStrip = self.strips[self.direction]
+        self.rect.center = self.convertCoords()
+        

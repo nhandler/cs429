@@ -16,3 +16,10 @@ class PauseScreen(Screen):
         State.screen.blit(title, (100, 100))
         State.screen.blit(health, (100, 110))
 
+    def update(self, events):
+        for event in events:
+            if not hasattr(event, 'key'): 
+                continue
+            if event.type == KEYDOWN:
+                if event.key == K_p:
+                    State.pop_screen()

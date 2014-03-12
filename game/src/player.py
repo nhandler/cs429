@@ -11,7 +11,7 @@ class PlayerSprite (CreatureSprite):
     def handle_input(self, keyboard_input):
         def handle_movement_keys(key, direction):
             if self.can_take_action() and key in keyboard_input:
-                (new_val, old_val) = keyboard_input[key]
+                (old_val, new_val) = keyboard_input[key]
                 if new_val == KEYDOWN:
                     self.direction = direction
                     self.action_taken()

@@ -13,11 +13,6 @@ class GameOverScreen(Screen):
         self.h = h
         self.font = pygame.font.SysFont("monospace", 60)
 
-    def update(self):
-        for event in pygame.event.get():
-            if not hasattr(event, 'key'): continue
-            if event.key == K_ESCAPE: sys.exit(0)
-
     def render(self):
         temp = pygame.Surface(State.screen.get_size(), flags=pygame.SRCALPHA)
         temp.fill((0,0,0,1))
