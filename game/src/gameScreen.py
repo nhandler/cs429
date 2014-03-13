@@ -19,6 +19,7 @@ def takeHit():
 
 class GameScreen(Screen):
     def __init__(self):
+        self.tileMap = TileMap("../../maps/main_map.json")
         self.magicShoes = MagicShoes()
         self.crates = [
             ObjectSprite((1, 1), None),
@@ -32,10 +33,12 @@ class GameScreen(Screen):
         ]
         
         self.crate_group = pygame.sprite.RenderPlain(*self.crates)
-        self.player = PlayerSprite('Hero.png', (5, 5))
+        #TODO get last argument of player constructor dynamically
+        self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
         self.enemies = [
-            EnemySprite("enemy.png", (7, 7)),
-            EnemySprite("enemy.png", (3, 3))
+            #TODO get last argument of enemy constructor dynamically
+            EnemySprite("enemy.png", (7, 7), (60, 60)),
+            EnemySprite("enemy.png", (3, 3), (60, 60))
         ]
 
 
@@ -51,7 +54,6 @@ class GameScreen(Screen):
         self.player_group = pygame.sprite.RenderPlain(self.player)
         self.enemy_group = pygame.sprite.RenderPlain(*self.enemies)
         self.bullet_group = pygame.sprite.Group()
-        self.tileMap = TileMap("../../maps/main_map.json")
         self.player_group.update()
         self.enemy_group.update()
         

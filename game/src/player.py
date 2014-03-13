@@ -4,8 +4,8 @@ from pygame.locals import *
 from item import Item, ItemType, MagicShoes
 
 class PlayerSprite (CreatureSprite):
-    def __init__(self, image, position):
-        CreatureSprite.__init__(self, image, position)
+    def __init__(self, image, position, size):
+        CreatureSprite.__init__(self, image, position, size)
         self.inventory = {}
 
     def handle_input(self, keyboard_input):
@@ -13,7 +13,10 @@ class PlayerSprite (CreatureSprite):
             if self.can_take_action() and key in keyboard_input:
                 (old_val, new_val) = keyboard_input[key]
                 if new_val == KEYDOWN:
-                    self.direction = direction
+                    if self.direction == direction:
+                        self.move(direction)
+                    else:
+                        self.direction = direction
                     self.action_taken()
                 if old_val == new_val == KEYDOWN:
                     self.move(direction)
