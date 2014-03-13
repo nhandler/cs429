@@ -4,8 +4,8 @@ from locals import Direction
 from pygame.locals import *
 
 class EnemySprite (CreatureSprite):
-    def __init__(self, image, position):
-        CreatureSprite.__init__(self, image, position)
+    def __init__(self, image, position, size):
+        CreatureSprite.__init__(self, image, position, size)
         self.direction = Direction.up
         self.health = 3
 

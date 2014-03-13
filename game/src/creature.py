@@ -6,19 +6,31 @@ from locals import Direction
 from state import State
 
 class CreatureSprite(pygame.sprite.Sprite):
-    ACTION_WAIT_VAL = 10
+    ACTION_WAIT_VAL = 12
 
-    def __init__(self, image, position):
+    def __init__(self, image, position, size):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
         self.coords = position
+        (width, height) = size
+        self.width = width 
+        self.height = height
         self.direction = Direction.down
         self.strips = self.imageStrips(image)
         self.currentStrip = self.strips[self.direction]
-        self.image = self.currentStrip.next()
+        self.image = self._get_next_image()
         self.rect = self.image.get_rect()
         self.rect.center = self.convertCoords()
         self.iters_until_action = 0
+        
+        
+    def _get_next_image(self):
+        return pygame.Surface.convert_alpha(
+            pygame.transform.scale(
+                self.currentStrip.next(),
+                (self.width, self.height)
+            )
+        )
 
     def convertCoords(self):
         x = self.coords[0]*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2
@@ -28,8 +40,8 @@ class CreatureSprite(pygame.sprite.Sprite):
     def imageStrips(self, image):
         strips = dict()
         strips[Direction.up] = SpriteStripAnim(image, (0,0,16,16), 4, 1, True, 4)
-        strips[Direction.down] = SpriteStripAnim(image, (49,0,16,16), 4, 1, True, 4)
-        strips[Direction.right] = SpriteStripAnim(image, (49, 17, 16, 16), 4, 1, True, 4)
+        strips[Direction.down] = SpriteStripAnim(image, (65,0,16,16), 4, 1, True, 4)
+        strips[Direction.right] = SpriteStripAnim(image, (65, 17, 16, 16), 4, 1, True, 4)
         strips[Direction.left] = SpriteStripAnim(image, (0,17,16,16), 4, 1, True, 4)
         return strips
 
@@ -79,15 +91,10 @@ class CreatureSprite(pygame.sprite.Sprite):
 
     def update (self):
         if self.currentStrip is self.strips[self.direction]:
-            self.image = pygame.Surface.convert(
-                self.currentStrip.next()
-            )
+            self.image = self._get_next_image()
         else:
             self.currentStrip = self.strips[self.direction]
-            self.image = pygame.Surface.convert(
-                self.currentStrip.next()
-            )
-            
+            self.image = self._get_next_image()
         self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
         self.rect.center = self.convertCoords()
