@@ -103,3 +103,19 @@ class TestCreature(unittest.TestCase):
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
         self.assertEqual((0, 5), self.creature.coords)
 
+    def test_can_take_action_true(self):
+        self.creature.iters_until_action = 0
+        self.assertTrue(self.creature.can_take_action())
+
+    def test_can_take_action_false(self):
+        self.creature.iters_until_action = 10
+        self.assertFalse(self.creature.can_take_action())
+
+    def test_action_taken(self):
+        self.creature.action_taken()
+        self.assertEqual(self.creature.iters_until_action, 12)
+
+
+if __name__ == '__main__':
+    print "Running creature test"
+    unittest.main()
