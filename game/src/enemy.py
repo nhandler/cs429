@@ -2,6 +2,7 @@ import pygame
 from creature import CreatureSprite
 from locals import Direction
 from pygame.locals import *
+import random
 
 class EnemySprite (CreatureSprite):
     def __init__(self, image, position, size):
@@ -10,7 +11,13 @@ class EnemySprite (CreatureSprite):
         self.health = 3
 
     def act(self):
+        i = random.randint(1, 4)
+
         if self.can_take_action():
+            if i == 1: self.direction = Direction.up
+            elif i == 2: self.direction = Direction.left
+            elif i == 3: self.direction = Direction.right
+            else: self.direction = Direction.down
             self.move(self.direction)
 
             self.action_taken()
