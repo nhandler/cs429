@@ -119,3 +119,4 @@ class TestCreature(unittest.TestCase):
 if __name__ == '__main__':
     print "Running creature test"
     unittest.main()
+
