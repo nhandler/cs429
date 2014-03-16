@@ -1,4 +1,4 @@
-import pygame, sys
+"""import pygame, sys
 from pygame.locals import *
 from cs429.game.src.tile import Tile
 
@@ -24,4 +24,6 @@ def main():
 
         fpsClock.tick(FPS)
 
-main()
+if __name__ == '__main__':
+    main()"""
+
