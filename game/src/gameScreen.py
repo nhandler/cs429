@@ -12,6 +12,7 @@ from state import State
 from item import Item, MagicShoes
 from pauseScreen import *
 from gameOverScreen import *
+import random
 
 def takeHit():
     if State.health > 0:
@@ -35,10 +36,15 @@ class GameScreen(Screen):
         self.crate_group = pygame.sprite.RenderPlain(*self.crates)
         #TODO get last argument of player constructor dynamically
         self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
+        self.shooters = [
+            #TODO get last argument of enemy constructor dynamically
+            EnemySprite("enemy_red.png", (0, 0), (60, 60)),
+            EnemySprite("enemy_red.png", (10, 10), (60, 60))
+        ]
         self.enemies = [
             #TODO get last argument of enemy constructor dynamically
-            EnemySprite("enemy.png", (7, 7), (60, 60)),
-            EnemySprite("enemy.png", (3, 3), (60, 60))
+            EnemySprite("enemy_yellow.png", (0, 10), (60, 60)),
+            EnemySprite("enemy_yellow.png", (10, 0), (60, 60))
         ]
 
 
@@ -50,10 +56,13 @@ class GameScreen(Screen):
             K_w: (KEYUP, KEYUP)
         }
         self.can_fire = True
+        self.hits = 0
 
         self.player_group = pygame.sprite.RenderPlain(self.player)
-        self.enemy_group = pygame.sprite.RenderPlain(*self.enemies)
+        enemies = self.enemies + self.shooters
+        self.enemy_group = pygame.sprite.RenderPlain(*enemies)
         self.bullet_group = pygame.sprite.Group()
+        self.enemy_bullet_group = pygame.sprite.Group()
         self.player_group.update()
         self.enemy_group.update()
         
@@ -61,6 +70,7 @@ class GameScreen(Screen):
         self.tileMap.draw(State.screen)
         self.crate_group.draw(State.screen)
         self.bullet_group.draw(State.screen)
+        self.enemy_bullet_group.draw(State.screen)
         self.player_group.draw(State.screen)
         self.enemy_group.draw(State.screen)
 
@@ -73,10 +83,19 @@ class GameScreen(Screen):
         for enemy in self.enemy_group:
             enemy.act()
 
+        i = random.randint(1, 10)
+        n = random.randint(1, 10)
+        if i == n and self.shooters:
+            self.enemy_fire(random.choice(self.shooters))
+
         self.check_collisions()
+        if self.hits == 10:
+            takeHit()
+            self.hits = 0
 
         if(self.tileMap.update(self.player, self.enemy_group)):
             self.bullet_group.update()
+            self.enemy_bullet_group.update()
             self.player_group.update()
             self.enemy_group.update()
 
@@ -115,6 +134,9 @@ class GameScreen(Screen):
 
     def check_collisions(self):
         player_crate_collisions = pygame.sprite.spritecollide(self.player, self.crate_group, False, self.did_player_crate_collide)
+        player_enemy_collisions = pygame.sprite.spritecollide(self.player, self.enemy_group, False)
+        if player_enemy_collisions:
+            self.hits += 1
 
         for bullet in self.bullet_group:
             collisions = pygame.sprite.spritecollide(bullet, self.crate_group, False, self.did_crate_collide)
@@ -125,14 +147,29 @@ class GameScreen(Screen):
                 self.bullet_group.remove(bullet)
                 if enemy.health <= 0:
                     self.enemy_group.remove(enemy)
+                    if enemy in self.shooters:
+                        self.shooters.remove(enemy)
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: self.bullet_group.remove(bullet)
             if x < 0 or x > TileMap.width - 1: self.bullet_group.remove(bullet)
+
+        for bullet in self.enemy_bullet_group:
+            collisions = pygame.sprite.spritecollide(bullet, self.player_group, False)
+            if collisions:
+                self.enemy_bullet_group.remove(bullet)
+                takeHit()
+            (x, y) = bullet.coords
+            if y < 0 or y > TileMap.height - 1: self.enemy_bullet_group.remove(bullet)
+            if x < 0 or x > TileMap.width - 1: self.enemy_bullet_group.remove(bullet)
             
     def fire(self):
         if self.can_fire:
             bullet = BulletSprite('bullet.png', self.player.coords, self.player.direction)
             self.bullet_group.add(bullet)
+
+    def enemy_fire(self, sprite):
+        bullet = BulletSprite('enemy_bullet.png', sprite.coords, sprite.direction)
+        self.enemy_bullet_group.add(bullet)
 
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):
