@@ -165,11 +165,13 @@ class GameScreen(Screen):
             
     def fire(self):
         if self.can_fire:
-            bullet = BulletSprite('bullet.png', self.player.coords, self.player.direction)
+            #TODO get last argument of enemy constructor dynamically
+            bullet = BulletSprite('bullet.png', self.player.coords, (60, 60), self.player.direction)
             self.bullet_group.add(bullet)
 
     def enemy_fire(self, sprite):
-        bullet = BulletSprite('enemy_bullet.png', sprite.coords, sprite.direction)
+        #TODO get last argument of enemy constructor dynamically
+        bullet = BulletSprite('enemy_bullet.png', sprite.coords, (60, 60), sprite.direction)
         self.enemy_bullet_group.add(bullet)
 
 
