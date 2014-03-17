@@ -19,15 +19,15 @@ class BulletSprite (pygame.sprite.Sprite):
         (width, height) = size
         self.width = width
         self.height = height
-        self.position = self.convertCoords()
         self.direction = direction
         self.rect = self.image.get_rect()
-        self.rect_center = self.position
+        self.rect_center = self.convertCoords()
 
     def convertCoords(self):
         (x, y) = self.coords
         new_x = x*self.width + self.width/2
         new_y = y*self.height + self.height/2
+        return (new_x, new_y)
 
     def move(self):
         (x, y) = self.coords
@@ -42,4 +42,4 @@ class BulletSprite (pygame.sprite.Sprite):
         (x, y) = self.coords
         self.position = self.convertCoords()
         self.rect = self.image.get_rect()
-        self.rect.center = self.position
+        self.rect.center = self.convertCoords()
