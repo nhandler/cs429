@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 from crate import ObjectSprite
 from enemy import EnemySprite
+from shooter import ShooterSprite
 from cs429.pytmx import tmxloader
 from item import MagicShoes
 
@@ -24,7 +25,7 @@ class Tile():
         #TODO get last argument of enemy constructor dynamically
         for shooter in data['shooters']:
             self.shooters.append(
-                EnemySprite(shooter['image'], (shooter['x'], shooter['y']), (60, 60))
+                ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), (60, 60))
             )
 
         self.enemies = []

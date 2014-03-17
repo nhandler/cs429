@@ -9,7 +9,6 @@ from tileMap import *
 from state import State
 from pauseScreen import *
 from gameOverScreen import *
-import random
 
 def takeHit():
     if State.health > 0:
@@ -60,10 +59,8 @@ class GameScreen(Screen):
         for enemy in self.enemy_group:
             enemy.act()
 
-        i = random.randint(1, 10)
-        n = random.randint(1, 10)
-        if i == n and self.shooters:
-            self.enemy_fire(random.choice(self.shooters))
+        for shooter in self.shooters:
+            if shooter.shouldShoot(): shooter.shoot(shooter, self.enemy_bullet_group)
 
         self.check_collisions()
         if self.hits == 10:
@@ -138,6 +135,9 @@ class GameScreen(Screen):
             if x < 0 or x > TileMap.width - 1: self.bullet_group.remove(bullet)
 
         for bullet in self.enemy_bullet_group:
+            collisions = pygame.sprite.spritecollide(bullet, self.crate_group, False)
+            for crate in collisions:
+                self.enemy_bullet_group.remove(bullet)
             collisions = pygame.sprite.spritecollide(bullet, self.player_group, False)
             if collisions:
                 self.enemy_bullet_group.remove(bullet)
@@ -151,12 +151,6 @@ class GameScreen(Screen):
             #TODO get last argument of enemy constructor dynamically
             bullet = BulletSprite('bullet.png', self.player.coords, (60, 60), self.player.direction)
             self.bullet_group.add(bullet)
-
-    def enemy_fire(self, sprite):
-        #TODO get last argument of enemy constructor dynamically
-        bullet = BulletSprite('enemy_bullet.png', sprite.coords, (60, 60), sprite.direction)
-        self.enemy_bullet_group.add(bullet)
-
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):
         if player_sprite.coords == crate_sprite.coords:
