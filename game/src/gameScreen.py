@@ -19,8 +19,7 @@ class GameScreen(Screen):
         self.tileMap = TileMap("../../maps/main_map.json")
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-        #TODO get last argument of player constructor dynamically
-        self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
+        self.player = PlayerSprite('Hero.png', (5, 5), self.tileMap.BLOCK_SIZE)
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -81,7 +80,7 @@ class GameScreen(Screen):
 
 
         if State.health <= 0:
-            State.push_screen(GameOverScreen(State.width*State.BLOCK_SIZE, State.height*State.BLOCK_SIZE))
+            State.push_screen(GameOverScreen(State.width*State.BLOCK_SIZE[0], State.height*State.BLOCK_SIZE[1]))
 
     def handle_keyboard(self, events):
         
@@ -148,8 +147,7 @@ class GameScreen(Screen):
             
     def fire(self):
         if self.can_fire:
-            #TODO get last argument of enemy constructor dynamically
-            bullet = BulletSprite('bullet.png', self.player.coords, (60, 60), self.player.direction)
+            bullet = BulletSprite('bullet.png', self.player.coords, self.tileMap.BLOCK_SIZE, self.player.direction)
             self.bullet_group.add(bullet)
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):

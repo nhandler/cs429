@@ -16,9 +16,9 @@ from gameScreen import *
 pygame.init()
 State.height = 10
 State.width = 10
-State.BLOCK_SIZE = 60
+State.BLOCK_SIZE = (60, 60)
 
-screen = pygame.display.set_mode((State.width*State.BLOCK_SIZE, State.height*State.BLOCK_SIZE))
+screen = pygame.display.set_mode((State.width*State.BLOCK_SIZE[0], State.height*State.BLOCK_SIZE[1]))
 clock = pygame.time.Clock()
 BLACK = (0,0,0)
 background = pygame.Surface(screen.get_size())

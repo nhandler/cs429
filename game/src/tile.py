@@ -8,7 +8,7 @@ from cs429.pytmx import tmxloader
 from item import MagicShoes
 
 class Tile():
-    def __init__(self, path, num):
+    def __init__(self, path, num, block_size):
         tmxdata = tmxloader.load_pygame('{0}{1}.tmx'.format(path, num), pixelalpha=True)
         self.height = tmxdata.height
         self.width = tmxdata.width
@@ -18,22 +18,20 @@ class Tile():
         self.crates = []
         for crate in data['crates']:
             self.crates.append(
-                ObjectSprite((crate['x'], crate['y']), (60, 60), items[crate['item']])
+                ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
             )
 
         self.shooters = []
-        #TODO get last argument of enemy constructor dynamically
         for shooter in data['shooters']:
             self.shooters.append(
-                ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), (60, 60))
+                ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size)
             )
 
         self.enemies = []
 
-        #TODO get last argument of enemy constructor dynamically
         for enemy in data['enemies']:
             self.enemies.append(
-                EnemySprite(enemy['image'], (enemy['x'], enemy['y']), (60, 60))
+                EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size)
             )
 
         background_index = tmxdata.tilelayers.index(
