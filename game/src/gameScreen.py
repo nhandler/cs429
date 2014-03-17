@@ -22,15 +22,16 @@ class GameScreen(Screen):
     def __init__(self):
         self.tileMap = TileMap("../../maps/main_map.json")
         self.magicShoes = MagicShoes()
+        #TODO get last argument of crate constructor dynamically
         self.crates = [
-            ObjectSprite((1, 1), None),
-            ObjectSprite((5, 7), None),
-            ObjectSprite((2, 3), None),
-            ObjectSprite((9, 5), None),
-            ObjectSprite((9, 2), None),
-            ObjectSprite((3, 6), self.magicShoes),
-            ObjectSprite((7, 4), None),
-            ObjectSprite((8, 8), None),
+            ObjectSprite((1, 1), (60, 60), None),
+            ObjectSprite((5, 7), (60, 60), None),
+            ObjectSprite((2, 3), (60, 60), None),
+            ObjectSprite((9, 5), (60, 60), None),
+            ObjectSprite((9, 2), (60, 60), None),
+            ObjectSprite((3, 6), (60, 60), self.magicShoes),
+            ObjectSprite((7, 4), (60, 60), None),
+            ObjectSprite((8, 8), (60, 60), None),
         ]
         
         self.crate_group = pygame.sprite.RenderPlain(*self.crates)
