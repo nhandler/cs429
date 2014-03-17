@@ -53,10 +53,10 @@ class GameScreen(Screen):
     def update(self, events):
         
         self.handle_keyboard(events)
-        self.player.handle_input(self.keyboard_input)
+        self.player.handle_input(self.keyboard_input, self.tileMap.tile)
 
         for enemy in self.enemy_group:
-            enemy.act()
+            enemy.act(self.tileMap.tile)
 
         for shooter in self.shooters:
             if shooter.shouldShoot(): shooter.shoot(shooter, self.enemy_bullet_group)

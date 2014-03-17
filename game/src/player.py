@@ -8,18 +8,18 @@ class PlayerSprite (CreatureSprite):
         CreatureSprite.__init__(self, image, position, size)
         self.inventory = {}
 
-    def handle_input(self, keyboard_input):
+    def handle_input(self, keyboard_input, tile):
         def handle_movement_keys(key, direction):
             if self.can_take_action() and key in keyboard_input:
                 (old_val, new_val) = keyboard_input[key]
                 if new_val == KEYDOWN:
                     if self.direction == direction:
-                        self.move(direction)
+                        self.move(direction, tile)
                     else:
                         self.direction = direction
                     self.action_taken()
                 if old_val == new_val == KEYDOWN:
-                    self.move(direction)
+                    self.move(direction, tile)
                     self.action_taken()
 
         for key, direction in [

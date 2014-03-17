@@ -9,57 +9,61 @@ from item import MagicShoes
 
 class Tile():
     def __init__(self, path, num, block_size):
-        tmxdata = tmxloader.load_pygame('{0}{1}.tmx'.format(path, num), pixelalpha=True)
-        self.height = tmxdata.height
-        self.width = tmxdata.width
-
-        data = json.loads(open('{0}{1}.json'.format(path, num)).read())
-        items = {'None': None, 'magicShoes': MagicShoes()}
+        self.height = 0
+        self.width = 0
         self.crates = []
-        for crate in data['crates']:
-            self.crates.append(
-                ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
-            )
-
         self.shooters = []
-        for shooter in data['shooters']:
-            self.shooters.append(
-                ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size)
-            )
-
         self.enemies = []
-
-        for enemy in data['enemies']:
-            self.enemies.append(
-                EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size)
-            )
-
-        background_index = tmxdata.tilelayers.index(
-            tmxdata.getTileLayerByName('Background'))
         self.background = []
-        foreground_index = tmxdata.tilelayers.index(
-            tmxdata.getTileLayerByName('Foreground'))
         self.foreground = []
-        top_index = tmxdata.tilelayers.index(
-            tmxdata.getTileLayerByName('Top'))
         self.top = []
-        for x in range(0, self.width):
-            self.background.append([])
-            self.foreground.append([])
-            self.top.append([])
-            for y in range(0, self.height):
-                element = tmxdata.getTileImage(x, y, background_index)
-                self.background[x].append(element if element else None)
 
-                element = tmxdata.getTileImage(x, y, foreground_index)
-                self.foreground[x].append(element if element else None)
+        if path and num:
+            tmxdata = tmxloader.load_pygame('{0}{1}.tmx'.format(path, num), pixelalpha=True)
+            self.height = tmxdata.height
+            self.width = tmxdata.width
+            data = json.loads(open('{0}{1}.json'.format(path, num)).read())
+            items = {'None': None, 'magicShoes': MagicShoes()}
+            for crate in data['crates']:
+                self.crates.append(
+                    ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
+                )
 
-                element = tmxdata.getTileImage(x, y, top_index)
-                self.top[x].append(element if element else None)
+            for shooter in data['shooters']:
+                self.shooters.append(
+                    ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size)
+                )
+
+            for enemy in data['enemies']:
+                self.enemies.append(
+                    EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size)
+                )
+
+            background_index = tmxdata.tilelayers.index(
+                tmxdata.getTileLayerByName('Background'))
+            foreground_index = tmxdata.tilelayers.index(
+                tmxdata.getTileLayerByName('Foreground'))
+            top_index = tmxdata.tilelayers.index(
+                tmxdata.getTileLayerByName('Top'))
+            for x in range(0, self.width):
+                self.background.append([])
+                self.foreground.append([])
+                self.top.append([])
+                for y in range(0, self.height):
+                    element = tmxdata.getTileImage(x, y, background_index)
+                    self.background[x].append(element if element else None)
+
+                    element = tmxdata.getTileImage(x, y, foreground_index)
+                    self.foreground[x].append(element if element else None)
+
+                    element = tmxdata.getTileImage(x, y, top_index)
+                    self.top[x].append(element if element else None)
 
     def is_walkable(self, x, y):
-        # TODO: Add support for entities (player and enemies)
-        return bool(self.foreground[x][y])
+        try:
+            return not bool(self.foreground[x][y])
+        except IndexError:
+            return True
 
     def _convert(self, surface, x, y):
         new_x = (x * surface.get_width()) / self.width

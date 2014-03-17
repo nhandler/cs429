@@ -50,15 +50,15 @@ class CreatureSprite(pygame.sprite.Sprite):
     def action_taken(self):
         self.iters_until_action = CreatureSprite.ACTION_WAIT_VAL
 
-    def move(self, direction):
+    def move(self, direction, tile):
         (x, y) = self.coords
-        if direction == Direction.up:
+        if direction == Direction.up and tile.is_walkable(x, y - 1):
             y -= 1
-        elif direction == Direction.down:
+        elif direction == Direction.down and tile.is_walkable(x, y + 1):
             y += 1
-        elif direction == Direction.left:
+        elif direction == Direction.left and tile.is_walkable(x - 1, y):
             x -= 1
-        elif direction == Direction.right:
+        elif direction == Direction.right and tile.is_walkable(x + 1, y):
             x += 1
         self.coords = (x, y)
 

@@ -10,7 +10,7 @@ class EnemySprite (CreatureSprite):
         self.direction = Direction.up
         self.health = 3
 
-    def act(self):
+    def act(self, tile):
         i = random.randint(1, 4)
 
         if self.can_take_action():
@@ -18,7 +18,7 @@ class EnemySprite (CreatureSprite):
             elif i == 2: self.direction = Direction.left
             elif i == 3: self.direction = Direction.right
             else: self.direction = Direction.down
-            self.move(self.direction)
+            self.move(self.direction, tile)
 
             self.action_taken()
         self.iters_until_action -= 1

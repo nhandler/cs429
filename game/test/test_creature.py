@@ -5,6 +5,7 @@ sys.path.append('../src')
 import unittest
 from locals import Direction
 from creature import CreatureSprite
+from tile import Tile
 
 class TestCreature(unittest.TestCase):
 
@@ -18,88 +19,107 @@ class TestCreature(unittest.TestCase):
 
     def setUp(self):
         self.creature = CreatureSprite('Hero.png', (5, 5), (60, 60))
+        self.tile = Tile(None, None, (60, 60))
 
     def test_move_up(self):
-        self.creature.move(Direction.up);
+        self.creature.move(Direction.up, self.tile)
         self.assertEqual((5, 4), self.creature.coords)
 
     def test_move_down(self):
-        self.creature.move(Direction.down);
+        self.creature.move(Direction.down, self.tile)
         self.assertEqual((5, 6), self.creature.coords)
 
     def test_move_left(self):
-        self.creature.move(Direction.left);
+        self.creature.move(Direction.left, self.tile)
         self.assertEqual((4, 5), self.creature.coords)
 
     def test_move_right(self):
-        self.creature.move(Direction.right);
+        self.creature.move(Direction.right, self.tile)
         self.assertEqual((6, 5), self.creature.coords)
 
+    def test_foreground(self):
+        creature = CreatureSprite('Hero.png', (0, 0), (60, 60))
+        tile = Tile(None, None, (60, 60))
+        tile.height = 2
+        tile.width = 2
+        tile.background.append([0, 0])
+        tile.background.append([0, 0])
+        tile.foreground.append([0, 0])
+        tile.foreground.append([1, 0])
+        tile.top.append([0, 0])
+        tile.top.append([0, 0])
+        
+        creature.move(Direction.right, tile)
+        self.assertEqual((0, 0), creature.coords)
+
+        creature.move(Direction.down, tile)
+        self.assertEqual((0, 1), creature.coords)
+
     def test_top_edge(self):
-        self.creature.move(Direction.up)
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.up)
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.up)
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.up)
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.up)
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.up);
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.up)
+        self.creature.move(Direction.up, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
         self.assertEqual((5, 0), self.creature.coords)
 
     def test_bottom_edge(self):
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.down)
+        self.creature.move(Direction.down, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
         self.assertEqual((5, 9), self.creature.coords)
 
     def test_right_edge(self):
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.right)
+        self.creature.move(Direction.right, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
         self.assertEqual((9, 5), self.creature.coords)
 
     def test_left_edge(self):
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
-        self.creature.move(Direction.left)
+        self.creature.move(Direction.left, self.tile)
         self.creature.isOutOfBounds(10, 10, -1, -2, -1, -2)
         self.assertEqual((0, 5), self.creature.coords)
 
