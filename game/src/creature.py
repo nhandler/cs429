@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from SpriteSheetAnim import SpriteStripAnim
-from tileMap import *
 from locals import Direction
 from state import State
 
@@ -33,8 +32,8 @@ class CreatureSprite(pygame.sprite.Sprite):
         )
 
     def convertCoords(self):
-        x = self.coords[0]*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2
-        y = self.coords[1]*TileMap.BLOCK_SIZE + TileMap.BLOCK_SIZE/2
+        x = self.coords[0]*self.width + self.width/2
+        y = self.coords[1]*self.height + self.height/2
         return (x, y)
 
     def imageStrips(self, image):

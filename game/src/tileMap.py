@@ -25,7 +25,7 @@ class TileMap():
         self.y = 0
         mapdata = json.loads(open(filename).read())
         self.tilemapping = zip(*mapdata["map"]) # A little magic to rotate the array
-        self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
+        self.tile = Tile(map_path, self.tilemapping[self.x][self.y])
 
     def update(self, player, enemy_group):
         
@@ -50,23 +50,23 @@ class TileMap():
 
         if (px == TILE_LEFT and self.x - 1 >= 0):
             self.x -= 1
-            self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
+            self.tile = Tile(map_path, self.tilemapping[self.x][self.y])
             player.coords = (self.width-1, py)
             return False
         elif (px == TILE_RIGHT and self.x + 1 < len(self.tilemapping)):
             self.x += 1
-            self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
+            self.tile = Tile(map_path, self.tilemapping[self.x][self.y])
             player.coords = (0, py)
             return False
         
         if (py == TILE_UP and self.y - 1 >= 0):
             self.y -= 1
-            self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
+            self.tile = Tile(map_path, self.tilemapping[self.x][self.y])
             player.coords = (px, self.height-1)
             return False
         elif (py == TILE_DOWN and self.y + 1 < len(self.tilemapping[0])):
             self.y += 1
-            self.tile = Tile(map_path + self.tilemapping[self.x][self.y])
+            self.tile = Tile(map_path, self.tilemapping[self.x][self.y])
             player.coords = (px, 0)
             return False
         

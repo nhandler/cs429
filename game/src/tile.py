@@ -1,13 +1,40 @@
+import json
 import pygame
 from pygame.locals import *
+from crate import ObjectSprite
+from enemy import EnemySprite
 from cs429.pytmx import tmxloader
+from item import MagicShoes
 
 class Tile():
-    def __init__(self, filename):
-        tmxdata = tmxloader.load_pygame(filename, pixelalpha=True)
+    def __init__(self, path, num):
+        tmxdata = tmxloader.load_pygame('{0}{1}.tmx'.format(path, num), pixelalpha=True)
         self.height = tmxdata.height
         self.width = tmxdata.width
-        
+
+        data = json.loads(open('{0}{1}.json'.format(path, num)).read())
+        items = {'None': None, 'magicShoes': MagicShoes()}
+        self.crates = []
+        for crate in data['crates']:
+            self.crates.append(
+                ObjectSprite((crate['x'], crate['y']), (60, 60), items[crate['item']])
+            )
+
+        self.shooters = []
+        #TODO get last argument of enemy constructor dynamically
+        for shooter in data['shooters']:
+            self.shooters.append(
+                EnemySprite(shooter['image'], (shooter['x'], shooter['y']), (60, 60))
+            )
+
+        self.enemies = []
+
+        #TODO get last argument of enemy constructor dynamically
+        for enemy in data['enemies']:
+            self.enemies.append(
+                EnemySprite(enemy['image'], (enemy['x'], enemy['y']), (60, 60))
+            )
+
         background_index = tmxdata.tilelayers.index(
             tmxdata.getTileLayerByName('Background'))
         self.background = []

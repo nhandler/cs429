@@ -4,12 +4,9 @@ import sys
 from pygame.locals import *
 from player import PlayerSprite
 from locals import Direction
-from enemy import EnemySprite
-from crate import ObjectSprite
 from bullet import BulletSprite
 from tileMap import *
 from state import State
-from item import Item, MagicShoes
 from pauseScreen import *
 from gameOverScreen import *
 import random
@@ -21,33 +18,10 @@ def takeHit():
 class GameScreen(Screen):
     def __init__(self):
         self.tileMap = TileMap("../../maps/main_map.json")
-        self.magicShoes = MagicShoes()
-        #TODO get last argument of crate constructor dynamically
-        self.crates = [
-            ObjectSprite((1, 1), (60, 60), None),
-            ObjectSprite((5, 7), (60, 60), None),
-            ObjectSprite((2, 3), (60, 60), None),
-            ObjectSprite((9, 5), (60, 60), None),
-            ObjectSprite((9, 2), (60, 60), None),
-            ObjectSprite((3, 6), (60, 60), self.magicShoes),
-            ObjectSprite((7, 4), (60, 60), None),
-            ObjectSprite((8, 8), (60, 60), None),
-        ]
         
-        self.crate_group = pygame.sprite.RenderPlain(*self.crates)
+        self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         #TODO get last argument of player constructor dynamically
         self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
-        self.shooters = [
-            #TODO get last argument of enemy constructor dynamically
-            EnemySprite("enemy_red.png", (0, 0), (60, 60)),
-            EnemySprite("enemy_red.png", (10, 10), (60, 60))
-        ]
-        self.enemies = [
-            #TODO get last argument of enemy constructor dynamically
-            EnemySprite("enemy_yellow.png", (0, 10), (60, 60)),
-            EnemySprite("enemy_yellow.png", (10, 0), (60, 60))
-        ]
-
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -60,6 +34,8 @@ class GameScreen(Screen):
         self.hits = 0
 
         self.player_group = pygame.sprite.RenderPlain(self.player)
+        self.enemies = self.tileMap.tile.enemies
+        self.shooters = self.tileMap.tile.shooters
         enemies = self.enemies + self.shooters
         self.enemy_group = pygame.sprite.RenderPlain(*enemies)
         self.bullet_group = pygame.sprite.Group()
@@ -99,6 +75,13 @@ class GameScreen(Screen):
             self.enemy_bullet_group.update()
             self.player_group.update()
             self.enemy_group.update()
+        else:
+            self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
+            self.enemies = self.tileMap.tile.enemies
+            self.shooters = self.tileMap.tile.shooters
+            enemies = self.enemies + self.shooters
+            self.enemy_group = pygame.sprite.RenderPlain(*enemies)
+
 
         if State.health <= 0:
             State.push_screen(GameOverScreen(State.width*State.BLOCK_SIZE, State.height*State.BLOCK_SIZE))
