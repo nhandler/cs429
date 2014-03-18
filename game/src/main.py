@@ -11,13 +11,12 @@ from state import State
 from item import Item, MagicShoes
 from pauseScreen import PauseScreen
 from gameScreen import GameScreen
+from tileMap import TileMap
 
 pygame.init()
-State.height = 10
-State.width = 10
-State.BLOCK_SIZE = (60, 60)
-
-screen = pygame.display.set_mode((State.width*State.BLOCK_SIZE[0], State.height*State.BLOCK_SIZE[1]))
+screen = pygame.display.set_mode(
+    (TileMap.width*TileMap.BLOCK_SIZE[0], TileMap.height*TileMap.BLOCK_SIZE[1])
+)
 clock = pygame.time.Clock()
 BLACK = (0,0,0)
 background = pygame.Surface(screen.get_size())
