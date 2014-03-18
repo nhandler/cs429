@@ -7,11 +7,10 @@ from locals import Direction
 from enemy import EnemySprite
 from crate import ObjectSprite
 from bullet import BulletSprite
-from tileMap import *
 from state import State
 from item import Item, MagicShoes
-from pauseScreen import *
-from gameScreen import *
+from pauseScreen import PauseScreen
+from gameScreen import GameScreen
 
 pygame.init()
 State.height = 10

@@ -1,4 +1,6 @@
-import pygame, math, sys
+import pygame
+import math
+import sys
 from pygame.locals import *
 
 class ObjectSprite (pygame.sprite.Sprite):
