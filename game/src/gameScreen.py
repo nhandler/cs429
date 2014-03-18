@@ -30,7 +30,6 @@ class GameScreen(Screen):
             K_w: (KEYUP, KEYUP)
         }
         self.can_fire = True
-        self.hits = 0
 
         self.player_group = pygame.sprite.RenderPlain(self.player)
         self.enemies = self.tileMap.tile.enemies
@@ -63,9 +62,6 @@ class GameScreen(Screen):
             if shooter.shouldShoot(): shooter.shoot(shooter, self.enemy_bullet_group)
 
         self.check_collisions()
-        if self.hits == 10:
-            takeHit()
-            self.hits = 0
 
         if(self.tileMap.update(self.player, self.enemy_group)):
             self.bullet_group.update()
@@ -78,7 +74,6 @@ class GameScreen(Screen):
             self.shooters = self.tileMap.tile.shooters
             enemies = self.enemies + self.shooters
             self.enemy_group = pygame.sprite.RenderPlain(*enemies)
-
 
         if State.health <= 0:
             State.push_screen(GameOverScreen(State.width*State.BLOCK_SIZE, State.height*State.BLOCK_SIZE))
@@ -115,9 +110,7 @@ class GameScreen(Screen):
 
     def check_collisions(self):
         player_crate_collisions = pygame.sprite.spritecollide(self.player, self.crate_group, False, self.did_player_crate_collide)
-        player_enemy_collisions = pygame.sprite.spritecollide(self.player, self.enemy_group, False)
-        if player_enemy_collisions:
-            self.hits += 1
+        player_enemy_collisions = pygame.sprite.spritecollide(self.player, self.enemy_group, False, self.player_enemy_collide)
 
         for bullet in self.bullet_group:
             collisions = pygame.sprite.spritecollide(bullet, self.crate_group, False, self.did_crate_collide)
@@ -151,6 +144,35 @@ class GameScreen(Screen):
             #TODO get last argument of enemy constructor dynamically
             bullet = BulletSprite('bullet.png', self.player.coords, (60, 60), self.player.direction)
             self.bullet_group.add(bullet)
+
+    def player_enemy_collide(self, player, enemy):
+        if player.coords == enemy.coords:
+            takeHit()
+            self.throwBack(player, enemy.direction, self.tileMap)
+            return True
+        else:
+            return False
+
+    def throwBack(self, entity, direction, tile):
+        (ox, oy) = entity.coords
+        entity.move(direction)
+        (x, y) = entity.coords
+        entity.isOutOfBounds(tile.width, tile.height, TILE_LEFT, TILE_RIGHT, TILE_UP, TILE_DOWN)
+        (px, py) = entity.coords
+        if (px, py) != (x, y):
+            entity.coords = (ox, oy)
+            oppDir = self.oppositeDirection(direction)
+            entity.move(oppDir)
+            entity.move(oppDir)
+        else:
+            entity.move(direction)
+            entity.isOutOfBounds(tile.width, tile.height, TILE_LEFT, TILE_RIGHT, TILE_UP, TILE_DOWN)
+
+    def oppositeDirection(self, direction):
+        if direction == Direction.up: return Direction.down
+        elif direction == Direction.down: return Direction.up
+        elif direction == Direction.left: return Direction.right
+        else: return Direction.left
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):
         if player_sprite.coords == crate_sprite.coords:
