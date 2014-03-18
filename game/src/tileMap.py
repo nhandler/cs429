@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from tile import *
+from tile import Tile
 import json
 
 TILE_UP = -1

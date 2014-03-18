@@ -5,10 +5,11 @@ from pygame.locals import *
 from player import PlayerSprite
 from locals import Direction
 from bullet import BulletSprite
-from tileMap import *
+from tileMap import TileMap, TILE_UP, TILE_DOWN, TILE_LEFT, TILE_RIGHT
 from state import State
-from pauseScreen import *
-from gameOverScreen import *
+from pauseScreen import PauseScreen
+from gameOverScreen import GameOverScreen
+from screen import Screen
 
 def takeHit():
     if State.health > 0:
