@@ -5,7 +5,7 @@ from pygame.locals import *
 from player import PlayerSprite
 from locals import Direction
 from bullet import BulletSprite
-from tileMap import TileMap, TILE_UP, TILE_DOWN, TILE_LEFT, TILE_RIGHT
+from tileMap import TileMap
 from state import State
 from pauseScreen import PauseScreen
 from gameOverScreen import GameOverScreen
@@ -158,7 +158,14 @@ class GameScreen(Screen):
         (ox, oy) = entity.coords
         entity.move(direction)
         (x, y) = entity.coords
-        entity.isOutOfBounds(tile.width, tile.height, TILE_LEFT, TILE_RIGHT, TILE_UP, TILE_DOWN)
+        entity.isOutOfBounds(
+            tile.width, 
+            tile.height, 
+            TileMap.TILE_LEFT, 
+            TileMap.TILE_RIGHT, 
+            TileMap.TILE_UP, 
+            TileMap.TILE_DOWN
+        )
         (px, py) = entity.coords
         if (px, py) != (x, y):
             entity.coords = (ox, oy)
@@ -167,7 +174,14 @@ class GameScreen(Screen):
             entity.move(oppDir)
         else:
             entity.move(direction)
-            entity.isOutOfBounds(tile.width, tile.height, TILE_LEFT, TILE_RIGHT, TILE_UP, TILE_DOWN)
+            entity.isOutOfBounds(
+                tile.width, 
+                tile.height, 
+                TileMap.TILE_LEFT, 
+                TileMap.TILE_RIGHT, 
+                TileMap.TILE_UP, 
+                TileMap.TILE_DOWN
+            )
 
     def oppositeDirection(self, direction):
         if direction == Direction.up: return Direction.down
