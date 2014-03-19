@@ -77,7 +77,12 @@ class GameScreen(Screen):
             self.enemy_group = pygame.sprite.RenderPlain(*enemies)
 
         if State.health <= 0:
-            State.push_screen(GameOverScreen(State.width*State.BLOCK_SIZE, State.height*State.BLOCK_SIZE))
+            State.push_screen(
+                GameOverScreen(
+                    TileMap.width*TileMap.BLOCK_SIZE, 
+                    TileMap.height*TileMap.BLOCK_SIZE
+                )
+            )
 
     def handle_keyboard(self, events):
         
