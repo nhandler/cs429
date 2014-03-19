@@ -8,7 +8,7 @@
     {"x": 3, "y": 6, "item": "magicShoes"},
     {"x": 7, "y": 4, "item": "None"},
     {"x": 8, "y": 8, "item": "None"},
-    {"x": 0, "y": 0, "item": "None"}
+    {"x": 2, "y": 1, "item": "None"}
   ],
   "shooters": [
     {"image": "enemy_red.png", "x": 0, "y": 0},
