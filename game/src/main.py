@@ -14,9 +14,8 @@ from gameScreen import GameScreen
 from tileMap import TileMap
 
 pygame.init()
-
 screen = pygame.display.set_mode(
-    (TileMap.width*TileMap.BLOCK_SIZE, TileMap.height*TileMap.BLOCK_SIZE)
+    (TileMap.width*TileMap.BLOCK_SIZE[0], TileMap.height*TileMap.BLOCK_SIZE[1])
 )
 clock = pygame.time.Clock()
 BLACK = (0,0,0)

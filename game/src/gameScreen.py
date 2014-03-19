@@ -20,8 +20,7 @@ class GameScreen(Screen):
         self.tileMap = TileMap("../../maps/main_map.json")
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-        #TODO get last argument of player constructor dynamically
-        self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
+        self.player = PlayerSprite('Hero.png', (5, 5), self.tileMap.BLOCK_SIZE)
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -54,10 +53,10 @@ class GameScreen(Screen):
     def update(self, events):
         
         self.handle_keyboard(events)
-        self.player.handle_input(self.keyboard_input)
+        self.player.handle_input(self.keyboard_input, self.tileMap.tile)
 
         for enemy in self.enemy_group:
-            enemy.act()
+            enemy.act(self.tileMap.tile)
 
         for shooter in self.shooters:
             if shooter.shouldShoot(): shooter.shoot(shooter, self.enemy_bullet_group)
@@ -79,8 +78,8 @@ class GameScreen(Screen):
         if State.health <= 0:
             State.push_screen(
                 GameOverScreen(
-                    TileMap.width*TileMap.BLOCK_SIZE, 
-                    TileMap.height*TileMap.BLOCK_SIZE
+                    TileMap.width*TileMap.BLOCK_SIZE[0], 
+                    TileMap.height*TileMap.BLOCK_SIZE[1]
                 )
             )
 
@@ -147,25 +146,24 @@ class GameScreen(Screen):
             
     def fire(self):
         if self.can_fire:
-            #TODO get last argument of enemy constructor dynamically
-            bullet = BulletSprite('bullet.png', self.player.coords, (60, 60), self.player.direction)
+            bullet = BulletSprite('bullet.png', self.player.coords, self.tileMap.BLOCK_SIZE, self.player.direction)
             self.bullet_group.add(bullet)
 
     def player_enemy_collide(self, player, enemy):
         if player.coords == enemy.coords:
             takeHit()
-            self.throwBack(player, enemy.direction, self.tileMap)
+            self.throwBack(player, enemy.direction)
             return True
         else:
             return False
 
-    def throwBack(self, entity, direction, tile):
+    def throwBack(self, entity, direction):
         (ox, oy) = entity.coords
-        entity.move(direction)
+        entity.move(direction, self.tileMap.tile)
         (x, y) = entity.coords
         entity.isOutOfBounds(
-            tile.width, 
-            tile.height, 
+            TileMap.width, 
+            TileMap.height, 
             TileMap.TILE_LEFT, 
             TileMap.TILE_RIGHT, 
             TileMap.TILE_UP, 
@@ -175,13 +173,13 @@ class GameScreen(Screen):
         if (px, py) != (x, y):
             entity.coords = (ox, oy)
             oppDir = self.oppositeDirection(direction)
-            entity.move(oppDir)
-            entity.move(oppDir)
+            entity.move(oppDir, self.tileMap.tile)
+            entity.move(oppDir, self.tileMap.tile)
         else:
-            entity.move(direction)
+            entity.move(direction, self.tileMap.tile)
             entity.isOutOfBounds(
-                tile.width, 
-                tile.height, 
+                TileMap.width, 
+                TileMap.height, 
                 TileMap.TILE_LEFT, 
                 TileMap.TILE_RIGHT, 
                 TileMap.TILE_UP, 
