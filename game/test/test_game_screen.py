@@ -23,7 +23,10 @@ class TestGameScreen(unittest.TestCase):
 	State.health = 0
 
 	def setUp(self):
+		pygame.init()
+		screen = pygame.display.set_mode((800, 600))
 		self.screen = GameScreen()
+		
 		State.health = 1
 		State.screen = self.screen
 		self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
