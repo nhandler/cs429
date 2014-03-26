@@ -1,0 +1,64 @@
+import pygame
+import math
+import sys
+
+from pygame.locals import *
+sys.path.append('../src')
+import unittest
+
+from gameScreen import GameScreen
+import gameScreen
+from player import PlayerSprite
+from locals import Direction
+from creature import CreatureSprite
+from state import State
+
+class TestGameScreen(unittest.TestCase):
+
+	screen = None
+	State.screen = None
+	State.health = 0
+
+	def setUp(self):
+		self.screen = GameScreen()
+		State.health = 1
+		State.screen = self.screen
+
+	def test_take_hit(self):
+		gameScreen.takeHit()
+		self.assertEqual(State.health, 0)
+
+	def test_player_collide(self):
+		pass
+
+	def test_opposite_direction_up(self):
+		direction = Direction.up
+		correctDir = Direction.down
+
+		direction = self.screen.oppositeDirection(direction)
+		self.assertEqual(direction, correctDir)
+
+	def test_opposite_direction_down(self):
+		direction = Direction.down
+		correctDir = Direction.up
+
+		direction = self.screen.oppositeDirection(direction)
+		self.assertEqual(direction, correctDir)
+
+	def test_opposite_direction_left(self):
+		direction = Direction.left
+		correctDir = Direction.right
+
+		direction = self.screen.oppositeDirection(direction)
+		self.assertEqual(direction, correctDir)
+
+	def test_opposite_direction_right(self):
+		direction = Direction.right
+		correctDir = Direction.left
+
+		direction = self.screen.oppositeDirection(direction)
+		self.assertEqual(direction, correctDir)
+
+
+if __name__ == '__main__':
+    unittest.main()

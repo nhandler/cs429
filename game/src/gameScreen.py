@@ -31,7 +31,7 @@ class GameScreen(Screen):
         }
         self.can_fire = True
 
-        self.player_group = pygame.sprite.RenderPlain(self.player)
+        self.player_group = pygame.sprite.RenderClear(self.player)
         self.enemies = self.tileMap.tile.enemies
         self.shooters = self.tileMap.tile.shooters
         enemies = self.enemies + self.shooters
@@ -107,7 +107,7 @@ class GameScreen(Screen):
             elif event.type == KEYUP:
                 if event.key == K_l: 
                     self.can_fire = True
-                
+
             if event.key in self.keyboard_input:
                 (old_val, new_val) = self.keyboard_input[event.key]
                 self.keyboard_input[event.key] = (new_val, event.type)
@@ -143,7 +143,7 @@ class GameScreen(Screen):
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: self.enemy_bullet_group.remove(bullet)
             if x < 0 or x > TileMap.width - 1: self.enemy_bullet_group.remove(bullet)
-            
+
     def fire(self):
         if self.can_fire:
             bullet = BulletSprite('bullet.png', self.player.coords, self.tileMap.BLOCK_SIZE, self.player.direction)
@@ -187,10 +187,14 @@ class GameScreen(Screen):
             )
 
     def oppositeDirection(self, direction):
-        if direction == Direction.up: return Direction.down
-        elif direction == Direction.down: return Direction.up
-        elif direction == Direction.left: return Direction.right
-        else: return Direction.left
+        if direction == Direction.up: 
+            return Direction.down
+        elif direction == Direction.down: 
+            return Direction.up
+        elif direction == Direction.left: 
+            return Direction.right
+        else: 
+            return Direction.left
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):
         if player_sprite.coords == crate_sprite.coords:
@@ -206,3 +210,4 @@ class GameScreen(Screen):
             return True
         else: 
             return False
+
