@@ -1,10 +1,14 @@
 import json
 import pygame
+import sys
+
+sys.path.append('../../pytmx')
+
 from pygame.locals import *
 from crate import ObjectSprite
 from enemy import EnemySprite
 from shooter import ShooterSprite
-from cs429.pytmx import tmxloader
+import tmxloader
 from item import MagicShoes
 
 class Tile():
