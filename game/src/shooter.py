@@ -9,11 +9,19 @@ class ShooterSprite (EnemySprite):
     def __init__(self, image, position, size):
         EnemySprite.__init__(self, image, position, size)
 
-    def shouldShoot(self):
-    	i = random.randint(1, 10)
-        n = random.randint(1, 10)
-        if i == n: return True
-        else: return False
+    def shouldShoot(self, px, py):
+        (x, y) = self.coords
+        i = random.randint(1, 10)
+        if x == px:
+            if i < 2:
+                return True
+            else:
+                return False
+        elif y == py:
+            if i > 2:
+                return True
+            else:
+                return False
 
     def shoot(self, sprite, group):
     	bullet = BulletSprite('enemy_bullet.png', sprite.coords, (self.width, self.height), sprite.direction)
