@@ -129,8 +129,10 @@ class GameScreen(Screen):
                     if enemy in self.shooters:
                         self.shooters.remove(enemy)
             (x, y) = bullet.coords
-            if y < 0 or y > TileMap.height - 1: self.bullet_group.remove(bullet)
-            if x < 0 or x > TileMap.width - 1: self.bullet_group.remove(bullet)
+            if y < 0 or y > TileMap.height - 1: 
+                self.bullet_group.remove(bullet)
+            if x < 0 or x > TileMap.width - 1: 
+                self.bullet_group.remove(bullet)
 
         for bullet in self.enemy_bullet_group:
             collisions = pygame.sprite.spritecollide(bullet, self.crate_group, False)
@@ -141,8 +143,10 @@ class GameScreen(Screen):
                 self.enemy_bullet_group.remove(bullet)
                 takeHit()
             (x, y) = bullet.coords
-            if y < 0 or y > TileMap.height - 1: self.enemy_bullet_group.remove(bullet)
-            if x < 0 or x > TileMap.width - 1: self.enemy_bullet_group.remove(bullet)
+            if y < 0 or y > TileMap.height - 1: 
+                self.enemy_bullet_group.remove(bullet)
+            if x < 0 or x > TileMap.width - 1: 
+                self.enemy_bullet_group.remove(bullet)
 
     def fire(self):
         if self.can_fire:

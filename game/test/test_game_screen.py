@@ -16,6 +16,9 @@ from state import State
 class TestGameScreen(unittest.TestCase):
 
 	screen = None
+	player = None
+	creature_collide = None
+	creature_miss = None
 	State.screen = None
 	State.health = 0
 
@@ -23,13 +26,21 @@ class TestGameScreen(unittest.TestCase):
 		self.screen = GameScreen()
 		State.health = 1
 		State.screen = self.screen
+		self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
+		self.creature_collide = PlayerSprite('Hero.png', (5, 5), (60, 60))
+		self.creature_miss = PlayerSprite('Hero.png', (5, 4), (60, 60))
 
 	def test_take_hit(self):
 		gameScreen.takeHit()
 		self.assertEqual(State.health, 0)
 
 	def test_player_collide(self):
-		pass
+		collide = self.screen.player_enemy_collide(self.player, self.creature_collide)
+		self.assertEqual(True, collide)
+
+	def test_player_miss(self):
+		collide = self.screen.player_enemy_collide(self.player, self.creature_miss)
+		self.assertEqual(False, collide)
 
 	def test_opposite_direction_up(self):
 		direction = Direction.up
