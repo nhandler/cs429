@@ -12,16 +12,13 @@ class ShooterSprite (EnemySprite):
     def shouldShoot(self, px, py):
         (x, y) = self.coords
         i = random.randint(1, 10)
-        if x == px:
-            if i < 2:
-                return True
-            else:
-                return False
-        elif y == py:
-            if i > 2:
-                return True
-            else:
-                return False
+
+        if x == px and y == py:
+            return False
+        elif i > 9 and (x == px or y == py):
+            return True
+        else:
+            return False
 
     def shoot(self, sprite, group):
     	bullet = BulletSprite('enemy_bullet.png', sprite.coords, (self.width, self.height), sprite.direction)
