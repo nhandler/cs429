@@ -10,8 +10,8 @@ class InventoryScreen(Screen):
 	
 	def render(self):
 		monospace_font = pygame.font.SysFont('monospace', 15)
-        	State.screen.fill((0, 0, 0))
-        	title = monospace_font.render('Inventory:', 1, (255, 255, 0))
+		State.screen.fill((0, 0, 0))
+		title = monospace_font.render('Inventory:', 1, (255, 255, 0))
 		State.screen.blit(title, (100, 100))
 		y = 110
 		for item, amount in State.inventory:
@@ -21,8 +21,9 @@ class InventoryScreen(Screen):
 		
 	def update(self, events):
 		for event in events:
-            		if not hasattr(event, 'key'): 
-                		continue
-            		if event.type == KEYDOWN:
-                		if event.key == K_i:
-                    			State.pop_screen()
+			if not hasattr(event, 'key'): 
+				continue
+			if event.type == KEYDOWN:
+				if event.key == K_i:
+					State.pop_screen()
+
