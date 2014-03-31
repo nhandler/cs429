@@ -23,7 +23,7 @@ class TestPlayer(unittest.TestCase):
     def test_AddItemToInventory(self):
         self.player.addItemToInventory(self.item)
         inventory = self.player.inventory
-        self.assertEqual(inventory["Magic Shoes"], self.item.type)
+        self.assertEqual(inventory[self.item], self.item.type)
 
 if __name__ == '__main__':
     unittest.main()
