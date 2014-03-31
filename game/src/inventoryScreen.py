@@ -35,13 +35,11 @@ class InventoryScreen(Screen):
 				if event.key == K_i:
 					State.pop_screen()
 				elif event.key == K_w:
-					self.currLine -= 1
-					if self.currLine < 0:
-						self.currLine = 0
+					if self.currLine > 0:
+						self.currLine -= 1
 				elif event.key == K_s:
-					self.currLine += 1
-					if self.currLine >= len(State.inventory):
-						self.currLine = len(State.inventory) - 1
+					if self.currLine+1 < len(State.inventory):
+						self.currLine += 1
 				elif event.key == K_RETURN:
 					i = 0
 					for (item, amount) in State.inventory.iteritems():
