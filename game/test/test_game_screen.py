@@ -27,15 +27,10 @@ class TestGameScreen(unittest.TestCase):
 		screen = pygame.display.set_mode((800, 600))
 		self.screen = GameScreen()
 		
-		State.health = 1
 		State.screen = self.screen
 		self.player = PlayerSprite('Hero.png', (5, 5), (60, 60), Direction.down)
 		self.creature_collide = PlayerSprite('Hero.png', (5, 5), (60, 60), Direction.up)
 		self.creature_miss = PlayerSprite('Hero.png', (5, 4), (60, 60), Direction.up)
-
-	def test_take_hit(self):
-		gameScreen.takeHit()
-		self.assertEqual(State.health, 0)
 
 	def test_player_collide(self):
 		collide = self.screen.player_enemy_collide(self.player, self.creature_collide)

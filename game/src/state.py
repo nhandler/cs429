@@ -1,6 +1,5 @@
 class State:
     screens = None
-    health = 10
 
     @staticmethod
     def push_screen(screen):

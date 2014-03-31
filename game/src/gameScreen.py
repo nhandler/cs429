@@ -12,10 +12,6 @@ from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
 from screen import Screen
 
-def takeHit():
-    if State.health > 0:
-        State.health -= 1
-
 class GameScreen(Screen):
     def __init__(self):
         self.tileMap = TileMap("../../maps/main_map.json")
@@ -79,7 +75,7 @@ class GameScreen(Screen):
             enemies = self.enemies + self.shooters
             self.enemy_group = pygame.sprite.RenderPlain(*enemies)
 
-        if State.health <= 0:
+        if self.player.health <= 0:
             State.push_screen(
                 GameOverScreen(
                     TileMap.width*TileMap.BLOCK_SIZE[0], 
@@ -100,14 +96,14 @@ class GameScreen(Screen):
                 continue
             if event.type == KEYDOWN:
                 if event.key == K_p:
-                    State.push_screen(PauseScreen())
+                    State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
                     self.player.displayInventory()
                 if event.key == K_l:
                     self.fire()
                     self.can_fire = False
                 if event.key == K_h:
-                    takeHit()
+                    self.player.takeHit()
             elif event.type == KEYUP:
                 if event.key == K_l: 
                     self.can_fire = True
@@ -145,7 +141,7 @@ class GameScreen(Screen):
             collisions = pygame.sprite.spritecollide(bullet, self.player_group, False)
             if collisions:
                 self.enemy_bullet_group.remove(bullet)
-                takeHit()
+                self.player.takeHit()
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: 
                 self.enemy_bullet_group.remove(bullet)
@@ -159,7 +155,7 @@ class GameScreen(Screen):
 
     def player_enemy_collide(self, player, enemy):
         if player.coords == enemy.coords:
-            takeHit()
+            self.player.takeHit()
             self.throwBack(player, enemy.direction)
             return True
         else:

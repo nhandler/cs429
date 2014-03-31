@@ -12,7 +12,7 @@ class CreatureSprite(EntitySprite):
         self.width, self.height = size
         image = self._get_next_image()
         EntitySprite.__init__(self, image, position, size, direction)
-        selt.action_wait_val = 12
+        self.action_wait_val = 12
         self.iters_until_action = 0
         
     def _get_next_image(self):

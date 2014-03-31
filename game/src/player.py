@@ -6,6 +6,7 @@ from item import Item, ItemType, MagicShoes
 class PlayerSprite (CreatureSprite):
     def __init__(self, image, position, size, direction):
         CreatureSprite.__init__(self, image, position, size, direction)
+        self.health = 10
         self.inventory = {}
 
     def handle_input(self, keyboard_input, tile):
