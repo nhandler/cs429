@@ -31,8 +31,3 @@ class EnemySprite (CreatureSprite):
             self.direction = Direction.down
         if py == down:
             self.direction = Direction.up
-
-    def takeHit(self):
-        self.rect = self.image.get_rect()
-        self.rect.center = self.convertCoords()
-        self.health -= 1
