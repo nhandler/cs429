@@ -44,8 +44,9 @@ class InventoryScreen(Screen):
 					i = 0
 					for (item, amount) in State.inventory.iteritems():
 						if i == self.currLine:
-							State.inventory[item] -= 1
-							item.use()
-							State.pop_screen()
+							if State.inventory[item] > 0:
+								State.inventory[item] -= 1
+								item.use()
+								State.pop_screen()
 						i += 1
 
