@@ -5,7 +5,6 @@ from locals import Direction
 from state import State
 
 class CreatureSprite(pygame.sprite.Sprite):
-    ACTION_WAIT_VAL = 12
 
     def __init__(self, image, position, size):
         pygame.sprite.Sprite.__init__(self)
@@ -20,6 +19,7 @@ class CreatureSprite(pygame.sprite.Sprite):
         self.image = self._get_next_image()
         self.rect = self.image.get_rect()
         self.rect.center = self.convertCoords()
+        self.action_wait_val = 12
         self.iters_until_action = 0
         
         
@@ -48,7 +48,7 @@ class CreatureSprite(pygame.sprite.Sprite):
         return self.iters_until_action <= 0
 
     def action_taken(self):
-        self.iters_until_action = CreatureSprite.ACTION_WAIT_VAL
+        self.iters_until_action = self.action_wait_val
 
     def move(self, direction, tile):
         (x, y) = self.coords
