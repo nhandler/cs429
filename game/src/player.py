@@ -7,7 +7,9 @@ class PlayerSprite (CreatureSprite):
     def __init__(self, image, position, size, direction):
         CreatureSprite.__init__(self, image, position, size, direction)
         self.health = 10
-        self.inventory = {}
+	magicShoes = MagicShoes()
+	other = Item()
+        self.inventory = {magicShoes : 2, other : 1}
 
     def handle_input(self, keyboard_input, tile):
         def handle_movement_keys(key, direction):
@@ -35,9 +37,9 @@ class PlayerSprite (CreatureSprite):
     def addItemToInventory(self, item):
         if item is None:
             return
-        if item.name not in self.inventory:
-            self.inventory[item.name] = 0
-        self.inventory[item.name] += 1
+        if item not in self.inventory:
+            self.inventory[item] = 0
+        self.inventory[item] += 1
 
     def takeItem(self, source):
         self.addItemToInventory(source.item)
