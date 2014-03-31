@@ -10,6 +10,7 @@ from enemy import EnemySprite
 from shooter import ShooterSprite
 import tmxloader
 from item import MagicShoes
+from locals import Direction
 
 class Tile():
     def __init__(self, path, num, block_size):
@@ -35,12 +36,12 @@ class Tile():
 
             for shooter in data['shooters']:
                 self.shooters.append(
-                    ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size)
+                    ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size, Direction.up)
                 )
 
             for enemy in data['enemies']:
                 self.enemies.append(
-                    EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size)
+                    EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size, Direction.up)
                 )
 
             background_index = tmxdata.tilelayers.index(

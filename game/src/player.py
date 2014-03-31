@@ -4,8 +4,9 @@ from pygame.locals import *
 from item import Item, ItemType, MagicShoes
 
 class PlayerSprite (CreatureSprite):
-    def __init__(self, image, position, size):
-        CreatureSprite.__init__(self, image, position, size)
+    def __init__(self, image, position, size, direction):
+        CreatureSprite.__init__(self, image, position, size, direction)
+        self.health = 10
         self.inventory = {}
 
     def handle_input(self, keyboard_input, tile):
@@ -41,8 +42,3 @@ class PlayerSprite (CreatureSprite):
     def takeItem(self, source):
         self.addItemToInventory(source.item)
         source.item = None
-
-    def displayInventory(self):
-        print 'Inventory:'
-        for itemtype in self.inventory:
-            print itemtype, " x ", self.inventory[itemtype]

@@ -3,25 +3,17 @@ from pygame.locals import *
 from SpriteSheetAnim import SpriteStripAnim
 from locals import Direction
 from state import State
+from entity import EntitySprite
 
-class CreatureSprite(pygame.sprite.Sprite):
-
-    def __init__(self, image, position, size):
-        pygame.sprite.Sprite.__init__(self)
-        self.src_image = pygame.image.load(image)
-        self.coords = position
-        (width, height) = size
-        self.width = width 
-        self.height = height
-        self.direction = Direction.down
-        self.strips = self.imageStrips(image)
-        self.currentStrip = self.strips[self.direction]
-        self.image = self._get_next_image()
-        self.rect = self.image.get_rect()
-        self.rect.center = self.convertCoords()
+class CreatureSprite(EntitySprite):
+    def __init__(self, image_filename, position, size, direction):
+        self.strips = self.imageStrips(image_filename)
+        self.currentStrip = self.strips[direction]
+        self.width, self.height = size
+        image = self._get_next_image()
+        EntitySprite.__init__(self, image, position, size, direction)
         self.action_wait_val = 12
         self.iters_until_action = 0
-        
         
     def _get_next_image(self):
         return pygame.Surface.convert_alpha(
@@ -30,11 +22,6 @@ class CreatureSprite(pygame.sprite.Sprite):
                 (self.width, self.height)
             )
         )
-
-    def convertCoords(self):
-        x = self.coords[0]*self.width + self.width/2
-        y = self.coords[1]*self.height + self.height/2
-        return (x, y)
 
     def imageStrips(self, image):
         strips = dict()
@@ -94,7 +81,6 @@ class CreatureSprite(pygame.sprite.Sprite):
         else:
             self.currentStrip = self.strips[self.direction]
             self.image = self._get_next_image()
-        self.rect = self.image.get_rect()
         self.currentStrip = self.strips[self.direction]
-        self.rect.center = self.convertCoords()
+        EntitySprite.update(self)
         

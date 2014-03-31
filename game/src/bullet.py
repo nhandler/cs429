@@ -2,44 +2,28 @@ import pygame
 import math
 import sys
 from pygame.locals import *
+from locals import Direction
 import spritesheet
 from SpriteSheetAnim import SpriteStripAnim
+from entity import EntitySprite
 
-class Direction:
-    up = 0
-    down = 1
-    left = 2
-    right = 3
-
-class BulletSprite (pygame.sprite.Sprite):
-    def __init__ (self, image, position, size, direction):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image)
-        self.coords = position
-        (width, height) = size
-        self.width = width
-        self.height = height
-        self.direction = direction
-        self.rect = self.image.get_rect()
-        self.rect_center = self.convertCoords()
-
-    def convertCoords(self):
-        (x, y) = self.coords
-        new_x = x*self.width + self.width/2
-        new_y = y*self.height + self.height/2
-        return (new_x, new_y)
+class BulletSprite (EntitySprite):
+    def __init__(self, image_filename, position, size, direction):
+        image = pygame.image.load(image_filename)
+        EntitySprite.__init__(self, image, position, size, direction)
 
     def move(self):
         (x, y) = self.coords
-        if self.direction == Direction.up: y -= 1
-        elif self.direction == Direction.down: y += 1
-        elif self.direction == Direction.left: x -= 1
-        elif self.direction == Direction.right: x += 1
+        if self.direction == Direction.up:
+            y -= 1
+        elif self.direction == Direction.down:
+            y += 1
+        elif self.direction == Direction.left:
+            x -= 1
+        elif self.direction == Direction.right:
+            x += 1
         self.coords = (x, y)
 
-    def update (self):
+    def update(self):
         self.move()
-        (x, y) = self.coords
-        self.position = self.convertCoords()
-        self.rect = self.image.get_rect()
-        self.rect.center = self.convertCoords()
+        EntitySprite.update(self)

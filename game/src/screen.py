@@ -1,6 +1,6 @@
 class Screen(object):
     def render(self):
-        return
+        pass
 
     def update(self, events):
-        return
+        pass
