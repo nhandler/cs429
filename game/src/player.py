@@ -42,8 +42,3 @@ class PlayerSprite (CreatureSprite):
     def takeItem(self, source):
         self.addItemToInventory(source.item)
         source.item = None
-
-    def displayInventory(self):
-        print 'Inventory:'
-        for itemtype in self.inventory:
-            print itemtype, " x ", self.inventory[itemtype]

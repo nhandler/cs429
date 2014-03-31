@@ -98,7 +98,7 @@ class GameScreen(Screen):
                 if event.key == K_p:
                     State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
-                    self.player.displayInventory()
+                    State.push_screen(InventoryScreen())
                 if event.key == K_l:
                     self.fire()
                     self.can_fire = False
