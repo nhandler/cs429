@@ -4,8 +4,8 @@ import sys
 from pygame.locals import *
 
 class ObjectSprite (pygame.sprite.Sprite):
-    normal = pygame.image.load('crate.png')
-    hit = pygame.image.load('burning_crate.png')
+    normal = pygame.image.load('res/crate.png')
+    hit = pygame.image.load('res/burning_crate.png')
 
     def __init__ (self, position, size, item):
         pygame.sprite.Sprite.__init__(self)

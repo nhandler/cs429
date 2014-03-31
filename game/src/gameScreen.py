@@ -21,7 +21,7 @@ class GameScreen(Screen):
         self.tileMap = TileMap("../../maps/main_map.json")
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-        self.player = PlayerSprite('Hero.png', (5, 5), self.tileMap.BLOCK_SIZE)
+        self.player = PlayerSprite('res/Hero.png', (5, 5), self.tileMap.BLOCK_SIZE)
 	State.inventory = self.player.inventory
 
         self.keyboard_input = {
@@ -154,7 +154,7 @@ class GameScreen(Screen):
 
     def fire(self):
         if self.can_fire:
-            bullet = BulletSprite('bullet.png', self.player.coords, self.tileMap.BLOCK_SIZE, self.player.direction)
+            bullet = BulletSprite('res/bullet.png', self.player.coords, self.tileMap.BLOCK_SIZE, self.player.direction)
             self.bullet_group.add(bullet)
 
     def player_enemy_collide(self, player, enemy):
