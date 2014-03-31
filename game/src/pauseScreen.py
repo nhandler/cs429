@@ -4,6 +4,7 @@ import sys
 from pygame.locals import *
 from state import State
 from screen import Screen
+from inventoryScreen import InventoryScreen
 
 
 class PauseScreen(Screen):
@@ -23,3 +24,5 @@ class PauseScreen(Screen):
             if event.type == KEYDOWN:
                 if event.key == K_p:
                     State.pop_screen()
+		elif event.key == K_i:
+		    State.push_screen(InventoryScreen())

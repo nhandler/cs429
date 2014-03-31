@@ -9,6 +9,7 @@ from tileMap import TileMap
 from state import State
 from pauseScreen import PauseScreen
 from gameOverScreen import GameOverScreen
+from inventoryScreen import InventoryScreen
 from screen import Screen
 
 def takeHit():
@@ -21,6 +22,7 @@ class GameScreen(Screen):
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite('Hero.png', (5, 5), self.tileMap.BLOCK_SIZE)
+	State.inventory = self.player.inventory
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
