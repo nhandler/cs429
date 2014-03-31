@@ -17,7 +17,7 @@ class TestPlayer(unittest.TestCase):
     background.fill(BLACK)
 
     def setUp(self):
-        self.player = PlayerSprite('Hero.png', (5, 5), (60, 60))
+        self.player = PlayerSprite('Hero.png', (5, 5), (60, 60), Direction.down)
         self.item = MagicShoes()
 
     def test_AddItemToInventory(self):

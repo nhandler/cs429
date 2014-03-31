@@ -5,9 +5,8 @@ from pygame.locals import *
 import random
 
 class EnemySprite (CreatureSprite):
-    def __init__(self, image, position, size):
-        CreatureSprite.__init__(self, image, position, size)
-        self.direction = Direction.up
+    def __init__(self, image, position, size, direction):
+        CreatureSprite.__init__(self, image, position, size, direction)
         self.health = 3
 
     def act(self, tile):

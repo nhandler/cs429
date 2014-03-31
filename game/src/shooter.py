@@ -6,8 +6,8 @@ from pygame.locals import *
 import random
 
 class ShooterSprite (EnemySprite):
-    def __init__(self, image, position, size):
-        EnemySprite.__init__(self, image, position, size)
+    def __init__(self, image, position, size, direction):
+        EnemySprite.__init__(self, image, position, size, direction)
 
     def shouldShoot(self, px, py):
         (x, y) = self.coords

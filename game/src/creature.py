@@ -6,14 +6,14 @@ from state import State
 
 class CreatureSprite(pygame.sprite.Sprite):
 
-    def __init__(self, image, position, size):
+    def __init__(self, image, position, size, direction):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
         self.coords = position
         (width, height) = size
         self.width = width 
         self.height = height
-        self.direction = Direction.down
+        self.direction = direction
         self.strips = self.imageStrips(image)
         self.currentStrip = self.strips[self.direction]
         self.image = self._get_next_image()
