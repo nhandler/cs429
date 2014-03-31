@@ -1,0 +1,30 @@
+Iteration 4 Meeting
+Monday, March 31, 2014 5:00pm
+
+Iteration 4 Requirements: https://wiki.engr.illinois.edu/display/cs428sp14/Iteration+4
+
+Moderator: Kyle Nusbaum
+Scribe: Matt Verzak
+Reviewer/Author: All
+
+1.) Through demos of the game, showed inventory, combat, and collision detection. Cosmin asked about the black background surrounding sprites
+2.) Went over progress 
+    a.) Discussed the test cases that were added. Some of the cases failed on Kyle's machine, but worked on other machines. Jonathan's matchine segfaulted on the test cases when the adapter was plugged into his machine (?) but worked otherwise, so he displayed to Cosmin in person. Tests were added for the following things:
+      i.) Bullet Movement
+      ii.) Enemy Movement
+      iii.) Collision Detection
+      iv.) Game Screen
+      v.) Player
+      vi.) Tile (currently empty, but file exists)
+    b.) Discussed Ian's enemy code. It included enemy movement and additional types of enemies such as shooters. Discussed the difficulty of the game and concluded that the tiles should be bigger.
+    c.) Discussed Andrew's refactoring. It included the Entity class, which bullets, crates, and creatures inherit from. Players and enemies inherit from entity and the different enemies inherit from enemy. Also, enemies and crates are handled in the tile class. A new .json file for each of the tiles define the items and enemies in that tile.
+
+Improvements:
+  Make tiles bigger
+  Make burning crates disappear
+  Cosmin suggested that we run all of the tiles while only observing one
+  We could also save back to the files that we load froma
+  We didn't have Sequence Diagrams. Make sure we have all deliverables.
+  We need to add code coverage metrics for tests
+  We need to write user stories as tests, add integration tests
+  Look into using Lettuce
