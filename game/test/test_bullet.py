@@ -1,8 +1,9 @@
-import pygame, math, sys
-from pygame.locals import *
-sys.path.append('../src')
+import pygame
+import sys
 import unittest
-from bullet import BulletSprite, Direction
+sys.path.append('../src')
+from bullet import BulletSprite
+from locals import Direction
 
 class TestBulletMovement(unittest.TestCase):
 

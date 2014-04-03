@@ -1,10 +1,9 @@
 import pygame
-import math
 import sys
-sys.path.append('../src')
 import unittest
-from locals import Direction
+sys.path.append('../src')
 from creature import CreatureSprite
+from locals import Direction
 from tile import Tile
 
 class TestCreature(unittest.TestCase):

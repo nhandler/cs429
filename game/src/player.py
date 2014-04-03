@@ -1,7 +1,7 @@
 from creature import CreatureSprite
+from item import Item, MagicShoes
 from locals import Direction
 from pygame.locals import *
-from item import Item, ItemType, MagicShoes
 
 class PlayerSprite (CreatureSprite):
     def __init__(self, image, position, size, direction):

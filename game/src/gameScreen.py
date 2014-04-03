@@ -1,16 +1,14 @@
 import pygame 
-import math
-import sys
-from pygame.locals import *
-from player import PlayerSprite
-from locals import Direction
 from bullet import BulletSprite
-from tileMap import TileMap
-from state import State
-from pauseScreen import PauseScreen
 from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
+from locals import Direction
+from pauseScreen import PauseScreen
+from player import PlayerSprite
+from pygame.locals import *
 from screen import Screen
+from state import State
+from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self):

@@ -1,9 +1,10 @@
-import pygame, math, sys
-from pygame.locals import *
-sys.path.append('../src')
+import pygame
+import sys
 import unittest
-from player import PlayerSprite, Direction
+sys.path.append('../src')
 from item import Item, MagicShoes
+from locals import Direction
+from player import PlayerSprite
 
 class TestPlayer(unittest.TestCase):
 

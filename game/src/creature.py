@@ -1,9 +1,7 @@
 import pygame
-from pygame.locals import *
-from SpriteSheetAnim import SpriteStripAnim
-from locals import Direction
-from state import State
 from entity import EntitySprite
+from locals import Direction
+from SpriteSheetAnim import SpriteStripAnim
 
 class CreatureSprite(EntitySprite):
     def __init__(self, image_filename, position, size, direction):

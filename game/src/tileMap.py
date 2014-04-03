@@ -1,7 +1,5 @@
-import pygame
-from pygame.locals import *
-from tile import Tile
 import json
+from tile import Tile
 
 map_path = "../../maps/"
 

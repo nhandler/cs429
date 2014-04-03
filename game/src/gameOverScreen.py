@@ -1,9 +1,6 @@
 import pygame 
-import math
-import sys
-from pygame.locals import *
-from state import State
 from screen import Screen
+from state import State
 
 class GameOverScreen(Screen):
 

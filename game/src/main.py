@@ -1,16 +1,8 @@
 import pygame 
-import math
 import sys
-from pygame.locals import *
-from player import PlayerSprite
-from locals import Direction
-from enemy import EnemySprite
-from crate import ObjectSprite
-from bullet import BulletSprite
-from state import State
-from item import Item, MagicShoes
-from pauseScreen import PauseScreen
 from gameScreen import GameScreen
+from pygame.locals import *
+from state import State
 from tileMap import TileMap
 
 pygame.init()

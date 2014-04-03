@@ -1,7 +1,4 @@
 import pygame
-import math
-import sys
-from pygame.locals import *
 from entity import EntitySprite
 from locals import Direction
 

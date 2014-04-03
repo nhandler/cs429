@@ -1,8 +1,6 @@
-import pygame
+import random
 from creature import CreatureSprite
 from locals import Direction
-from pygame.locals import *
-import random
 
 class EnemySprite (CreatureSprite):
     def __init__(self, image, position, size, direction):

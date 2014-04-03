@@ -1,16 +1,10 @@
 import pygame
-import math
 import sys
-
-from pygame.locals import *
-sys.path.append('../src')
 import unittest
-
+sys.path.append('../src')
 from gameScreen import GameScreen
-import gameScreen
-from player import PlayerSprite
 from locals import Direction
-from creature import CreatureSprite
+from player import PlayerSprite
 from state import State
 
 class TestGameScreen(unittest.TestCase):

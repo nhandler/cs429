@@ -1,9 +1,6 @@
-import pygame
-from enemy import EnemySprite
-from bullet import BulletSprite
-from locals import Direction
-from pygame.locals import *
 import random
+from bullet import BulletSprite
+from enemy import EnemySprite
 
 class ShooterSprite (EnemySprite):
     def __init__(self, image, position, size, direction):

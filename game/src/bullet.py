@@ -1,11 +1,6 @@
 import pygame
-import math
-import sys
-from pygame.locals import *
-from locals import Direction
-import spritesheet
-from SpriteSheetAnim import SpriteStripAnim
 from entity import EntitySprite
+from locals import Direction
 
 class BulletSprite (EntitySprite):
     def __init__(self, image_filename, position, size, direction):
