@@ -4,7 +4,6 @@ import sys
 
 from pygame.locals import *
 sys.path.append('../src')
-sys.path.append('../src/res')
 import unittest
 
 from gameScreen import GameScreen
