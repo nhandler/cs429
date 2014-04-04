@@ -3,8 +3,8 @@ from entity import EntitySprite
 from locals import Direction
 
 class ObjectSprite (EntitySprite):
-    normal = pygame.image.load('res/crate.png')
-    hit = pygame.image.load('res/burning_crate.png')
+    normal = pygame.image.load('../res/crate.png')
+    hit = pygame.image.load('../res/burning_crate.png')
 
     def __init__ (self, position, size, item):
         self.width, self.height = size
