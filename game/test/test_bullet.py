@@ -1,7 +1,7 @@
 import pygame
 import sys
 import unittest
-sys.path.append('../src')
+sys.path.insert(0, '../src')
 from bullet import BulletSprite
 from locals import Direction
 

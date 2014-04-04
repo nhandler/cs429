@@ -2,7 +2,7 @@ import json
 import pygame
 import sys
 
-sys.path.append('../../pytmx')
+sys.path.insert(0, '../../pytmx')
 
 from pygame.locals import *
 from crate import ObjectSprite
