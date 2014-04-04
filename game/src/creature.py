@@ -23,10 +23,10 @@ class CreatureSprite(EntitySprite):
 
     def imageStrips(self, image):
         strips = dict()
-        strips[Direction.up] = SpriteStripAnim(image, (0,0,16,16), 4, 1, True, 4)
-        strips[Direction.down] = SpriteStripAnim(image, (65,0,16,16), 4, 1, True, 4)
-        strips[Direction.right] = SpriteStripAnim(image, (65, 17, 16, 16), 4, 1, True, 4)
-        strips[Direction.left] = SpriteStripAnim(image, (0,17,16,16), 4, 1, True, 4)
+        strips[Direction.up] = SpriteStripAnim(image, (0,0,16,16), 4, (67,255,0), True, 4)
+        strips[Direction.down] = SpriteStripAnim(image, (64,0,16,16), 4, (67,255,0), True, 4)
+        strips[Direction.right] = SpriteStripAnim(image, (64, 17, 16, 16), 4, (67,255,0), True, 4)
+        strips[Direction.left] = SpriteStripAnim(image, (0,17,16,16), 4, (67, 255, 0), True, 4)
         return strips
 
     def can_take_action(self):
