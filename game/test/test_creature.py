@@ -1,7 +1,7 @@
 import pygame
 import sys
 import unittest
-sys.path.append('../src')
+sys.path.insert(0, '../src')
 from creature import CreatureSprite
 from locals import Direction
 from tile import Tile

@@ -1,7 +1,7 @@
 import pygame
 import sys
 import unittest
-sys.path.append('../src')
+sys.path.insert(0,'../src')
 from item import Item, MagicShoes
 from locals import Direction
 from player import PlayerSprite
