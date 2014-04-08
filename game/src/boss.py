@@ -16,14 +16,28 @@ class BossSprite (ShooterSprite):
             if i == 1: self.direction = Direction.up
             else: self.direction = Direction.down
             self.move(self.direction, tile)
+            z = random.randint(1, 2)
+            if z == 1:
+                self.move(self.direction, tile)
 
             self.direction = Direction.left
 
             self.action_taken()
         self.iters_until_action -= 1
 
+    def shouldShoot(self, px, py):
+        (x, y) = self.coords
+        i = random.randint(1, 10)
+
+        if x == px and y == py:
+            return False
+        elif i > 9:
+            return True
+        else:
+            return False
+
     def shoot(self, sprite, group):
-    	bullet = BulletSprite('../res/enemy_bullet.png', sprite.coords, (self.width, self.height), Direction.left)
+        bullet = BulletSprite('../res/enemy_bullet.png', sprite.coords, (self.width, self.height), Direction.left)
         group.add(bullet)
         bullet = BulletSprite('../res/enemy_bullet.png', sprite.coords, (self.width, self.height), Direction.up)
         group.add(bullet)
