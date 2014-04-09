@@ -6,6 +6,8 @@ from state import State
 from tileMap import TileMap
 
 pygame.init()
+pygame.mixer.init()
+
 screen = pygame.display.set_mode(
     (TileMap.width*TileMap.BLOCK_SIZE[0], TileMap.height*TileMap.BLOCK_SIZE[1])
 )
@@ -23,6 +25,8 @@ pygame.display.flip()
 
 def main():
     State.screens = [GameScreen()]
+    #pygame.mixer.music.load('')
+    #pygame.mixer.music.play(-1)
     while True:
         events = pygame.event.get()
         for event in events:
