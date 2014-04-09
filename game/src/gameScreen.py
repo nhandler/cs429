@@ -12,7 +12,7 @@ from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self):
-        self.tileMap = TileMap("../../maps/main_map.json")
+        self.tileMap = TileMap("../../maps/")
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite('../res/Hero.png', (5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
