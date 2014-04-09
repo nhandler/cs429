@@ -98,7 +98,9 @@ class GameScreen(Screen):
                 if event.key == K_i:
                     State.push_screen(InventoryScreen())
                 if event.key == K_l:
-                    self.fire()
+                    self.player.fire(self.player, self.bullet_group)
+                    #fire_sound = pygame.mixer.Sound("")
+                    #firesound.play()
                     self.can_fire = False
                 if event.key == K_h:
                     self.player.takeHit()
@@ -145,11 +147,6 @@ class GameScreen(Screen):
                 self.enemy_bullet_group.remove(bullet)
             if x < 0 or x > TileMap.width - 1: 
                 self.enemy_bullet_group.remove(bullet)
-
-    def fire(self):
-        if self.can_fire:
-            bullet = BulletSprite('../res/bullet.png', self.player.coords, self.tileMap.BLOCK_SIZE, self.player.direction)
-            self.bullet_group.add(bullet)
 
     def player_enemy_collide(self, player, enemy):
         if player.coords == enemy.coords:

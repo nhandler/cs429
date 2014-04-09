@@ -1,4 +1,5 @@
 from creature import CreatureSprite
+from bullet import BulletSprite
 from item import Item, MagicShoes
 from locals import Direction
 from pygame.locals import *
@@ -44,3 +45,10 @@ class PlayerSprite (CreatureSprite):
     def takeItem(self, source):
         self.addItemToInventory(source.item)
         source.item = None
+
+    def fire(self, sprite, group):
+	bullet = BulletSprite('../res/bullet.png', sprite.coords, (self.width, self.height), sprite.direction)
+	#fire_sound = pygame.mixer.Sound()
+	#fire_sound.play()
+	group.add(bullet)
+
