@@ -13,10 +13,10 @@ from tileMap import TileMap
 class GameScreen(Screen):
     def __init__(self):
         self.tileMap = TileMap("../../maps/main_map.json")
-        
+        self.sound = pygame.mixer.Sound('../res/sounds/laser.wav')
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite('../res/Hero.png', (5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
-	State.inventory = self.player.inventory
+        State.inventory = self.player.inventory
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -99,8 +99,7 @@ class GameScreen(Screen):
                     State.push_screen(InventoryScreen())
                 if event.key == K_l:
                     self.player.fire(self.player, self.bullet_group)
-                    #fire_sound = pygame.mixer.Sound("")
-                    #firesound.play()
+                    self.sound.play()
                     self.can_fire = False
                 if event.key == K_h:
                     self.player.takeHit()
