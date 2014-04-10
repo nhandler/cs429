@@ -5,6 +5,8 @@ from pygame.locals import *
 from state import State
 from tileMap import TileMap
 
+
+pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
 pygame.mixer.init()
 
@@ -25,8 +27,10 @@ pygame.display.flip()
 
 def main():
     State.screens = [GameScreen()]
-    #pygame.mixer.music.load('')
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.load('../res/sounds/opening.ogg')
+    #pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1)
+
     while True:
         events = pygame.event.get()
         for event in events:
