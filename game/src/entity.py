@@ -10,6 +10,24 @@ class EntitySprite(pygame.sprite.Sprite):
         self._reset_rect()
         self.health = 1
 
+    def to_json(self):
+        json = {
+            'coords': self.coords,
+            'width': self.width,
+            'height': self.height,
+            'direction': self.direction
+            'health': self.health
+        }
+        
+        return json
+
+    def from_json(self, json):
+        self.coords = json['coords']
+        self.width = json['width']
+        self.height = json['height']
+        self.direction = json['direction']
+        self.health = json['health']
+
     def convertCoords(self):
         (x, y) = self.coords
         new_x = x*self.width + self.width/2

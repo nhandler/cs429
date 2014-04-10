@@ -7,6 +7,15 @@ class EnemySprite (CreatureSprite):
         CreatureSprite.__init__(self, image, position, size, direction)
         self.health = 3
 
+    def to_json(self):
+        json = CreatureSprite.to_json(self)
+        json['health'] = self.health
+        return json
+
+    def from_json(self, json):
+        CreatureSprite.from_json(self, json)
+        self.health = json['health']
+
     def act(self, tile):
         i = random.randint(1, 4)
 

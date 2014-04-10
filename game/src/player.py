@@ -12,6 +12,17 @@ class PlayerSprite (CreatureSprite):
 	other = Item()
         self.inventory = {magicShoes : 2, other : 1}
 
+    def to_json(self):
+        json = CreatureSprite.to_json(self)
+        json['health'] = self.health
+        # TODO add support for inventory
+        return json
+
+    def from_json(self, json):
+        CreatureSprite.from_json(self, json)
+        self.health = json['health']
+        # TODO add support for inventory
+
     def handle_input(self, keyboard_input, tile):
         def handle_movement_keys(key, direction):
             if self.can_take_action() and key in keyboard_input:

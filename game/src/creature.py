@@ -12,7 +12,19 @@ class CreatureSprite(EntitySprite):
         EntitySprite.__init__(self, image, position, size, direction)
         self.action_wait_val = 12
         self.iters_until_action = 0
+
+    def to_json(self):
+        json = EntitySprite.to_json(self)
+        json['action_wait_val'] = self.action_wait_val
+        json['iters_until_action'] = self.iters_until_action
         
+        return json
+
+    def from_json(self, json):
+        EntitySprite.from_json(self, json)
+        self.action_wait_val = json['action_wait_val']
+        self.iters_until_action = json['iters_until_action']
+
     def _get_next_image(self):
         return pygame.Surface.convert_alpha(
             pygame.transform.scale(
