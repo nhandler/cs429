@@ -8,6 +8,8 @@ class InventoryScreen(Screen):
 
 	def __init__(self):
 		self.currLine = 0
+		self.sound = pygame.mixer.Sound('../res/sounds/menu.wav')
+		self.sound.play()
 	
 	def render(self):
 		monospace_font = pygame.font.SysFont('monospace', 15)
