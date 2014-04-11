@@ -10,6 +10,11 @@ class InventoryScreen(Screen):
 		self.currLine = 0
 		self.sound = pygame.mixer.Sound('../res/sounds/menu.wav')
 		self.sound.play()
+		self.sounds = {
+            'select': pygame.mixer.Sound('../res/sounds/select.wav'),
+            'close_menu': pygame.mixer.Sound('../res/sounds/close_menu.wav'),
+            'menu': pygame.mixer.Sound('../res/sounds/menu.wav'),
+        }
 	
 	def render(self):
 		monospace_font = pygame.font.SysFont('monospace', 15)
@@ -33,14 +38,18 @@ class InventoryScreen(Screen):
 				continue
 			if event.type == KEYDOWN:
 				if event.key == K_i:
+					self.sounds['close_menu'].play()
 					State.pop_screen()
 				elif event.key == K_w:
+					self.sounds['select'].play()
 					if self.currLine > 0:
 						self.currLine -= 1
 				elif event.key == K_s:
+					self.sounds['select'].play()
 					if self.currLine+1 < len(State.inventory):
 						self.currLine += 1
 				elif event.key == K_RETURN:
+					self.sounds['select'].play()
 					i = 0
 					for (item, amount) in State.inventory.iteritems():
 						if i == self.currLine:

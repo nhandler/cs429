@@ -27,9 +27,9 @@ pygame.display.flip()
 
 def main():
     State.screens = [GameScreen()]
-    pygame.mixer.music.load('../res/sounds/opening.ogg')
+    #pygame.mixer.music.load('../res/sounds/opening.ogg')
     #pygame.mixer.music.set_volume(0.5)
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.play(-1)
 
     while True:
         events = pygame.event.get()
