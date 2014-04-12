@@ -124,6 +124,10 @@ class GameScreen(Screen):
                 self.bullet_group.remove(bullet)
                 if enemy.health <= 0:
                     self.enemy_group.remove(enemy)
+                    try:
+                        self.tileMap.tile.enemies.remove(enemy)
+                    except ValueError:
+                        self.tileMap.tile.shooters.remove(enemy)
                     if enemy in self.shooters:
                         self.shooters.remove(enemy)
             (x, y) = bullet.coords

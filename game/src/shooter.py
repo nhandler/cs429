@@ -6,6 +6,11 @@ class ShooterSprite (EnemySprite):
     def __init__(self, image, position, size, direction):
         EnemySprite.__init__(self, image, position, size, direction)
 
+    def to_json(self):
+        json = EnemySprite.to_json(self)
+        json['image'] = '../res/enemy_red.png'
+        return json
+
     def shouldShoot(self, px, py):
         (x, y) = self.coords
         i = random.randint(1, 10)

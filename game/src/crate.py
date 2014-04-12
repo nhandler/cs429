@@ -13,6 +13,20 @@ class ObjectSprite (EntitySprite):
         self.health = 3
         self.item = item
 
+    def to_json(self):
+        json = EntitySprite.to_json(self)
+        json['health'] = self.health
+        #TODO: add proper item support
+        json['item'] = 'None'
+
+        return json
+
+    def from_json(self, json):
+        EntitySprite.from_json(self, json)
+        self.health = json['health']
+        #TODO: add proper item support
+#        self.item = json['item']
+
     def _scale(self, image):
         return pygame.transform.scale(image, (self.width, self.height))
 

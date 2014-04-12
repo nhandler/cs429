@@ -10,6 +10,7 @@ class EnemySprite (CreatureSprite):
     def to_json(self):
         json = CreatureSprite.to_json(self)
         json['health'] = self.health
+        json['image'] = '../res/enemy_yellow.png'
         return json
 
     def from_json(self, json):

@@ -14,6 +14,7 @@ from locals import Direction
 
 class Tile():
     def __init__(self, path, num, block_size):
+        self.path = None
         self.height = 0
         self.width = 0
         self.crates = []
@@ -24,45 +25,64 @@ class Tile():
         self.top = []
 
         if path and num:
-            tmxdata = tmxloader.load_pygame('{0}{1}.tmx'.format(path, num), pixelalpha=True)
+            self.path = '{0}{1}'.format(path, num)
+            tmxdata = tmxloader.load_pygame('{0}.tmx'.format(self.path), pixelalpha=True)
             self.height = tmxdata.height
             self.width = tmxdata.width
-            data = json.loads(open('{0}{1}.json'.format(path, num)).read())
-            items = {'None': None, 'magicShoes': MagicShoes()}
-            for crate in data['crates']:
-                self.crates.append(
-                    ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
-                )
+            data = json.loads(open('{0}.json'.format(self.path)).read())
 
-            for shooter in data['shooters']:
-                self.shooters.append(
-                    ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size, Direction.up)
-                )
+            self._initialize_entities(data, block_size)
+            self._initialize_map(tmxdata)
 
-            for enemy in data['enemies']:
-                self.enemies.append(
-                    EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size, Direction.up)
-                )
+    def _initialize_entities(self, data, block_size):
+        items = {'None': None, 'magicShoes': MagicShoes()}
+        for crate in data['crates']:
+            self.crates.append(
+                ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
+            )
 
-            background_index = tmxdata.tilelayers.index(
-                tmxdata.getTileLayerByName('Background'))
-            foreground_index = tmxdata.tilelayers.index(
-                tmxdata.getTileLayerByName('Foreground'))
-            top_index = tmxdata.tilelayers.index(
-                tmxdata.getTileLayerByName('Top'))
-            for x in range(0, self.width):
-                self.background.append([])
-                self.foreground.append([])
-                self.top.append([])
-                for y in range(0, self.height):
-                    element = tmxdata.getTileImage(x, y, background_index)
-                    self.background[x].append(element if element else None)
+        for shooter in data['shooters']:
+            self.shooters.append(
+                ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size, Direction.up)
+            )
 
-                    element = tmxdata.getTileImage(x, y, foreground_index)
-                    self.foreground[x].append(element if element else None)
+        for enemy in data['enemies']:
+            self.enemies.append(
+                EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size, Direction.up)
+            )
 
-                    element = tmxdata.getTileImage(x, y, top_index)
-                    self.top[x].append(element if element else None)
+    def _initialize_map(self, tmxdata):
+        background_index = tmxdata.tilelayers.index(
+            tmxdata.getTileLayerByName('Background'))
+        foreground_index = tmxdata.tilelayers.index(
+            tmxdata.getTileLayerByName('Foreground'))
+        top_index = tmxdata.tilelayers.index(
+            tmxdata.getTileLayerByName('Top'))
+        for x in range(0, self.width):
+            self.background.append([])
+            self.foreground.append([])
+            self.top.append([])
+            for y in range(0, self.height):
+                element = tmxdata.getTileImage(x, y, background_index)
+                self.background[x].append(element if element else None)
+
+                element = tmxdata.getTileImage(x, y, foreground_index)
+                self.foreground[x].append(element if element else None)
+
+                element = tmxdata.getTileImage(x, y, top_index)
+                self.top[x].append(element if element else None)
+
+    def save(self):
+        with open('{0}.json'.format(self.path), 'w') as f:
+            data = {'crates': [], 'shooters': [], 'enemies': []}
+            for crate in self.crates:
+                data['crates'].append(crate.to_json())
+            for shooter in self.shooters:
+                data['shooters'].append(shooter.to_json())
+            for enemy in self.enemies:
+                data['enemies'].append(enemy.to_json())
+
+            f.write(json.dumps(data))
 
     def is_walkable(self, x, y):
         try:
