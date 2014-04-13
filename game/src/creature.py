@@ -5,14 +5,16 @@ from SpriteSheetAnim import SpriteStripAnim
 
 class CreatureSprite(EntitySprite):
     def __init__(self, image_filename, position, size, direction):
-        self.strips = self.imageStrips(image_filename)
-        self.currentStrip = self.strips[direction]
-        self.width, self.height = size
-        image = self._get_next_image()
-        EntitySprite.__init__(self, image, position, size, direction)
+        EntitySprite.__init__(self, position, size, direction)
+        self._create_spritesheet(image_filename)
         self.action_wait_val = 12
         self.iters_until_action = 0
-        
+    
+    def _create_spritesheet(self, image_filename):
+        self.strips = self.imageStrips(image_filename)
+        self.currentStrip = self.strips[self.direction]
+        self.image = self._get_next_image()
+
     def _get_next_image(self):
         return pygame.Surface.convert_alpha(
             pygame.transform.scale(

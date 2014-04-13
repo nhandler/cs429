@@ -36,12 +36,12 @@ class Tile():
 
             for shooter in data['shooters']:
                 self.shooters.append(
-                    ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size, Direction.up)
+                    ShooterSprite((shooter['x'], shooter['y']), block_size, Direction.up)
                 )
 
             for enemy in data['enemies']:
                 self.enemies.append(
-                    EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size, Direction.up)
+                    EnemySprite((enemy['x'], enemy['y']), block_size, Direction.up)
                 )
 
             background_index = tmxdata.tilelayers.index(

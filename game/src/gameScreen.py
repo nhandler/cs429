@@ -2,7 +2,7 @@ import pygame
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction
+from locals import Direction, NEW_GAME_DIR
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -12,10 +12,10 @@ from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self):
-        self.tileMap = TileMap("../../maps/new_game/")
+        self.tileMap = TileMap(NEW_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-        self.player = PlayerSprite('../res/Hero.png', (5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
+        self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
 	State.inventory = self.player.inventory
 
         self.keyboard_input = {
