@@ -2,7 +2,7 @@ import pygame
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, NEW_GAME_DIR
+from locals import Direction, NEW_GAME_DIR, LASER
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -12,7 +12,7 @@ from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self):
-        self.sound = pygame.mixer.Sound('../res/sounds/laser.wav')
+        self.sound = pygame.mixer.Sound(LASER)
         self.tileMap = TileMap(NEW_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)

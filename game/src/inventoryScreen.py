@@ -1,5 +1,6 @@
 import pygame 
 from pygame.locals import *
+from locals import SELECT, MENU_OPEN, MENU_CLOSE
 from screen import Screen
 from state import State
 
@@ -8,12 +9,12 @@ class InventoryScreen(Screen):
 
 	def __init__(self):
 		self.currLine = 0
-		self.sound = pygame.mixer.Sound('../res/sounds/menu.wav')
+		self.sound = pygame.mixer.Sound(MENU_OPEN)
 		self.sound.play()
 		self.sounds = {
-            'select': pygame.mixer.Sound('../res/sounds/select.wav'),
-            'close_menu': pygame.mixer.Sound('../res/sounds/close_menu.wav'),
-            'menu': pygame.mixer.Sound('../res/sounds/menu.wav'),
+            'select': pygame.mixer.Sound(SELECT),
+            'close_menu': pygame.mixer.Sound(MENU_CLOSE),
+            'menu': pygame.mixer.Sound(MENU_OPEN),
         }
 	
 	def render(self):

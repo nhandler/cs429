@@ -2,6 +2,7 @@ import pygame
 import sys
 from gameScreen import GameScreen
 from pygame.locals import *
+from locals import GAME_MUSIC
 from state import State
 from tileMap import TileMap
 
@@ -27,7 +28,7 @@ pygame.display.flip()
 
 def main():
     State.screens = [GameScreen()]
-    pygame.mixer.music.load('../res/sounds/opening.ogg')
+    pygame.mixer.music.load(GAME_MUSIC)
     #pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
 
