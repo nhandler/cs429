@@ -12,7 +12,7 @@ class PlayerSprite (CreatureSprite):
 	other = Item()
         self.inventory = {magicShoes : 2, other : 1}
 
-    def handle_input(self, keyboard_input, tile):
+    def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
             if self.can_take_action() and key in keyboard_input:
                 (old_val, new_val) = keyboard_input[key]
@@ -34,6 +34,12 @@ class PlayerSprite (CreatureSprite):
         ]:
             handle_movement_keys(key, direction)
             self.iters_until_action -= 1
+
+        if keyboard_input[K_l] == (KEYUP, KEYDOWN):
+            self.fire(bullet_group)
+
+        if keyboard_input[K_h] == (KEYUP, KEYDOWN):
+            self.takeHit()
 
     def addItemToInventory(self, item):
         if item is None:

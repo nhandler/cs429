@@ -23,9 +23,9 @@ class GameScreen(Screen):
             K_d: (KEYUP, KEYUP),
             K_l: (KEYUP, KEYUP),
             K_s: (KEYUP, KEYUP),
-            K_w: (KEYUP, KEYUP)
+            K_w: (KEYUP, KEYUP),
+            K_h: (KEYUP, KEYUP)
         }
-        self.can_fire = True
 
         self.player_group = pygame.sprite.RenderClear(self.player)
         self.enemies = self.tileMap.tile.enemies
@@ -49,7 +49,7 @@ class GameScreen(Screen):
     def update(self, events):
         
         self.handle_keyboard(events)
-        self.player.handle_input(self.keyboard_input, self.tileMap.tile)
+        self.player.handle_input(self.keyboard_input, self.tileMap.tile, self.bullet_group)
 
         for enemy in self.enemy_group:
             enemy.act(self.tileMap.tile)
@@ -97,14 +97,6 @@ class GameScreen(Screen):
                     State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
                     State.push_screen(InventoryScreen())
-                if event.key == K_l:
-                    self.player.fire(self.bullet_group)
-                    self.can_fire = False
-                if event.key == K_h:
-                    self.player.takeHit()
-            elif event.type == KEYUP:
-                if event.key == K_l: 
-                    self.can_fire = True
 
             if event.key in self.keyboard_input:
                 (old_val, new_val) = self.keyboard_input[event.key]
