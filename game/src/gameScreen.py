@@ -16,8 +16,6 @@ class GameScreen(Screen):
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
-	State.inventory = self.player.inventory
-
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
             K_d: (KEYUP, KEYUP),
@@ -96,7 +94,7 @@ class GameScreen(Screen):
                 if event.key == K_p:
                     State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
-                    State.push_screen(InventoryScreen())
+                    State.push_screen(InventoryScreen(self.player))
                 if event.key == K_l:
                     self.player.fire(self.bullet_group)
                     self.can_fire = False

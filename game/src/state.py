@@ -1,9 +1,10 @@
 class State:
-    screens = None
+    screen = None
+    screens = []
 
     @staticmethod
-    def push_screen(screen):
-        State.screens.insert(0, screen)
+    def push_screen(new_screen):
+        State.screens.insert(0, new_screen)
 
     @staticmethod
     def pop_screen():
