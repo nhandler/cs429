@@ -22,9 +22,9 @@ class TestGameScreen(unittest.TestCase):
 		self.screen = GameScreen()
 		
 		State.screen = self.screen
-		self.player = PlayerSprite('Hero.png', (5, 5), (60, 60), Direction.down)
-		self.creature_collide = PlayerSprite('Hero.png', (5, 5), (60, 60), Direction.up)
-		self.creature_miss = PlayerSprite('Hero.png', (5, 4), (60, 60), Direction.up)
+		self.player = PlayerSprite((5, 5), (60, 60), Direction.down)
+		self.creature_collide = PlayerSprite((5, 5), (60, 60), Direction.up)
+		self.creature_miss = PlayerSprite((5, 4), (60, 60), Direction.up)
 
 	def test_player_collide(self):
 		collide = self.screen.player_enemy_collide(self.player, self.creature_collide)

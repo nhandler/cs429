@@ -2,7 +2,7 @@ import pygame
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction
+from locals import Direction, NEW_GAME_DIR
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -12,11 +12,12 @@ from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self):
-        self.tileMap = TileMap("../../maps/main_map.json")
         self.sound = pygame.mixer.Sound('../res/sounds/laser.wav')
+        self.tileMap = TileMap(NEW_GAME_DIR)
+        
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-        self.player = PlayerSprite('../res/Hero.png', (5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
-        State.inventory = self.player.inventory
+        self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
+	State.inventory = self.player.inventory
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -98,8 +99,8 @@ class GameScreen(Screen):
                 if event.key == K_i:
                     State.push_screen(InventoryScreen())
                 if event.key == K_l:
-                    self.player.fire(self.player, self.bullet_group)
                     self.sound.play()
+                    self.player.fire(self.bullet_group)
                     self.can_fire = False
                 if event.key == K_h:
                     self.player.takeHit()

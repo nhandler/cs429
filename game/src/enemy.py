@@ -1,10 +1,10 @@
 import random
 from creature import CreatureSprite
-from locals import Direction
+from locals import Direction, ENEMY_IMAGE
 
 class EnemySprite (CreatureSprite):
-    def __init__(self, image, position, size, direction):
-        CreatureSprite.__init__(self, image, position, size, direction)
+    def __init__(self, position, size, direction):
+        CreatureSprite.__init__(self, ENEMY_IMAGE, position, size, direction)
         self.health = 3
 
     def act(self, tile):
