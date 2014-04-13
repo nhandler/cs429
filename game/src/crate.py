@@ -9,6 +9,7 @@ class ObjectSprite (EntitySprite):
     def __init__ (self, position, size, item):
         EntitySprite.__init__(self, position, size, Direction.down)
         self.image = self._scale(self.normal)
+        self._reset_rect()
         self.health = 3
         self.item = item
 

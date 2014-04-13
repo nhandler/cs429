@@ -17,7 +17,6 @@ class EntitySprite(pygame.sprite.Sprite):
         return (new_x, new_y)
 
     def _reset_rect(self):
-        self.position = self.convertCoords()
         self.rect = self.image.get_rect()
         self.rect.center = self.convertCoords()
 
