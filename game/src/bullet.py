@@ -4,8 +4,8 @@ from locals import Direction
 
 class BulletSprite (EntitySprite):
     def __init__(self, image_filename, position, size, direction):
-        image = pygame.image.load(image_filename)
-        EntitySprite.__init__(self, image, position, size, direction)
+        EntitySprite.__init__(self, position, size, direction)
+        self.image = pygame.image.load(image_filename)
 
     def move(self):
         (x, y) = self.coords

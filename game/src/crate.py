@@ -1,15 +1,14 @@
 import pygame
 from entity import EntitySprite
-from locals import Direction
+from locals import Direction, CRATE_IMAGE, BURNING_CRATE_IMAGE
 
 class ObjectSprite (EntitySprite):
-    normal = pygame.image.load('../res/crate.png')
-    hit = pygame.image.load('../res/burning_crate.png')
+    normal = pygame.image.load(CRATE_IMAGE)
+    hit = pygame.image.load(BURNING_CRATE_IMAGE)
 
     def __init__ (self, position, size, item):
-        self.width, self.height = size
-        image = self._scale(self.normal)
-        EntitySprite.__init__(self, image, position, size, Direction.down)
+        EntitySprite.__init__(self, position, size, Direction.down)
+        self.image = self._scale(self.normal)
         self.health = 3
         self.item = item
 

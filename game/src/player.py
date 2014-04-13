@@ -1,12 +1,12 @@
 from creature import CreatureSprite
 from bullet import BulletSprite
 from item import Item, MagicShoes
-from locals import Direction
+from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE
 from pygame.locals import *
 
 class PlayerSprite (CreatureSprite):
-    def __init__(self, image, position, size, direction):
-        CreatureSprite.__init__(self, image, position, size, direction)
+    def __init__(self, position, size, direction):
+        CreatureSprite.__init__(self, PLAYER_IMAGE, position, size, direction)
         self.health = 10
 	magicShoes = MagicShoes()
 	other = Item()
@@ -47,5 +47,5 @@ class PlayerSprite (CreatureSprite):
         source.item = None
 
     def fire(self, group):
-        bullet = BulletSprite('../res/bullet.png', self.coords, (self.width, self.height), self.direction)
+        bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
         group.add(bullet)

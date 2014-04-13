@@ -1,12 +1,12 @@
 import pygame
 
 class EntitySprite(pygame.sprite.Sprite):
-    def __init__(self, image, position, size, direction):
+    def __init__(self, position, size, direction):
         pygame.sprite.Sprite.__init__(self)
         self.coords = position
         self.width, self.height = size
         self.direction = direction
-        self.image = image
+        self.image = pygame.Surface((0, 0))
         self._reset_rect()
         self.health = 1
 

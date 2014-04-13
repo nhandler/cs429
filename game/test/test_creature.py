@@ -3,7 +3,7 @@ import sys
 import unittest
 sys.path.insert(0, '../src')
 from creature import CreatureSprite
-from locals import Direction
+from locals import Direction, PLAYER_IMAGE
 from tile import Tile
 
 class TestCreature(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestCreature(unittest.TestCase):
     background.fill(BLACK)
 
     def setUp(self):
-        self.creature = CreatureSprite('Hero.png', (5, 5), (60, 60), Direction.up)
+        self.creature = CreatureSprite(PLAYER_IMAGE, (5, 5), (60, 60), Direction.up)
         self.tile = Tile(None, None, (60, 60))
 
     def test_move_up(self):
@@ -37,7 +37,7 @@ class TestCreature(unittest.TestCase):
         self.assertEqual((6, 5), self.creature.coords)
 
     def test_foreground(self):
-        creature = CreatureSprite('Hero.png', (0, 0), (60, 60), Direction.up)
+        creature = CreatureSprite(PLAYER_IMAGE, (0, 0), (60, 60), Direction.up)
         tile = Tile(None, None, (60, 60))
         tile.height = 2
         tile.width = 2
