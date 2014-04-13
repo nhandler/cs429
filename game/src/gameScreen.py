@@ -98,15 +98,6 @@ class GameScreen(Screen):
                     State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
                     State.push_screen(InventoryScreen())
-                if event.key == K_l:
-                    self.sound.play()
-                    self.player.fire(self.bullet_group)
-                    self.can_fire = False
-                if event.key == K_h:
-                    self.player.takeHit()
-            elif event.type == KEYUP:
-                if event.key == K_l: 
-                    self.can_fire = True
 
             if event.key in self.keyboard_input:
                 (old_val, new_val) = self.keyboard_input[event.key]
