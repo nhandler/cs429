@@ -2,7 +2,7 @@ import pygame
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, NEW_GAME_DIR
+from locals import Direction, NEW_GAME_DIR, LASER
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -12,6 +12,7 @@ from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self):
+        self.sound = pygame.mixer.Sound(LASER)
         self.tileMap = TileMap(NEW_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
@@ -97,6 +98,15 @@ class GameScreen(Screen):
                     State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
                     State.push_screen(InventoryScreen())
+                if event.key == K_l:
+                    self.sound.play()
+                    self.player.fire(self.bullet_group)
+                    self.can_fire = False
+                if event.key == K_h:
+                    self.player.takeHit()
+            elif event.type == KEYUP:
+                if event.key == K_l: 
+                    self.can_fire = True
 
             if event.key in self.keyboard_input:
                 (old_val, new_val) = self.keyboard_input[event.key]

@@ -55,3 +55,4 @@ class PlayerSprite (CreatureSprite):
     def fire(self, group):
         bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
         group.add(bullet)
+
