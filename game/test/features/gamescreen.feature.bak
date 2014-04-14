@@ -1,0 +1,13 @@
+Feature: Collissions and Directions
+    Creatures can collide and
+    we can find opposite directions.
+
+    Scenario: Collide
+        Given The creature is at (60, 60)
+        When The player is at (60, 60)
+        Then A collision has occurred
+
+    Scenario: Miss
+        Given The creature is at (60, 60)
+        When The player is at (50, 50)
+        Then A collision has not occurred
