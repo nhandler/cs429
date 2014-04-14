@@ -18,6 +18,7 @@ class TestPlayer(unittest.TestCase):
     background.fill(BLACK)
 
     def setUp(self):
+        pygame.mixer.init()
         self.player = PlayerSprite((5, 5), (60, 60), Direction.down)
         self.item = MagicShoes()
 
