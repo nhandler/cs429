@@ -1,7 +1,6 @@
 import pygame 
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
-from victoryScreen import VictoryScreen
 from inventoryScreen import InventoryScreen
 from locals import Direction, NEW_GAME_DIR, LASER
 from pauseScreen import PauseScreen
@@ -31,8 +30,7 @@ class GameScreen(Screen):
 
         self.player_group = pygame.sprite.RenderClear(self.player)
         self.enemies = self.tileMap.tile.enemies
-        self.boss = self.tileMap.tile.boss
-        self.shooters = self.tileMap.tile.shooters + self.boss
+        self.shooters = self.tileMap.tile.shooters
         enemies = self.enemies + self.shooters
         self.enemy_group = pygame.sprite.RenderPlain(*enemies)
         self.bullet_group = pygame.sprite.Group()
@@ -43,7 +41,6 @@ class GameScreen(Screen):
     def render(self):
         self.tileMap.draw(State.screen)
         self.crate_group.draw(State.screen)
-        self.button_group.draw(State.screen)
         self.bullet_group.draw(State.screen)
         self.enemy_bullet_group.draw(State.screen)
         self.player_group.draw(State.screen)
@@ -72,10 +69,8 @@ class GameScreen(Screen):
             self.enemy_group.update()
         else:
             self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-            self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
             self.enemies = self.tileMap.tile.enemies
-            self.boss = self.tileMap.tile.boss
-            self.shooters = self.tileMap.tile.shooters + self.boss
+            self.shooters = self.tileMap.tile.shooters
             enemies = self.enemies + self.shooters
             self.enemy_group = pygame.sprite.RenderPlain(*enemies)
 
@@ -88,12 +83,16 @@ class GameScreen(Screen):
             )
 
     def handle_keyboard(self, events):
-        
+        '''
         self.keyboard_input = { 
             key: (new_val, new_val) 
             for key, (old_val, new_val) 
             in self.keyboard_input.items() 
         }
+	'''
+
+	for (key, (old_val, new_val)) in self.keyboard_input.items():
+		self.keyboard_input[key] = (new_val, new_val)
 
         for event in events:
             if not hasattr(event, 'key'): 
@@ -111,7 +110,6 @@ class GameScreen(Screen):
 
     def check_collisions(self):
         player_crate_collisions = pygame.sprite.spritecollide(self.player, self.crate_group, False, self.did_player_crate_collide)
-        player_button_collisions = pygame.sprite.spritecollide(self.player, self.button_group, False, self.did_player_button_collide)
         player_enemy_collisions = pygame.sprite.spritecollide(self.player, self.enemy_group, False, self.player_enemy_collide)
 
         for bullet in self.bullet_group:
@@ -125,8 +123,6 @@ class GameScreen(Screen):
                     self.enemy_group.remove(enemy)
                     if enemy in self.shooters:
                         self.shooters.remove(enemy)
-                        if enemy in self.boss:
-                            self.victory()
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: 
                 self.bullet_group.remove(bullet)
@@ -204,25 +200,8 @@ class GameScreen(Screen):
 
     def did_bullet_collide(self, sprite_one, crate_sprite):
         if sprite_one.coords == crate_sprite.coords:
-            crate_sprite.takeHit(self.player.laser)
+            crate_sprite.takeHit(1)
             return True
         else: 
             return False
-
-    def did_player_button_collide(self, player_sprite, button_sprite):
-        if player_sprite.coords == button_sprite.coords:
-            self.enemy_group.remove(self.boss[0])
-            self.shooters = []
-            self.victory()
-            return True
-        else:
-            return False
-
-    def victory(self):
-        State.push_screen(
-            VictoryScreen(
-                TileMap.width*TileMap.BLOCK_SIZE[0], 
-                TileMap.height*TileMap.BLOCK_SIZE[1]
-            )
-        )
 

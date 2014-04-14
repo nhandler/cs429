@@ -43,7 +43,7 @@ class PlayerSprite (CreatureSprite):
             self.fire(bullet_group)
 
         if keyboard_input[K_h] == (KEYUP, KEYDOWN):
-            self.takeHit()
+            self.takeHit(1)
 
     def addItemToInventory(self, item):
         if item is None:
