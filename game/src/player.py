@@ -48,7 +48,11 @@ class PlayerSprite (CreatureSprite):
     def addItemToInventory(self, item):
         if item is None:
             return
+<<<<<<< HEAD
         if item in ItemType.final_items:
+=======
+        if item.__class__ in ItemType.final_items:
+>>>>>>> Removing item integer types
             self.final_inventory.append(item)
             self.check_final_condition()
         else:
@@ -65,7 +69,11 @@ class PlayerSprite (CreatureSprite):
         group.add(bullet)
 
     def check_final_condition(self):
+<<<<<<< HEAD
         if(set([x for x in self.final_inventory]) == set(ItemType.final_items)):
+=======
+        if(set([x.__class__ for x in self.final_inventory]) == set(ItemType.final_items)):
+>>>>>>> Removing item integer types
             print "All final items collected!"
             State.boss_ready = True
             pymix.Sound(BOSS_READY).play(loops=2)
