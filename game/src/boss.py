@@ -1,12 +1,13 @@
 import random
 from bullet import BulletSprite
 from shooter import ShooterSprite
-from locals import Direction
+from locals import Direction, SHOOTER_BULLET_IMAGE, BOSS_IMAGE
 
 class BossSprite (ShooterSprite):
 
-    def __init__(self, image, position, size, direction):
-        ShooterSprite.__init__(self, image, position, size, direction)
+    def __init__(self, position, size, direction):
+        ShooterSprite.__init__(self, position, size, direction)
+        self._create_spritesheet(BOSS_IMAGE)
         self.health = 50
 
     def act(self, tile):
@@ -37,11 +38,11 @@ class BossSprite (ShooterSprite):
             return False
 
     def shoot(self, sprite, group):
-        bullet = BulletSprite('../res/enemy_bullet.png', sprite.coords, (self.width, self.height), Direction.left)
+        bullet = BulletSprite(SHOOTER_BULLET_IMAGE, sprite.coords, (self.width, self.height), Direction.left)
         group.add(bullet)
-        bullet = BulletSprite('../res/enemy_bullet.png', sprite.coords, (self.width, self.height), Direction.up)
+        bullet = BulletSprite(SHOOTER_BULLET_IMAGE, sprite.coords, (self.width, self.height), Direction.up)
         group.add(bullet)
-        bullet = BulletSprite('../res/enemy_bullet.png', sprite.coords, (self.width, self.height), Direction.down)
+        bullet = BulletSprite(SHOOTER_BULLET_IMAGE, sprite.coords, (self.width, self.height), Direction.down)
         group.add(bullet)
 
     def handleOutOfBounds(self, px, py, left, right, up, down):

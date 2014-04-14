@@ -1,11 +1,7 @@
 {
   "crates": [],
-  "button": [
-    {"x": 7, "y": 4}
-  ],
-  "boss": [
-    {"image": "../res/enemy_purple.png", "x": 6, "y": 3}
-  ],
+  "button": [],
+  "boss": [],
   "shooters": [],
   "enemies": []
 }

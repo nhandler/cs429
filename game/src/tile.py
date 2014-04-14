@@ -45,7 +45,7 @@ class Tile():
 
             for boss in data['boss']:
                 self.boss.append(
-                    BossSprite(boss['image'], (boss['x'], boss['y']), block_size, Direction.left)
+                    BossSprite((boss['x'], boss['y']), block_size, Direction.left)
                 )
 
             for shooter in data['shooters']:

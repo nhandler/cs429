@@ -7,6 +7,8 @@ NEW_GAME_DIR = '../../maps/new_game/'
 PLAYER_IMAGE = '../res/Hero.png'
 SHOOTER_BULLET_IMAGE = '../res/enemy_bullet.png'
 SHOOTER_IMAGE = '../res/enemy_yellow.png'
+MEDAL_IMAGE = '../res/medal.png'
+BOSS_IMAGE = '../res/enemy_purple.png'
 
 #SOUNDS
 MENU_OPEN = '../res/sounds/menu.wav'
