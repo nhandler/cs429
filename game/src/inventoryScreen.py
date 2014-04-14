@@ -1,5 +1,6 @@
 import pygame 
 from pygame.locals import *
+from locals import SELECT, MENU_OPEN, MENU_CLOSE
 from screen import Screen
 from state import State
 
@@ -8,6 +9,14 @@ class InventoryScreen(Screen):
 
     def __init__(self, player):
         self.currLine = 0
+        self.sound = pygame.mixer.Sound(MENU_OPEN)
+        self.sound.play()
+        self.sounds = {
+            'select': pygame.mixer.Sound(SELECT),
+            'close_menu': pygame.mixer.Sound(MENU_CLOSE),
+            'menu': pygame.mixer.Sound(MENU_OPEN),
+        }
+
         self.player = player
     
     def render(self):
@@ -32,20 +41,23 @@ class InventoryScreen(Screen):
                 continue
             if event.type == KEYDOWN:
                 if event.key == K_i:
+                    self.sounds['close_menu'].play()
                     State.pop_screen()
                 elif event.key == K_w:
+		    self.sounds['select'].play()
                     if self.currLine > 0:
                         self.currLine -= 1
                 elif event.key == K_s:
+		    self.sounds['select'].play()
                     if self.currLine+1 < len(self.player.inventory):
                         self.currLine += 1
                 elif event.key == K_RETURN:
+		    self.sounds['select'].play()
                     i = 0
                     for (item, amount) in self.player.inventory.iteritems():
                         if i == self.currLine:
                             if self.player.inventory[item] > 0:
                                 self.player.inventory[item] -= 1
-                                item.use()
+                                item.use(self.player)
                                 State.pop_screen()
                         i += 1
-

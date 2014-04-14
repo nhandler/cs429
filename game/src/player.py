@@ -1,18 +1,21 @@
 from creature import CreatureSprite
 from bullet import BulletSprite
-from item import Item, MagicShoes
-from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE
+from item import Item, MagicShoes, Potion, Crystal
+from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE, LASER
 from pygame.locals import *
+import pygame.mixer as pymix
 
 class PlayerSprite (CreatureSprite):
     def __init__(self, position, size, direction):
         CreatureSprite.__init__(self, PLAYER_IMAGE, position, size, direction)
         self.health = 10
-	magicShoes = MagicShoes
-	other = Item
-        self.inventory = {magicShoes : 2, other : 1}
+	magicShoes = MagicShoes()
+	other = Item()
+        self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
+	self.fire_sound = pymix.Sound(LASER)
+        self.laser = 1
 
-    def handle_input(self, keyboard_input, tile):
+    def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
             if self.can_take_action() and key in keyboard_input:
                 (old_val, new_val) = keyboard_input[key]
@@ -35,6 +38,13 @@ class PlayerSprite (CreatureSprite):
             handle_movement_keys(key, direction)
             self.iters_until_action -= 1
 
+        if keyboard_input[K_l] == (KEYUP, KEYDOWN):
+            self.fire_sound.play()
+            self.fire(bullet_group)
+
+        if keyboard_input[K_h] == (KEYUP, KEYDOWN):
+            self.takeHit()
+
     def addItemToInventory(self, item):
         if item is None:
             return
@@ -49,3 +59,4 @@ class PlayerSprite (CreatureSprite):
     def fire(self, group):
         bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
         group.add(bullet)
+

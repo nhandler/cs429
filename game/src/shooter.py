@@ -20,6 +20,6 @@ class ShooterSprite (EnemySprite):
             return False
 
     def shoot(self, sprite, group):
-    	bullet = BulletSprite(SHOOTER_BULLET_IMAGE, sprite.coords, (self.width, self.height), sprite.direction)
+        bullet = BulletSprite(SHOOTER_BULLET_IMAGE, sprite.coords, (self.width, self.height), sprite.direction)
         group.add(bullet)
         
