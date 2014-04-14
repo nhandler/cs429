@@ -33,13 +33,13 @@ class Tile():
             self.width = tmxdata.width
             data = json.loads(open('{0}{1}.json'.format(path, num)).read())
             items = {'None': None, 
-                     'magicShoes': MagicShoes(), 
-                     'potion' : Potion(),
-                     'crystal' : Crystal(),
-                     'final1' : FinalItem1(),
-                     'final2' : FinalItem2(),
-                     'final3' : FinalItem3(),
-                     'final4' : FinalItem4(),
+                     'Magic Shoes': MagicShoes, 
+                     'potion' : Potion,
+                     'crystal' : Crystal,
+                     'final1' : FinalItem1,
+                     'final2' : FinalItem2,
+                     'final3' : FinalItem3,
+                     'final4' : FinalItem4,
             }
             for crate in data['crates']:
                 self.crates.append(

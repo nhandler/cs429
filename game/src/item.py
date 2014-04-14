@@ -1,62 +1,56 @@
-from state import State
-
 class Item:
-    def __init__(self):
-        self.name = 'Item'
+    name = 'Item'
     
-    def use(self):
+    @staticmethod
+    def use(player):
 	print 'Used Item'
         
 class MagicShoes(Item):
-    def __init__(self):
-        self.name = 'Magic Shoes'
+    name = 'Magic Shoes'
 
-    def use(self):
+    @staticmethod
+    def use(player):
         print 'Used Magic Shoes'
     
     
 class Potion(Item):
-    def __init__(self):
-        self.name = 'Potion'
+    name = 'Potion'
 
-    def use(self):
-        State.player.health += 10
+    @staticmethod
+    def use(player):
+        player.health += 10
 
 class Crystal(Item):
-    def __init__(self):
-        self.name = 'Energy Crystal'
-        
-    def use(self):
-        State.player.laser += 1
+    name = 'Energy Crystal'
+    
+    @staticmethod
+    def use(player):
+        player.laser += 1
 
 class FinalItem1(Item):
-    def __init__(self):
-        self.name = 'Goat\'s Foot'
+    name = 'Goat\'s Foot'
 
-    def use(self):
+    @staticmethod
+    def use(player):
         pass
 
 class FinalItem2(Item):
-    def __init__(self):
-        self.name = 'Virgin Sacrifice'
+    name = 'Virgin Sacrifice'
 
-    def use(self):
+    def use(player):
         pass
 
 class FinalItem3(Item):
-    def __init__(self):
-        self.name = 'Ghost Soul'
+    name = 'Ghost Soul'
         
-    def use(self):
+    def use(player):
         pass
 
 class FinalItem4(Item):
-    def __init__(self):
-        self.name = 'Narcissus'
+    name = 'Narcissus'
         
-    def use(self):
+    def use(player):
         pass
 
 class ItemType:
     final_items = [FinalItem1, FinalItem2, FinalItem3, FinalItem4 ]
-

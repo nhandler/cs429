@@ -19,8 +19,6 @@ class GameScreen(Screen):
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
         self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
-        State.inventory = self.player.inventory
-        State.player = self.player
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -104,7 +102,7 @@ class GameScreen(Screen):
                 if event.key == K_p:
                     State.push_screen(PauseScreen(self.player))
                 if event.key == K_i:
-                    State.push_screen(InventoryScreen())
+                    State.push_screen(InventoryScreen(self.player))
 
             if event.key in self.keyboard_input:
                 (old_val, new_val) = self.keyboard_input[event.key]

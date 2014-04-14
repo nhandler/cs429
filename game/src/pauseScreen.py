@@ -25,4 +25,4 @@ class PauseScreen(Screen):
                 if event.key == K_p:
                     State.pop_screen()
 		elif event.key == K_i:
-		    State.push_screen(InventoryScreen())
+		    State.push_screen(InventoryScreen(self.player))
