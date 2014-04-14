@@ -1,6 +1,8 @@
 import pygame
 
 class EntitySprite(pygame.sprite.Sprite):
+    shiftby = (0,0)
+    
     def __init__(self, position, size):
         pygame.sprite.Sprite.__init__(self)
         self.coords = position
@@ -8,6 +10,7 @@ class EntitySprite(pygame.sprite.Sprite):
         self.health = 1
         self.image = pygame.Surface((0, 0))
         self._reset_rect()
+        self.shiftby = (0,0)
 
     def to_json(self):
         (x, y) = self.coords
@@ -36,11 +39,20 @@ class EntitySprite(pygame.sprite.Sprite):
         return (new_x, new_y)
 
     def _reset_rect(self):
+        
         self.rect = self.image.get_rect()
         self.rect.center = self.convertCoords()
+        self.rect = self.rect.move(self.shiftby)
 
     def update(self):
         self._reset_rect()
+        (x,y) = self.shiftby
+        if x > 0: x -= 10
+        elif x < 0: x += 10
+        if y > 0: y -= 10
+        elif y < 0: y += 10
+        self.shiftby = (x,y)
+        
 
     def takeHit(self, amount):
         if self.health > 0:
