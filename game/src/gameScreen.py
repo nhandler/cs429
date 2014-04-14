@@ -117,10 +117,10 @@ class GameScreen(Screen):
         player_enemy_collisions = pygame.sprite.spritecollide(self.player, self.enemy_group, False, self.player_enemy_collide)
 
         for bullet in self.bullet_group:
-            collisions = pygame.sprite.spritecollide(bullet, self.crate_group, False, self.did_crate_collide)
+            collisions = pygame.sprite.spritecollide(bullet, self.crate_group, False, self.did_bullet_collide)
             for crate in collisions:
                 self.bullet_group.remove(bullet)
-            collisions = pygame.sprite.spritecollide(bullet, self.enemy_group, False, self.did_crate_collide)
+            collisions = pygame.sprite.spritecollide(bullet, self.enemy_group, False, self.did_bullet_collide)
             for enemy in collisions:
                 self.bullet_group.remove(bullet)
                 if enemy.health <= 0:
@@ -204,7 +204,7 @@ class GameScreen(Screen):
         else:
             return False
 
-    def did_crate_collide(self, sprite_one, crate_sprite):
+    def did_bullet_collide(self, sprite_one, crate_sprite):
         if sprite_one.coords == crate_sprite.coords:
             crate_sprite.takeHit(self.player.laser)
             return True
