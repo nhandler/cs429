@@ -35,11 +35,8 @@ def main():
     while True:
         events = pygame.event.get()
         for event in events:
-            if not hasattr(event, 'key'):
-                continue
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    sys.exit(0)
+            if event.type == KEYDOWN and event.key == K_ESCAPE:
+                sys.exit(0)
 
         current_screen = State.screens[0]
         current_screen.update(events)
