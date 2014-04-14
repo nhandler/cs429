@@ -11,7 +11,7 @@ from enemy import EnemySprite
 from shooter import ShooterSprite
 from boss import BossSprite
 import tmxloader
-from item import MagicShoes
+from item import MagicShoes, Crystal, Potion, FinalItem1, FinalItem2, FinalItem3, FinalItem4
 from locals import Direction
 
 class Tile():
@@ -32,7 +32,15 @@ class Tile():
             self.height = tmxdata.height
             self.width = tmxdata.width
             data = json.loads(open('{0}{1}.json'.format(path, num)).read())
-            items = {'None': None, 'magicShoes': MagicShoes()}
+            items = {'None': None, 
+                     'magicShoes': MagicShoes(), 
+                     'potion' : Potion(),
+                     'crystal' : Crystal(),
+                     'final1' : FinalItem1(),
+                     'final2' : FinalItem2(),
+                     'final3' : FinalItem3(),
+                     'final4' : FinalItem4(),
+            }
             for crate in data['crates']:
                 self.crates.append(
                     ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])

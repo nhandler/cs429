@@ -16,6 +16,7 @@ MENU_CLOSE = '../res/sounds/close_menu.wav'
 SELECT = '../res/sounds/select.wav'
 LASER = '../res/sounds/laser.wav'
 GAME_MUSIC = '../res/sounds/opening.ogg'
+BOSS_READY = '../res/sounds/boss.wav'
 
 class Direction:
     up = 0

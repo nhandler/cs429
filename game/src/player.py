@@ -1,9 +1,10 @@
 from creature import CreatureSprite
 from bullet import BulletSprite
-from item import Item, MagicShoes, Potion, Crystal
-from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE, LASER
+from item import Item, ItemType, MagicShoes, Potion, Crystal, FinalItem1, FinalItem2
+from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE, LASER, BOSS_READY
 from pygame.locals import *
 import pygame.mixer as pymix
+from state import State
 
 class PlayerSprite (CreatureSprite):
     def __init__(self, position, size, direction):
@@ -12,8 +13,11 @@ class PlayerSprite (CreatureSprite):
 	magicShoes = MagicShoes()
 	other = Item()
         self.inventory = {magicShoes : 2, other : 1, Potion() : 2, Crystal() : 3}
+        self.final_inventory = []
 	self.fire_sound = pymix.Sound(LASER)
         self.laser = 1
+        print "Loading" + BOSS_READY
+        self.boss_ready_sound = pymix.Sound(BOSS_READY)
 
     def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
@@ -48,9 +52,13 @@ class PlayerSprite (CreatureSprite):
     def addItemToInventory(self, item):
         if item is None:
             return
-        if item not in self.inventory:
-            self.inventory[item] = 0
-        self.inventory[item] += 1
+        if item.type in ItemType.final_items:
+            self.final_inventory.append(item)
+            self.check_final_condition()
+        else:
+            if item not in self.inventory:
+                self.inventory[item] = 0
+            self.inventory[item] += 1
 
     def takeItem(self, source):
         self.addItemToInventory(source.item)
@@ -60,3 +68,8 @@ class PlayerSprite (CreatureSprite):
         bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
         group.add(bullet)
 
+    def check_final_condition(self):
+        if(set([x.type for x in self.final_inventory]) == set(ItemType.final_items)):
+            print "All final items collected!"
+            State.boss_ready = True
+            self.boss_ready_sound.play(loops=2)

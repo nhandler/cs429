@@ -1,5 +1,10 @@
 {
-  "crates": [],
+  "crates": [
+      {"x":1, "y":1, "item": "final1"},
+      {"x":1, "y":2, "item": "final2"},
+      {"x":1, "y":3, "item": "final3"},
+      {"x":1, "y":4, "item": "final4"}
+  ],
   "button": [],
   "boss": [],
   "shooters": [],
