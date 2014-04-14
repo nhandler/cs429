@@ -23,10 +23,10 @@ class EntitySprite(pygame.sprite.Sprite):
     def update(self):
         self._reset_rect()
 
-    def takeHit(self):
+    def takeHit(self, amount):
         if self.health > 0:
-            self.health -= 1
-        if self.health == 0:
+            self.health -= amount
+        if self.health <= 0:
             self.dies()
 
     def dies(self):

@@ -20,6 +20,7 @@ class GameScreen(Screen):
         self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
         self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
         State.inventory = self.player.inventory
+        State.player = self.player
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -141,7 +142,7 @@ class GameScreen(Screen):
             collisions = pygame.sprite.spritecollide(bullet, self.player_group, False)
             if collisions:
                 self.enemy_bullet_group.remove(bullet)
-                self.player.takeHit()
+                self.player.takeHit(1)
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: 
                 self.enemy_bullet_group.remove(bullet)
@@ -150,7 +151,7 @@ class GameScreen(Screen):
 
     def player_enemy_collide(self, player, enemy):
         if player.coords == enemy.coords:
-            self.player.takeHit()
+            self.player.takeHit(1)
             self.throwBack(player, enemy.direction)
             return True
         else:
@@ -197,7 +198,7 @@ class GameScreen(Screen):
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):
         if player_sprite.coords == crate_sprite.coords:
-            crate_sprite.takeHit()
+            crate_sprite.takeHit(1)
             self.player.takeItem(crate_sprite)
             return True
         else:
@@ -205,7 +206,7 @@ class GameScreen(Screen):
 
     def did_crate_collide(self, sprite_one, crate_sprite):
         if sprite_one.coords == crate_sprite.coords:
-            crate_sprite.takeHit()
+            crate_sprite.takeHit(self.player.laser)
             return True
         else: 
             return False

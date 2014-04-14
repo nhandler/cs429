@@ -1,6 +1,6 @@
 from creature import CreatureSprite
 from bullet import BulletSprite
-from item import Item, MagicShoes
+from item import Item, MagicShoes, Potion, Crystal
 from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE, LASER
 from pygame.locals import *
 import pygame.mixer as pymix
@@ -11,8 +11,9 @@ class PlayerSprite (CreatureSprite):
         self.health = 10
 	magicShoes = MagicShoes()
 	other = Item()
-        self.inventory = {magicShoes : 2, other : 1}
+        self.inventory = {magicShoes : 2, other : 1, Potion() : 2, Crystal() : 3}
 	self.fire_sound = pymix.Sound(LASER)
+        self.laser = 1
 
     def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
