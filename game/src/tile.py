@@ -28,7 +28,7 @@ class Tile():
             self.height = tmxdata.height
             self.width = tmxdata.width
             data = json.loads(open('{0}{1}.json'.format(path, num)).read())
-            items = {'None': None, 'magicShoes': MagicShoes()}
+            items = {'None': None, MagicShoes.name: MagicShoes}
             for crate in data['crates']:
                 self.crates.append(
                     ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])

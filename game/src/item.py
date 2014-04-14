@@ -3,18 +3,18 @@ class ItemType:
     magicShoes = 1
 
 class Item:
-    def __init__(self):
-        self.name = 'Item'
-        self.type = ItemType.item
+    name = 'Item'
+    type = ItemType.item
     
-    def use(self):
+    @staticmethod
+    def use():
 	print 'Used Item'
         
 class MagicShoes(Item):
-    def __init__(self):
-        self.name = 'Magic Shoes'
-        self.type = ItemType.magicShoes
+    name = 'Magic Shoes'
+    type = ItemType.magicShoes
 
-    def use(self):
+    @staticmethod
+    def use():
         print 'Used Magic Shoes'
     

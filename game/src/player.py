@@ -8,8 +8,8 @@ class PlayerSprite (CreatureSprite):
     def __init__(self, position, size, direction):
         CreatureSprite.__init__(self, PLAYER_IMAGE, position, size, direction)
         self.health = 10
-	magicShoes = MagicShoes()
-	other = Item()
+	magicShoes = MagicShoes
+	other = Item
         self.inventory = {magicShoes : 2, other : 1}
 
     def handle_input(self, keyboard_input, tile):
