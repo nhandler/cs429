@@ -19,9 +19,6 @@ class InteractiveScreen(Screen):
             		'menu': pygame.mixer.Sound(MENU_OPEN),
         	}
 
-	def getNumLines(self):
-		return 0
-
 	def render(self):
 		pass
 
