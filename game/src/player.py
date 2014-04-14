@@ -16,8 +16,6 @@ class PlayerSprite (CreatureSprite):
         self.final_inventory = []
 	self.fire_sound = pymix.Sound(LASER)
         self.laser = 1
-        print "Loading" + BOSS_READY
-        self.boss_ready_sound = pymix.Sound(BOSS_READY)
 
     def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
@@ -72,4 +70,4 @@ class PlayerSprite (CreatureSprite):
         if(set([x.type for x in self.final_inventory]) == set(ItemType.final_items)):
             print "All final items collected!"
             State.boss_ready = True
-            self.boss_ready_sound.play(loops=2)
+            pymix.Sound(BOSS_READY).play(loops=2)
