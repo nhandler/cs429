@@ -104,11 +104,7 @@ class GameScreen(Screen):
 
     def handle_keyboard(self, events):
         
-        self.keyboard_input = { 
-            key: (new_val, new_val) 
-            for key, (old_val, new_val) 
-            in self.keyboard_input.items() 
-        }
+        for (key, (old_val, new_val)) in self.keyboard_input.items():
 
         for event in events:
             if not hasattr(event, 'key'): 
