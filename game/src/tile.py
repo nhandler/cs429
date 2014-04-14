@@ -12,16 +12,17 @@ from shooter import ShooterSprite
 from boss import BossSprite
 import tmxloader
 from item import MagicShoes, Crystal, Potion, FinalItem1, FinalItem2, FinalItem3, FinalItem4
-from locals import Direction
+from locals import Direction, MAPS_DIR
 
 class Tile():
     def __init__(self, path, num, block_size):
-        self.path = None
+        self.save_path = None
+        self.map_path = None
         self.height = 0
         self.width = 0
         self.crates = []
         self.buttons = []
-        self.boss = []
+        self.bosses = []
         self.shooters = []
         self.enemies = []
         self.background = []
@@ -29,11 +30,12 @@ class Tile():
         self.top = []
 
         if path and num:
-            self.path = '{0}{1}'.format(path, num)
-            tmxdata = tmxloader.load_pygame('{0}.tmx'.format(self.path), pixelalpha=True)
+            self.save_path = '{0}{1}'.format(path, num)
+            self.map_path = '{0}{1}'.format(MAPS_DIR, num)
+            tmxdata = tmxloader.load_pygame('{0}.tmx'.format(self.map_path), pixelalpha=True)
             self.height = tmxdata.height
             self.width = tmxdata.width
-            data = json.loads(open('{0}.json'.format(self.path)).read())
+            data = json.loads(open('{0}.json'.format(self.save_path)).read())
 
             self._initialize_entities(data, block_size)
             self._initialize_map(tmxdata)
@@ -53,13 +55,13 @@ class Tile():
                 ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
             )
 
-        for button in data['button']:
+        for button in data['buttons']:
             self.buttons.append(
                 ButtonSprite((button['x'], button['y']), block_size)
             )
 
-        for boss in data['boss']:
-            self.boss.append(
+        for boss in data['bosses']:
+            self.bosses.append(
                 BossSprite((boss['x'], boss['y']), block_size, Direction.left)
             )
 
@@ -95,14 +97,18 @@ class Tile():
                 self.top[x].append(element if element else None)
 
     def save(self):
-        with open('{0}.json'.format(self.path), 'w') as f:
-            data = {'crates': [], 'shooters': [], 'enemies': []}
+        with open('{0}.json'.format(self.save_path), 'w') as f:
+            data = {'crates': [], 'shooters': [], 'enemies': [], 'buttons': [], 'bosses': []}
             for crate in self.crates:
                 data['crates'].append(crate.to_json())
             for shooter in self.shooters:
                 data['shooters'].append(shooter.to_json())
             for enemy in self.enemies:
                 data['enemies'].append(enemy.to_json())
+            for button in self.buttons:
+                data['buttons'].append(button.to_json())
+            for boss in self.bosses:
+                data['boss'].append(boss.to_json())
 
             f.write(json.dumps(data))
 

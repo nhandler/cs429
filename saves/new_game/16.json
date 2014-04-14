@@ -1,0 +1,11 @@
+{
+  "crates": [],
+  "buttons": [
+    {"x": 7, "y": 4}
+  ],
+  "bosses": [
+    {"x": 6, "y": 3}
+  ],
+  "shooters": [],
+  "enemies": []
+}

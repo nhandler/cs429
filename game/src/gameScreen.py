@@ -3,7 +3,7 @@ from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from victoryScreen import VictoryScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, NEW_GAME_DIR, LASER
+from locals import Direction, NEW_GAME_DIR, LASER, CURRENT_GAME_DIR
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -14,7 +14,7 @@ from tileMap import TileMap
 class GameScreen(Screen):
     def __init__(self):
         self.sound = pygame.mixer.Sound(LASER)
-        self.tileMap = TileMap(NEW_GAME_DIR)
+        self.tileMap = TileMap(CURRENT_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
@@ -31,7 +31,7 @@ class GameScreen(Screen):
 
         self.player_group = pygame.sprite.RenderClear(self.player)
         self.enemies = self.tileMap.tile.enemies
-        self.boss = self.tileMap.tile.boss
+        self.boss = self.tileMap.tile.bosses
         self.shooters = self.tileMap.tile.shooters + self.boss
         enemies = self.enemies + self.shooters
         self.enemy_group = pygame.sprite.RenderPlain(*enemies)
@@ -74,7 +74,7 @@ class GameScreen(Screen):
             self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
             self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
             self.enemies = self.tileMap.tile.enemies
-            self.boss = self.tileMap.tile.boss
+            self.boss = self.tileMap.tile.bosses
             self.shooters = self.tileMap.tile.shooters + self.boss
             enemies = self.enemies + self.shooters
             self.enemy_group = pygame.sprite.RenderPlain(*enemies)

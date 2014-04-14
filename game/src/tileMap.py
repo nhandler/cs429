@@ -1,4 +1,5 @@
 import json
+from locals import MAPS_DIR
 from tile import Tile
 
 class TileMap():
@@ -13,10 +14,10 @@ class TileMap():
     def __init__(self, filename):
         self.x = 0
         self.y = 0
-        self.map_path = filename
-        mapdata = json.loads(open(filename + 'main_map.json').read())
+        self.save_path = filename
+        mapdata = json.loads(open(MAPS_DIR + 'main_map.json').read())
         self.tilemapping = zip(*mapdata["map"]) # A little magic to rotate the array
-        self.tile = Tile(self.map_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+        self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
 
     def update(self, player, enemy_group):
         
@@ -42,26 +43,26 @@ class TileMap():
         if (px == TileMap.TILE_LEFT and self.x - 1 >= 0):
             self.x -= 1
             self.tile.save()
-            self.tile = Tile(self.map_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (self.width-1, py)
             return False
         elif (px == TileMap.TILE_RIGHT and self.x + 1 < len(self.tilemapping)):
             self.x += 1
             self.tile.save()
-            self.tile = Tile(self.map_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (0, py)
             return False
         
         if (py == TileMap.TILE_UP and self.y - 1 >= 0):
             self.y -= 1
             self.tile.save()
-            self.tile = Tile(self.map_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (px, self.height-1)
             return False
         elif (py == TileMap.TILE_DOWN and self.y + 1 < len(self.tilemapping[0])):
             self.y += 1
             self.tile.save()
-            self.tile = Tile(self.map_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (px, 0)
             return False
         
