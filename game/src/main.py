@@ -1,6 +1,7 @@
 import pygame 
 import sys
 from gameScreen import GameScreen
+from gameMenuScreen import GameMenuScreen
 from pygame.locals import *
 from locals import GAME_MUSIC
 from state import State
@@ -27,7 +28,7 @@ pygame.display.flip()
 
 
 def main():
-    State.screens = [GameScreen()]
+    State.screens = [GameMenuScreen()]
     pygame.mixer.music.load(GAME_MUSIC)
     #pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
