@@ -15,6 +15,7 @@ class InventoryScreen(InteractiveScreen):
 		for (item, amount) in self.player.inventory.iteritems():
 			line = '{0} x {1}'.format(item.name, amount)
 			self.lines.append(line)
+			
 	
 	def render(self):
 		black = (0, 0, 0)
@@ -52,6 +53,7 @@ class InventoryScreen(InteractiveScreen):
                                 				item.use(self.player)
                                 				State.pop_screen()
                         			i += 1
+
 				else:
 					super(InventoryScreen, self).interact(event)
 

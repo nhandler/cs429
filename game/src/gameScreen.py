@@ -33,6 +33,7 @@ class GameScreen(Screen):
         self.enemies = self.tileMap.tile.enemies
         self.boss = self.tileMap.tile.bosses
         self.shooters = self.tileMap.tile.shooters + self.boss
+        self.shooters = self.tileMap.tile.shooters
         enemies = self.enemies + self.shooters
         self.enemy_group = pygame.sprite.RenderPlain(*enemies)
         self.bullet_group = pygame.sprite.Group()
