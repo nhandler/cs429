@@ -66,7 +66,7 @@ class GameScreen(Screen):
 
 
     def update(self, events):
-        
+
         self.handle_keyboard(events)
         self.player.handle_input(self.keyboard_input, self.tileMap.tile, self.bullet_group)
 

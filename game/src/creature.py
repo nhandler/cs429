@@ -56,12 +56,16 @@ class CreatureSprite(EntitySprite):
         (x, y) = self.coords
         if direction == Direction.up and tile.is_walkable(x, y - 1):
             y -= 1
+            self.shiftby = (0,self.height)
         elif direction == Direction.down and tile.is_walkable(x, y + 1):
             y += 1
+            self.shiftby = (0,-self.height)
         elif direction == Direction.left and tile.is_walkable(x - 1, y):
             x -= 1
+            self.shiftby = (self.width, 0)
         elif direction == Direction.right and tile.is_walkable(x + 1, y):
             x += 1
+            self.shiftby = (-self.width, 0)
         self.coords = (x, y)
 
     def isOutOfBounds(self, width, height, left, right, up, down):
