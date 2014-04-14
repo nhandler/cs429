@@ -1,20 +1,56 @@
-class ItemType:
-    item = 0
-    magicShoes = 1
-
 class Item:
-    def __init__(self):
-        self.name = 'Item'
-        self.type = ItemType.item
+    name = 'Item'
     
-    def use(self):
+    @staticmethod
+    def use(player):
 	print 'Used Item'
         
 class MagicShoes(Item):
-    def __init__(self):
-        self.name = 'Magic Shoes'
-        self.type = ItemType.magicShoes
+    name = 'Magic Shoes'
 
-    def use(self):
+    @staticmethod
+    def use(player):
         print 'Used Magic Shoes'
     
+    
+class Potion(Item):
+    name = 'Potion'
+
+    @staticmethod
+    def use(player):
+        player.health += 10
+
+class Crystal(Item):
+    name = 'Energy Crystal'
+    
+    @staticmethod
+    def use(player):
+        player.laser += 1
+
+class FinalItem1(Item):
+    name = 'Goat\'s Foot'
+
+    @staticmethod
+    def use(player):
+        pass
+
+class FinalItem2(Item):
+    name = 'Virgin Sacrifice'
+
+    def use(player):
+        pass
+
+class FinalItem3(Item):
+    name = 'Ghost Soul'
+        
+    def use(player):
+        pass
+
+class FinalItem4(Item):
+    name = 'Narcissus'
+        
+    def use(player):
+        pass
+
+class ItemType:
+    final_items = [FinalItem1, FinalItem2, FinalItem3, FinalItem4 ]

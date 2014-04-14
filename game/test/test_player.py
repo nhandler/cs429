@@ -18,13 +18,15 @@ class TestPlayer(unittest.TestCase):
     background.fill(BLACK)
 
     def setUp(self):
-        self.player = PlayerSprite('Hero.png', (5, 5), (60, 60), Direction.down)
-        self.item = MagicShoes()
+        pygame.mixer.init()
+        self.player = PlayerSprite((5, 5), (60, 60), Direction.down)
+        self.item = MagicShoes
 
     def test_AddItemToInventory(self):
-        self.player.addItemToInventory(self.item)
         inventory = self.player.inventory
-        self.assertEqual(inventory[self.item], self.item.type)
+        current_amount = inventory[self.item]
+        self.player.addItemToInventory(self.item)
+        self.assertEqual(inventory[self.item], current_amount + 1)
 
 if __name__ == '__main__':
     unittest.main()

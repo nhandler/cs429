@@ -5,17 +5,19 @@
     {"x": 2, "y": 3, "item": "None"},
     {"x": 9, "y": 5, "item": "None"},
     {"x": 9, "y": 2, "item": "None"},
-    {"x": 3, "y": 6, "item": "magicShoes"},
+    {"x": 3, "y": 6, "item": "Magic Shoes"},
     {"x": 7, "y": 4, "item": "None"},
     {"x": 8, "y": 8, "item": "None"},
     {"x": 2, "y": 1, "item": "None"}
   ],
+  "button": [],
+  "boss": [],
   "shooters": [
-    {"image": "../res/enemy_red.png", "x": 0, "y": 0},
-    {"image": "../res/enemy_red.png", "x": 10, "y": 10}
+    {"x": 0, "y": 0},
+    {"x": 10, "y": 10}
   ],
   "enemies": [
-    {"image": "../res/enemy_yellow.png", "x": 0, "y": 10},
-    {"image": "../res/enemy_yellow.png", "x": 10, "y": 0}
+    {"x": 0, "y": 10},
+    {"x": 10, "y": 0}
   ]
 }

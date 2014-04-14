@@ -6,10 +6,12 @@ sys.path.insert(0, '../../pytmx')
 
 from pygame.locals import *
 from crate import ObjectSprite
+from button import ButtonSprite
 from enemy import EnemySprite
 from shooter import ShooterSprite
+from boss import BossSprite
 import tmxloader
-from item import MagicShoes
+from item import MagicShoes, Crystal, Potion, FinalItem1, FinalItem2, FinalItem3, FinalItem4
 from locals import Direction
 
 class Tile():
@@ -18,6 +20,8 @@ class Tile():
         self.height = 0
         self.width = 0
         self.crates = []
+        self.buttons = []
+        self.boss = []
         self.shooters = []
         self.enemies = []
         self.background = []
@@ -35,20 +39,38 @@ class Tile():
             self._initialize_map(tmxdata)
 
     def _initialize_entities(self, data, block_size):
-        items = {'None': None, 'magicShoes': MagicShoes()}
+        items = {'None': None, 
+         'Magic Shoes': MagicShoes, 
+         'potion' : Potion,
+         'crystal' : Crystal,
+         'final1' : FinalItem1,
+         'final2' : FinalItem2,
+         'final3' : FinalItem3,
+         'final4' : FinalItem4,
+        }
         for crate in data['crates']:
             self.crates.append(
                 ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
             )
 
+        for button in data['button']:
+            self.buttons.append(
+                ButtonSprite((button['x'], button['y']), block_size)
+            )
+
+        for boss in data['boss']:
+            self.boss.append(
+                BossSprite((boss['x'], boss['y']), block_size, Direction.left)
+            )
+
         for shooter in data['shooters']:
             self.shooters.append(
-                ShooterSprite(shooter['image'], (shooter['x'], shooter['y']), block_size, Direction.up)
+                ShooterSprite((shooter['x'], shooter['y']), block_size, Direction.up)
             )
 
         for enemy in data['enemies']:
             self.enemies.append(
-                EnemySprite(enemy['image'], (enemy['x'], enemy['y']), block_size, Direction.up)
+                EnemySprite((enemy['x'], enemy['y']), block_size, Direction.up)
             )
 
     def _initialize_map(self, tmxdata):
