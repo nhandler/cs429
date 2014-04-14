@@ -4,10 +4,10 @@ def get_items():
         'Magic Shoes': MagicShoes,
         'potion': Potion,
         'crystal': Crystal,
-        'final1': FinalItem1,
-        'final2': FinalItem2,
-        'final3': FinalItem3,
-        'final4': FinalItem4
+        'Goat\'s Foot': FinalItem1,
+        'Virgin Sacrifice': FinalItem2,
+        'Ghost Soul': FinalItem3,
+        'Narcissus': FinalItem4
     }
 
 class Item:
