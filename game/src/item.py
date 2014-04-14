@@ -8,10 +8,6 @@ def get_items():
         'Virgin Sacrifice': FinalItem2,
         'Ghost Soul': FinalItem3,
         'Narcissus': FinalItem4,
-	'final1' : FinalItem1,
-	'final2' : FinalItem2,
-	'final3' : FinalItem3,
-	'final4' : FinalItem4
     }
 
 class Item:
