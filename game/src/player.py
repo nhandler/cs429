@@ -1,19 +1,46 @@
 from creature import CreatureSprite
 from bullet import BulletSprite
-from item import Item, ItemType, MagicShoes, Potion, Crystal, FinalItem1, FinalItem2
+from item import Item, ItemType, MagicShoes, Potion, Crystal, FinalItem1, FinalItem2, get_items
 from locals import Direction, BULLET_IMAGE, PLAYER_IMAGE, LASER, BOSS_READY
 from pygame.locals import *
 import pygame.mixer as pymix
 from state import State
 
 class PlayerSprite (CreatureSprite):
-    def __init__(self, position, size, direction):
+    def __init__(self, position=(0, 0), size=(0, 0), direction=Direction.down, json=None):
         CreatureSprite.__init__(self, PLAYER_IMAGE, position, size, direction)
-        self.health = 10
-        self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
-        self.final_inventory = []
+        if json:
+            self.inventory = {}
+            self.final_inventory = []
+            self.from_json(json)
+        else:
+            self.health = 10
+            self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
+            self.final_inventory = []
 	self.fire_sound = pymix.Sound(LASER)
         self.laser = 1
+
+    def to_json(self):
+        json = CreatureSprite.to_json(self)
+        json['health'] = self.health
+        json['inventory'] = {}
+        for item, num in self.inventory.items():
+            json['inventory'][item.name] = num
+        json['final inventory'] = []
+        for item in self.final_inventory:
+            json['final inventory'].append(item.name)
+
+        return json
+
+    def from_json(self, json):
+        CreatureSprite.from_json(self, json)
+        self.health = json['health']
+        items = get_items()
+        for name, num in json['inventory'].items():
+            for i in range(0, num):
+                self.addItemToInventory(items[name])
+        for name in json['final inventory']:
+            self.addItemToInventory(items[name])
 
     def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
@@ -48,11 +75,7 @@ class PlayerSprite (CreatureSprite):
     def addItemToInventory(self, item):
         if item is None:
             return
-<<<<<<< HEAD
-        if item in ItemType.final_items:
-=======
         if item.__class__ in ItemType.final_items:
->>>>>>> Removing item integer types
             self.final_inventory.append(item)
             self.check_final_condition()
         else:
@@ -69,11 +92,7 @@ class PlayerSprite (CreatureSprite):
         group.add(bullet)
 
     def check_final_condition(self):
-<<<<<<< HEAD
-        if(set([x for x in self.final_inventory]) == set(ItemType.final_items)):
-=======
         if(set([x.__class__ for x in self.final_inventory]) == set(ItemType.final_items)):
->>>>>>> Removing item integer types
             print "All final items collected!"
             State.boss_ready = True
             pymix.Sound(BOSS_READY).play(loops=2)

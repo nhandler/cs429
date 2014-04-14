@@ -11,16 +11,18 @@ from enemy import EnemySprite
 from shooter import ShooterSprite
 from boss import BossSprite
 import tmxloader
-from item import MagicShoes, Crystal, Potion, FinalItem1, FinalItem2, FinalItem3, FinalItem4
-from locals import Direction
+from item import get_items
+from locals import Direction, MAPS_DIR
 
 class Tile():
     def __init__(self, path, num, block_size):
+        self.save_path = None
+        self.map_path = None
         self.height = 0
         self.width = 0
         self.crates = []
         self.buttons = []
-        self.boss = []
+        self.bosses = []
         self.shooters = []
         self.enemies = []
         self.background = []
@@ -28,63 +30,79 @@ class Tile():
         self.top = []
 
         if path and num:
-            tmxdata = tmxloader.load_pygame('{0}{1}.tmx'.format(path, num), pixelalpha=True)
+            self.save_path = '{0}{1}'.format(path, num)
+            self.map_path = '{0}{1}'.format(MAPS_DIR, num)
+            tmxdata = tmxloader.load_pygame('{0}.tmx'.format(self.map_path), pixelalpha=True)
             self.height = tmxdata.height
             self.width = tmxdata.width
-            data = json.loads(open('{0}{1}.json'.format(path, num)).read())
-            items = {'None': None, 
-                     'Magic Shoes': MagicShoes, 
-                     'potion' : Potion,
-                     'crystal' : Crystal,
-                     'final1' : FinalItem1,
-                     'final2' : FinalItem2,
-                     'final3' : FinalItem3,
-                     'final4' : FinalItem4,
-            }
-            for crate in data['crates']:
-                self.crates.append(
-                    ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
-                )
+            data = json.loads(open('{0}.json'.format(self.save_path)).read())
 
-            for button in data['button']:
-                self.buttons.append(
-                    ButtonSprite((button['x'], button['y']), block_size)
-                )
+            self._initialize_entities(data, block_size)
+            self._initialize_map(tmxdata)
 
-            for boss in data['boss']:
-                self.boss.append(
-                    BossSprite((boss['x'], boss['y']), block_size, Direction.left)
-                )
+    def _initialize_entities(self, data, block_size):
+        items = get_items() 
+        for crate in data['crates']:
+            self.crates.append(
+                ObjectSprite(json=crate)
+            )
 
-            for shooter in data['shooters']:
-                self.shooters.append(
-                    ShooterSprite((shooter['x'], shooter['y']), block_size, Direction.up)
-                )
+        for button in data['buttons']:
+            self.buttons.append(
+                ButtonSprite(json=button)
+            )
 
-            for enemy in data['enemies']:
-                self.enemies.append(
-                    EnemySprite((enemy['x'], enemy['y']), block_size, Direction.up)
-                )
+        for boss in data['bosses']:
+            self.bosses.append(
+                BossSprite(json=boss)
+            )
 
-            background_index = tmxdata.tilelayers.index(
-                tmxdata.getTileLayerByName('Background'))
-            foreground_index = tmxdata.tilelayers.index(
-                tmxdata.getTileLayerByName('Foreground'))
-            top_index = tmxdata.tilelayers.index(
-                tmxdata.getTileLayerByName('Top'))
-            for x in range(0, self.width):
-                self.background.append([])
-                self.foreground.append([])
-                self.top.append([])
-                for y in range(0, self.height):
-                    element = tmxdata.getTileImage(x, y, background_index)
-                    self.background[x].append(element if element else None)
+        for shooter in data['shooters']:
+            self.shooters.append(
+                ShooterSprite(json=shooter)
+            )
 
-                    element = tmxdata.getTileImage(x, y, foreground_index)
-                    self.foreground[x].append(element if element else None)
+        for enemy in data['enemies']:
+            self.enemies.append(
+                EnemySprite(json=enemy)
+            )
 
-                    element = tmxdata.getTileImage(x, y, top_index)
-                    self.top[x].append(element if element else None)
+    def _initialize_map(self, tmxdata):
+        background_index = tmxdata.tilelayers.index(
+            tmxdata.getTileLayerByName('Background'))
+        foreground_index = tmxdata.tilelayers.index(
+            tmxdata.getTileLayerByName('Foreground'))
+        top_index = tmxdata.tilelayers.index(
+            tmxdata.getTileLayerByName('Top'))
+        for x in range(0, self.width):
+            self.background.append([])
+            self.foreground.append([])
+            self.top.append([])
+            for y in range(0, self.height):
+                element = tmxdata.getTileImage(x, y, background_index)
+                self.background[x].append(element if element else None)
+
+                element = tmxdata.getTileImage(x, y, foreground_index)
+                self.foreground[x].append(element if element else None)
+
+                element = tmxdata.getTileImage(x, y, top_index)
+                self.top[x].append(element if element else None)
+
+    def save(self):
+        with open('{0}.json'.format(self.save_path), 'w') as f:
+            data = {'crates': [], 'shooters': [], 'enemies': [], 'buttons': [], 'bosses': []}
+            for crate in self.crates:
+                data['crates'].append(crate.to_json())
+            for shooter in self.shooters:
+                data['shooters'].append(shooter.to_json())
+            for enemy in self.enemies:
+                data['enemies'].append(enemy.to_json())
+            for button in self.buttons:
+                data['buttons'].append(button.to_json())
+            for boss in self.bosses:
+                data['boss'].append(boss.to_json())
+
+            f.write(json.dumps(data))
 
     def is_walkable(self, x, y):
         try:

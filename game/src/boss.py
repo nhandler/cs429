@@ -5,10 +5,23 @@ from locals import Direction, SHOOTER_BULLET_IMAGE, BOSS_IMAGE
 
 class BossSprite (ShooterSprite):
 
-    def __init__(self, position, size, direction):
+    def __init__(self, position=(0, 0), size=(0, 0), direction=Direction.down, json=None):
         ShooterSprite.__init__(self, position, size, direction)
+        if json:
+            self.from_json(json)
+        else:
+            self.health = 50
         self._create_spritesheet(BOSS_IMAGE)
-        self.health = 50
+
+    def to_json(self):
+        json = ShooterSprite.to_json(self)
+        json['health'] = 50
+
+        return json
+
+    def from_json(self, json):
+        ShooterSprite.from_json(self, json)
+        self.health = json['health']
 
     def act(self, tile):
         i = random.randint(1, 2)

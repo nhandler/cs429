@@ -1,8 +1,9 @@
 import pygame 
+import shutil
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, NEW_GAME_DIR, LASER
+from locals import Direction, NEW_GAME_DIR, LASER, CURRENT_GAME_DIR, SAVES_DIR
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -13,7 +14,7 @@ from tileMap import TileMap
 class GameScreen(Screen):
     def __init__(self):
         self.sound = pygame.mixer.Sound(LASER)
-        self.tileMap = TileMap(NEW_GAME_DIR)
+        self.tileMap = TileMap(CURRENT_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
@@ -30,14 +31,29 @@ class GameScreen(Screen):
 
         self.player_group = pygame.sprite.RenderClear(self.player)
         self.enemies = self.tileMap.tile.enemies
-        self.shooters = self.tileMap.tile.shooters
+        self.boss = self.tileMap.tile.bosses
+        self.shooters = self.tileMap.tile.shooters + self.boss
         enemies = self.enemies + self.shooters
         self.enemy_group = pygame.sprite.RenderPlain(*enemies)
         self.bullet_group = pygame.sprite.Group()
         self.enemy_bullet_group = pygame.sprite.Group()
         self.player_group.update()
         self.enemy_group.update()
-        
+
+    def save(self, save_dir):
+        with open(SAVES_DIR + save_dir + 'player.json', 'w') as f:
+            f.write(self.player.to_json())
+        #TODO remove this hardcoding
+        self.tileMap.tile.save()
+        for i in range(0, 17):
+            shutil.copy('{0}{1}.json'.format(CURRENT_GAME_DIR, i), '{0}{1}.json'.format(SAVES_DIR + save_dir, i))
+
+    def load(self, save_dir):
+        #TODO remove this hardcoding
+        for i in range(0, 17):
+            shutil.copy('{0}{1}.json'.format(SAVES_DIR + save_dir, i), '{0}{1}.json'.format(CURRENT_GAME_DIR, i))
+            shutil.copy(SAVES_DIR + save_dir + 'player.json', CURRENT_GAME_DIR + 'player.json')
+
     def render(self):
         self.tileMap.draw(State.screen)
         self.crate_group.draw(State.screen)
@@ -70,7 +86,8 @@ class GameScreen(Screen):
         else:
             self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
             self.enemies = self.tileMap.tile.enemies
-            self.shooters = self.tileMap.tile.shooters
+            self.boss = self.tileMap.tile.bosses
+            self.shooters = self.tileMap.tile.shooters + self.boss
             enemies = self.enemies + self.shooters
             self.enemy_group = pygame.sprite.RenderPlain(*enemies)
 
@@ -121,6 +138,10 @@ class GameScreen(Screen):
                 self.bullet_group.remove(bullet)
                 if enemy.health <= 0:
                     self.enemy_group.remove(enemy)
+                    try:
+                        self.tileMap.tile.enemies.remove(enemy)
+                    except ValueError:
+                        self.tileMap.tile.shooters.remove(enemy)
                     if enemy in self.shooters:
                         self.shooters.remove(enemy)
             (x, y) = bullet.coords

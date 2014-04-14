@@ -5,10 +5,25 @@ from SpriteSheetAnim import SpriteStripAnim
 
 class CreatureSprite(EntitySprite):
     def __init__(self, image_filename, position, size, direction):
-        EntitySprite.__init__(self, position, size, direction)
-        self._create_spritesheet(image_filename)
+        EntitySprite.__init__(self, position, size)
         self.action_wait_val = 12
         self.iters_until_action = 0
+        self.direction = direction
+        self._create_spritesheet(image_filename)
+
+    def to_json(self):
+        json = EntitySprite.to_json(self)
+        json['action_wait_val'] = self.action_wait_val
+        json['iters_until_action'] = self.iters_until_action
+        json['direction'] = self.direction
+        
+        return json
+
+    def from_json(self, json):
+        EntitySprite.from_json(self, json)
+        self.action_wait_val = json['action_wait_val']
+        self.iters_until_action = json['iters_until_action']
+        self.direction = json['direction']
     
     def _create_spritesheet(self, image_filename):
         self.strips = self.imageStrips(image_filename)
