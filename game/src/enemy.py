@@ -3,9 +3,12 @@ from creature import CreatureSprite
 from locals import Direction, ENEMY_IMAGE
 
 class EnemySprite (CreatureSprite):
-    def __init__(self, position, size, direction):
+    def __init__(self, position=(0, 0), size=(0, 0), direction=Direction.down, json=None):
         CreatureSprite.__init__(self, ENEMY_IMAGE, position, size, direction)
-        self.health = 3
+        if json:
+            self.from_json(json)
+        else:
+            self.health = 3
 
     def to_json(self):
         json = CreatureSprite.to_json(self)

@@ -1,31 +1,36 @@
 import pygame
 from entity import EntitySprite
-from locals import Direction, CRATE_IMAGE, BURNING_CRATE_IMAGE
+from item import get_items
+from locals import CRATE_IMAGE, BURNING_CRATE_IMAGE
 
 class ObjectSprite (EntitySprite):
     normal = pygame.image.load(CRATE_IMAGE)
     hit = pygame.image.load(BURNING_CRATE_IMAGE)
 
-    def __init__ (self, position, size, item):
-        EntitySprite.__init__(self, position, size, Direction.down)
+    def __init__ (self, position=(0, 0), size=(0, 0), item=None, json=None):
+        EntitySprite.__init__(self, position, size)
+        if json:
+            self.from_json(json)
+        else:
+            self.health = 3
+            self.item = item
         self.image = self._scale(self.normal)
         self._reset_rect()
-        self.health = 3
-        self.item = item
 
     def to_json(self):
         json = EntitySprite.to_json(self)
         json['health'] = self.health
-        #TODO: add proper item support
-        json['item'] = 'None'
+        if self.item:
+            json['item'] = self.item.name
+        else:
+            json['item'] = 'None'
 
         return json
 
     def from_json(self, json):
         EntitySprite.from_json(self, json)
         self.health = json['health']
-        #TODO: add proper item support
-#        self.item = json['item']
+        self.item = get_items()[json['item']]
 
     def _scale(self, image):
         return pygame.transform.scale(image, (self.width, self.height))

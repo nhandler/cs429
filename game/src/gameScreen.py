@@ -1,9 +1,10 @@
 import pygame 
+import shutil
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from victoryScreen import VictoryScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, NEW_GAME_DIR, LASER, CURRENT_GAME_DIR
+from locals import Direction, NEW_GAME_DIR, LASER, CURRENT_GAME_DIR, SAVES_DIR
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
@@ -39,7 +40,21 @@ class GameScreen(Screen):
         self.enemy_bullet_group = pygame.sprite.Group()
         self.player_group.update()
         self.enemy_group.update()
-        
+
+    def save(self, save_dir):
+        with open(SAVES_DIR + save_dir + 'player.json', 'w') as f:
+            f.write(self.player.to_json())
+        #TODO remove this hardcoding
+        self.tileMap.tile.save()
+        for i in range(0, 17):
+            shutil.copy('{0}{1}.json'.format(CURRENT_GAME_DIR, i), '{0}{1}.json'.format(SAVES_DIR + save_dir, i))
+
+    def load(self, save_dir):
+        #TODO remove this hardcoding
+        for i in range(0, 17):
+            shutil.copy('{0}{1}.json'.format(SAVES_DIR + save_dir, i), '{0}{1}.json'.format(CURRENT_GAME_DIR, i))
+            shutil.copy(SAVES_DIR + save_dir + 'player.json', CURRENT_GAME_DIR + 'player.json')
+
     def render(self):
         self.tileMap.draw(State.screen)
         self.crate_group.draw(State.screen)

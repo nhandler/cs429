@@ -1,3 +1,15 @@
+def get_items():
+    return {
+        'None': None,
+        'Magic Shoes': MagicShoes,
+        'potion': Potion,
+        'crystal': Crystal,
+        'final1': FinalItem1,
+        'final2': FinalItem2,
+        'final3': FinalItem3,
+        'final4': FinalItem4
+    }
+
 class Item:
     name = 'Item'
     

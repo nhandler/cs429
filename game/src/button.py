@@ -1,12 +1,14 @@
 import pygame
 from entity import EntitySprite
-from locals import Direction, MEDAL_IMAGE
+from locals import MEDAL_IMAGE
 
 class ButtonSprite (EntitySprite):
     normal = pygame.image.load(MEDAL_IMAGE)
 
-    def __init__ (self, position, size):
-        EntitySprite.__init__(self, position, size, Direction.down)
+    def __init__ (self, position=(0, 0), size=(0, 0), json=None):
+        EntitySprite.__init__(self, position, size)
+        if json:
+            self.from_json(json)
         self.image = self._scale(self.normal)
         self._reset_rect()
 

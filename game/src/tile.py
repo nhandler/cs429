@@ -11,7 +11,7 @@ from enemy import EnemySprite
 from shooter import ShooterSprite
 from boss import BossSprite
 import tmxloader
-from item import MagicShoes, Crystal, Potion, FinalItem1, FinalItem2, FinalItem3, FinalItem4
+from item import get_items
 from locals import Direction, MAPS_DIR
 
 class Tile():
@@ -41,38 +41,30 @@ class Tile():
             self._initialize_map(tmxdata)
 
     def _initialize_entities(self, data, block_size):
-        items = {'None': None, 
-         'Magic Shoes': MagicShoes, 
-         'potion' : Potion,
-         'crystal' : Crystal,
-         'final1' : FinalItem1,
-         'final2' : FinalItem2,
-         'final3' : FinalItem3,
-         'final4' : FinalItem4,
-        }
+        items = get_items() 
         for crate in data['crates']:
             self.crates.append(
-                ObjectSprite((crate['x'], crate['y']), block_size, items[crate['item']])
+                ObjectSprite(json=crate)
             )
 
         for button in data['buttons']:
             self.buttons.append(
-                ButtonSprite((button['x'], button['y']), block_size)
+                ButtonSprite(json=button)
             )
 
         for boss in data['bosses']:
             self.bosses.append(
-                BossSprite((boss['x'], boss['y']), block_size, Direction.left)
+                BossSprite(json=boss)
             )
 
         for shooter in data['shooters']:
             self.shooters.append(
-                ShooterSprite((shooter['x'], shooter['y']), block_size, Direction.up)
+                ShooterSprite(json=shooter)
             )
 
         for enemy in data['enemies']:
             self.enemies.append(
-                EnemySprite((enemy['x'], enemy['y']), block_size, Direction.up)
+                EnemySprite(json=enemy)
             )
 
     def _initialize_map(self, tmxdata):

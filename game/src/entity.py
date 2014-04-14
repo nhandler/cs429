@@ -1,14 +1,13 @@
 import pygame
 
 class EntitySprite(pygame.sprite.Sprite):
-    def __init__(self, position, size, direction):
+    def __init__(self, position, size):
         pygame.sprite.Sprite.__init__(self)
         self.coords = position
         self.width, self.height = size
-        self.direction = direction
+        self.health = 1
         self.image = pygame.Surface((0, 0))
         self._reset_rect()
-        self.health = 1
 
     def to_json(self):
         (x, y) = self.coords
@@ -17,7 +16,6 @@ class EntitySprite(pygame.sprite.Sprite):
             'y': y,
             'width': self.width,
             'height': self.height,
-            'direction': self.direction,
             'health': self.health
         }
         
@@ -29,7 +27,6 @@ class EntitySprite(pygame.sprite.Sprite):
         self.coords = (x, y)
         self.width = json['width']
         self.height = json['height']
-        self.direction = json['direction']
         self.health = json['health']
 
     def convertCoords(self):

@@ -1,11 +1,13 @@
 import random
 from bullet import BulletSprite
 from enemy import EnemySprite
-from locals import SHOOTER_BULLET_IMAGE, SHOOTER_IMAGE
+from locals import SHOOTER_BULLET_IMAGE, SHOOTER_IMAGE, Direction
 
 class ShooterSprite (EnemySprite):
-    def __init__(self, position, size, direction):
+    def __init__(self, position=(0, 0), size=(0, 0), direction=Direction.down, json=None):
         EnemySprite.__init__(self, position, size, direction)
+        if json:
+            self.from_json(json)
         self._create_spritesheet(SHOOTER_IMAGE)
 
     def shouldShoot(self, px, py):
