@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0,'../../src')
 from creature import CreatureSprite
 from bullet import BulletSprite
-from locals import Direction
+from locals import Direction, PLAYER_IMAGE, BULLET_IMAGE
 from tile import Tile
 from gameScreen import GameScreen
 from player import PlayerSprite
@@ -12,16 +12,13 @@ from state import State
 
 @step('The creature is at \((\d+),\s*(\d+)\)')
 def creature_at(step, x, y):
-    world.TestCreature.creature = CreatureSprite('Hero.png', (int(x), int(y)), (60, 60), Direction.up)
+    world.TestCreature.creature = CreatureSprite(PLAYER_IMAGE, (int(x), int(y)), (60, 60), Direction.up)
     world.TestCreature.tile = Tile(None, None, (int(x), int(y)))
 
 @step('The player is at \((\d+),\s*(\d+)\)')
 def player_at(step, x, y):
-    world.TestPlayer.player = PlayerSprite('Hero.png', (int(x), int(y)), (60, 60), Direction.down)
-    pygame.init()
-    screen = pygame.display.set_mode((800, 600))
-    world.TestGameScreen.screen = GameScreen()
-    
+    pygame.mixer.init()
+    world.TestPlayer.player = PlayerSprite((int(x), int(y)), (60, 60), Direction.down)
 
 @step('A collision has (not)? occurred')
 def collission(step, not_collision):
@@ -60,13 +57,13 @@ def creature_now_at(step, x, y):
 @step('The bullet is at \((\d+),\s*(\d+)\) moving (\w+)')
 def bullet_at(step, x, y, direction):
     if direction.lower() == "up":
-        world.TestBullet.bullet = BulletSprite('bullet.png', (int(x), int(y)), (60, 60), Direction.up)
+        world.TestBullet.bullet = BulletSprite(BULLET_IMAGE, (int(x), int(y)), (60, 60), Direction.up)
     elif direction.lower() == "down":
-        world.TestBullet.bullet = BulletSprite('bullet.png', (int(x), int(y)), (60, 60), Direction.down)
+        world.TestBullet.bullet = BulletSprite(BULLET_IMAGE, (int(x), int(y)), (60, 60), Direction.down)
     elif direction.lower() == "right":
-        world.TestBullet.bullet = BulletSprite('bullet.png', (int(x), int(y)), (60, 60), Direction.right)
+        world.TestBullet.bullet = BulletSprite(BULLET_IMAGE, (int(x), int(y)), (60, 60), Direction.right)
     elif direction.lower() == "left":
-        world.TestBullet.bullet = BulletSprite('bullet.png', (int(x), int(y)), (60, 60), Direction.left)
+        world.TestBullet.bullet = BulletSprite(BULLET_IMAGE, (int(x), int(y)), (60, 60), Direction.left)
     else:
         pass
 
@@ -90,5 +87,5 @@ def add_item(step):
 @step('Then the item is in the inventory')
 def item_in_inventory(step):
     inventory = world.TestPlayer.player.inventory
-    assert inventory[world.TestPlayer.item] == world.TestPlayer.item.type, \
+    assert inventory[world.TestPlayer.item] == 1, \
         "Item not added to inventory"
