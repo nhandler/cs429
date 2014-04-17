@@ -3,8 +3,8 @@ from locals import MAPS_DIR
 from tile import Tile
 
 class TileMap():
-    height = 8
-    width = 8
+    height = 12
+    width = 12
     BLOCK_SIZE = (60, 60)
     TILE_UP = -1
     TILE_DOWN = -2
