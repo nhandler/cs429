@@ -1,5 +1,9 @@
 *.py[cod]
 
+# save files
+saves/current_game
+saves/user_saves
+
 # C extensions
 *.so
 
