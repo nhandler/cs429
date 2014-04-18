@@ -1,5 +1,5 @@
 #Maps and save data
-USER_SAVES_DIR = '../../saves/user_saves'
+USER_SAVES_DIR = '../../saves/user_saves/'
 CURRENT_GAME_DIR = '../../saves/current_game/'
 MAPS_DIR = '../../maps/'
 NEW_GAME_DIR = '../../saves/new_game/'
