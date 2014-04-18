@@ -141,10 +141,10 @@ class GameScreen(Screen):
                     try:
                         self.tileMap.tile.enemies.remove(enemy)
                     except ValueError:
-                        self.tileMap.tile.shooters.remove(enemy)
-                    if enemy in self.shooters:
-                        self.shooters.remove(enemy)
-                        if enemy in self.boss:
+                        try:
+                            self.tileMap.tile.shooters.remove(enemy)
+                        except ValueError:
+                            self.tileMap.tile.bosses.remove(enemy)
                             self.victory()
             (x, y) = bullet.coords
             if y < 0 or y > TileMap.height - 1: 
@@ -230,7 +230,8 @@ class GameScreen(Screen):
 
     def did_player_button_collide(self, player_sprite, button_sprite):
         if player_sprite.coords == button_sprite.coords:
-            self.enemy_group.remove(self.boss[0])
+            if self.boss:
+                self.enemy_group.remove(self.boss[0])
             self.shooters = []
             self.victory()
             return True
