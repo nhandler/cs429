@@ -42,7 +42,7 @@ class GameMenuScreen(InteractiveScreen):
 			if event.type == KEYDOWN:
 				if event.key == K_RETURN:
 					if self.currLine == GameMenuScreenLine.NewGame:
-						State.push_screen(GameScreen())
+						State.push_screen(GameScreen(NEW_GAME_DIR))
 					elif self.currLine == GameMenuScreenLine.LoadGame:
 						print 'Load Game'
 					elif self.currLine == GameMenuScreenLine.Exit:

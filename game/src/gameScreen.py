@@ -1,3 +1,4 @@
+import os
 import pygame 
 import shutil
 from bullet import BulletSprite
@@ -13,8 +14,9 @@ from state import State
 from tileMap import TileMap
 
 class GameScreen(Screen):
-    def __init__(self):
+    def __init__(self, save_dir):
         self.sound = pygame.mixer.Sound(LASER)
+        self.load(save_dir)
         self.tileMap = TileMap(CURRENT_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
@@ -50,10 +52,9 @@ class GameScreen(Screen):
             shutil.copy('{0}{1}.json'.format(CURRENT_GAME_DIR, i), '{0}{1}.json'.format(SAVES_DIR + save_dir, i))
 
     def load(self, save_dir):
-        #TODO remove this hardcoding
-        for i in range(0, 17):
-            shutil.copy('{0}{1}.json'.format(SAVES_DIR + save_dir, i), '{0}{1}.json'.format(CURRENT_GAME_DIR, i))
-            shutil.copy(SAVES_DIR + save_dir + 'player.json', CURRENT_GAME_DIR + 'player.json')
+        if os.path.exists(CURRENT_GAME_DIR):
+            shutil.rmtree(CURRENT_GAME_DIR)
+        shutil.copytree(save_dir, CURRENT_GAME_DIR)
 
     def render(self):
         self.tileMap.draw(State.screen)

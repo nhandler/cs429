@@ -1,9 +1,10 @@
-import pygame 
+import pygame
+import shutil
 import sys
 from gameScreen import GameScreen
 from gameMenuScreen import GameMenuScreen
 from pygame.locals import *
-from locals import GAME_MUSIC
+from locals import GAME_MUSIC, CURRENT_GAME_DIR
 from state import State
 from tileMap import TileMap
 
@@ -37,6 +38,7 @@ def main():
         events = pygame.event.get()
         for event in events:
             if event.type == KEYDOWN and event.key == K_ESCAPE:
+                shutil.rmtree(CURRENT_GAME_DIR)
                 sys.exit(0)
 
         current_screen = State.screens[0]
