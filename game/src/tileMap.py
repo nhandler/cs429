@@ -43,12 +43,14 @@ class TileMap():
         if (px == TileMap.TILE_LEFT and self.x - 1 >= 0):
             self.x -= 1
             self.tile.save()
+            player.save(self.save_path)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (self.width-1, py)
             return False
         elif (px == TileMap.TILE_RIGHT and self.x + 1 < len(self.tilemapping)):
             self.x += 1
             self.tile.save()
+            player.save(self.save_path)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (0, py)
             return False
@@ -56,12 +58,14 @@ class TileMap():
         if (py == TileMap.TILE_UP and self.y - 1 >= 0):
             self.y -= 1
             self.tile.save()
+            player.save(self.save_path)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (px, self.height-1)
             return False
         elif (py == TileMap.TILE_DOWN and self.y + 1 < len(self.tilemapping[0])):
             self.y += 1
             self.tile.save()
+            player.save(self.save_path)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (px, 0)
             return False

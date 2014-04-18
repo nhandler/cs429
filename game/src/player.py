@@ -1,3 +1,4 @@
+import json
 from creature import CreatureSprite
 from bullet import BulletSprite
 from item import Item, ItemType, MagicShoes, Potion, Crystal, FinalItem1, FinalItem2, get_items
@@ -41,6 +42,10 @@ class PlayerSprite (CreatureSprite):
                 self.addItemToInventory(items[name])
         for name in json['final inventory']:
             self.addItemToInventory(items[name])
+
+    def save(self, save_dir):
+        with open('{0}player.json'.format(save_dir), 'w') as f:
+            f.write(json.dumps(self.to_json()))
 
     def handle_input(self, keyboard_input, tile, bullet_group):
         def handle_movement_keys(key, direction):
