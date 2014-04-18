@@ -3,7 +3,7 @@ import sys
 import unittest
 sys.path.insert(0, '../src')
 from gameScreen import GameScreen
-from locals import Direction
+from locals import Direction, NEW_GAME_DIR
 from player import PlayerSprite
 from state import State
 
@@ -19,7 +19,7 @@ class TestGameScreen(unittest.TestCase):
 	def setUp(self):
 		pygame.init()
 		screen = pygame.display.set_mode((800, 600))
-		self.screen = GameScreen()
+		self.screen = GameScreen(NEW_GAME_DIR)
 		
 		State.screen = self.screen
 		self.player = PlayerSprite((5, 5), (60, 60), Direction.down)
