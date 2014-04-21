@@ -7,6 +7,7 @@ sys.path.insert(0, '../../pytmx')
 from pygame.locals import *
 from crate import ObjectSprite
 from button import ButtonSprite
+from gate import GateSprite
 from enemy import EnemySprite
 from shooter import ShooterSprite
 from boss import BossSprite
@@ -22,6 +23,7 @@ class Tile():
         self.width = 0
         self.crates = []
         self.buttons = []
+        self.gates = []
         self.bosses = []
         self.shooters = []
         self.enemies = []
@@ -50,6 +52,11 @@ class Tile():
         for button in data['buttons']:
             self.buttons.append(
                 ButtonSprite(json=button)
+            )
+
+        for gate in data['gates']:
+            self.gates.append(
+                GateSprite(json=gate)
             )
 
         for boss in data['bosses']:
@@ -90,7 +97,7 @@ class Tile():
 
     def save(self):
         with open('{0}.json'.format(self.save_path), 'w') as f:
-            data = {'crates': [], 'shooters': [], 'enemies': [], 'buttons': [], 'bosses': []}
+            data = {'crates': [], 'shooters': [], 'enemies': [], 'buttons': [], 'bosses': [], 'gates': []}
             for crate in self.crates:
                 data['crates'].append(crate.to_json())
             for shooter in self.shooters:
@@ -101,6 +108,8 @@ class Tile():
                 data['buttons'].append(button.to_json())
             for boss in self.bosses:
                 data['boss'].append(boss.to_json())
+            for gate in self.gates:
+                data['gates'].append(gate.to_json())
 
             f.write(json.dumps(data))
 
