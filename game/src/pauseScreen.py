@@ -3,7 +3,8 @@ from inventoryScreen import InventoryScreen
 from pygame.locals import *
 from screen import Screen
 from interactiveScreen import InteractiveScreen
-from state import State
+from state import State, save
+from locals import USER_SAVES_DIR
 
 class PauseScreenLines:
 	numElements = 3
@@ -46,7 +47,8 @@ class PauseScreen(InteractiveScreen):
 			if self.currLine == PauseScreenLines.Resume:
 				State.pop_screen()
 			if self.currLine == PauseScreenLines.Save:
-				print 'Save Game'
+                            save_name = raw_input('Enter name of save: ')
+                            save(USER_SAVES_DIR + save_name)
 			elif self.currLine == PauseScreenLines.Quit:
 				State.pop_screen()
 				State.pop_screen()

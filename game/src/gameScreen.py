@@ -1,22 +1,20 @@
-import os
 import pygame 
-import shutil
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from victoryScreen import VictoryScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, NEW_GAME_DIR, LASER, CURRENT_GAME_DIR, USER_SAVES_DIR
+from locals import Direction, LASER, CURRENT_GAME_DIR
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
 from screen import Screen
-from state import State
+from state import State, save, load
 from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self, save_dir):
         self.sound = pygame.mixer.Sound(LASER)
-        self.load(save_dir)
+        load(save_dir)
         self.tileMap = TileMap(CURRENT_GAME_DIR)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
@@ -42,19 +40,6 @@ class GameScreen(Screen):
         self.enemy_bullet_group = pygame.sprite.Group()
         self.player_group.update()
         self.enemy_group.update()
-
-    def save(self, save_dir):
-        with open(USER_SAVES_DIR + save_dir + 'player.json', 'w') as f:
-            f.write(self.player.to_json())
-        #TODO remove this hardcoding
-        self.tileMap.tile.save()
-        for i in range(0, 17):
-            shutil.copy('{0}{1}.json'.format(CURRENT_GAME_DIR, i), '{0}{1}.json'.format(USER_SAVES_DIR + save_dir, i))
-
-    def load(self, save_dir):
-        if os.path.exists(CURRENT_GAME_DIR):
-            shutil.rmtree(CURRENT_GAME_DIR)
-        shutil.copytree(save_dir, CURRENT_GAME_DIR)
 
     def render(self):
         self.tileMap.draw(State.screen)

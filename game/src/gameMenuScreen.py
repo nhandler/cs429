@@ -5,7 +5,7 @@ from screen import Screen
 from interactiveScreen import InteractiveScreen
 from gameScreen import GameScreen
 from state import State
-from locals import *
+from locals import NEW_GAME_DIR, USER_SAVES_DIR
 
 class GameMenuScreenLine:
     numElements = 3
