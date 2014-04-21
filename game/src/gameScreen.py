@@ -20,6 +20,7 @@ class GameScreen(Screen):
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
         self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
+        self.gate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.gates)
 
         self.keyboard_input = {
             K_a: (KEYUP, KEYUP),
@@ -45,6 +46,7 @@ class GameScreen(Screen):
         self.tileMap.draw(State.screen)
         self.crate_group.draw(State.screen)
         self.button_group.draw(State.screen)
+        self.gate_group.draw(State.screen)
         self.bullet_group.draw(State.screen)
         self.enemy_bullet_group.draw(State.screen)
         self.player_group.draw(State.screen)
@@ -52,6 +54,10 @@ class GameScreen(Screen):
 
 
     def update(self, events):
+
+        if State.boss_ready:
+            self.gate_group.empty()
+            self.tileMap.tile.gates = []
 
         self.handle_keyboard(events)
         self.player.handle_input(self.keyboard_input, self.tileMap.tile, self.bullet_group)
@@ -74,6 +80,7 @@ class GameScreen(Screen):
         else:
             self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
             self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
+            self.gate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.gates)
             self.enemies = self.tileMap.tile.enemies
             self.boss = self.tileMap.tile.bosses
             self.shooters = self.tileMap.tile.shooters + self.boss
@@ -113,6 +120,7 @@ class GameScreen(Screen):
     def check_collisions(self):
         player_crate_collisions = pygame.sprite.spritecollide(self.player, self.crate_group, False, self.did_player_crate_collide)
         player_button_collisions = pygame.sprite.spritecollide(self.player, self.button_group, False, self.did_player_button_collide)
+        player_gate_collisions = pygame.sprite.spritecollide(self.player, self.gate_group, False, self.did_player_gate_collide)
         player_enemy_collisions = pygame.sprite.spritecollide(self.player, self.enemy_group, False, self.player_enemy_collide)
 
         for bullet in self.bullet_group:
@@ -220,6 +228,13 @@ class GameScreen(Screen):
                 self.enemy_group.remove(self.boss[0])
             self.shooters = []
             self.victory()
+            return True
+        else:
+            return False
+
+    def did_player_gate_collide(self, player_sprite, gate_sprite):
+        if player_sprite.coords == gate_sprite.coords:
+            self.throwBack(player_sprite, self.oppositeDirection(player_sprite.direction))
             return True
         else:
             return False

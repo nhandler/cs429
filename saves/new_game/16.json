@@ -6,6 +6,7 @@
   "bosses": [
     {"x": 6, "y": 3, "health": 50, "action_wait_val": 12, "iters_until_action": 0, "direction": 2, "width": 60, "height": 60}
   ],
+  "gates": [],
   "shooters": [],
   "enemies": []
 }

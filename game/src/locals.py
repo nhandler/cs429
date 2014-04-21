@@ -14,6 +14,7 @@ SHOOTER_BULLET_IMAGE = '../res/enemy_bullet.png'
 SHOOTER_IMAGE = '../res/enemy_yellow.png'
 BUTTON_IMAGE = '../res/button.png'
 BOSS_IMAGE = '../res/enemy_purple.png'
+GATE_IMAGE = '../res/chicken.png'
 
 #SOUNDS
 MENU_OPEN = '../res/sounds/menu.wav'
