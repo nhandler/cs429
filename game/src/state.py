@@ -10,7 +10,10 @@ def save(save_dir):
 def load(save_dir):
     if os.path.exists(CURRENT_GAME_DIR):
         shutil.rmtree(CURRENT_GAME_DIR)
-    shutil.copytree(save_dir, CURRENT_GAME_DIR)
+    try:
+        shutil.copytree(save_dir, CURRENT_GAME_DIR)
+    except OSError:
+        print 'Save not found!'
 
 class State:
     boss_ready = False

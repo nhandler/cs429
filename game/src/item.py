@@ -1,9 +1,10 @@
 def get_items():
     return {
         'None': None,
+        'Item': Item,
         'Magic Shoes': MagicShoes,
-        'potion': Potion,
-        'crystal': Crystal,
+        'Potion': Potion,
+        'Energy Crystal': Crystal,
         'Goat\'s Foot': FinalItem1,
         'Virgin Sacrifice': FinalItem2,
         'Ghost Soul': FinalItem3,

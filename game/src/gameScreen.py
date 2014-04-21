@@ -1,24 +1,25 @@
-import pygame 
+import json
+import pygame
 from bullet import BulletSprite
 from gameOverScreen import GameOverScreen
 from victoryScreen import VictoryScreen
 from inventoryScreen import InventoryScreen
-from locals import Direction, LASER, CURRENT_GAME_DIR
+from locals import Direction, LASER
 from pauseScreen import PauseScreen
 from player import PlayerSprite
 from pygame.locals import *
 from screen import Screen
-from state import State, save, load
+from state import State
 from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self, save_dir):
         self.sound = pygame.mixer.Sound(LASER)
-        load(save_dir)
-        self.tileMap = TileMap(CURRENT_GAME_DIR)
+        self.tileMap = TileMap(save_dir)
         
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-        self.player = PlayerSprite((5, 5), self.tileMap.BLOCK_SIZE, Direction.down)
+        data = json.loads(open('{0}player.json'.format(save_dir)).read())
+        self.player = PlayerSprite(json=data)
         self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
 
         self.keyboard_input = {
@@ -101,7 +102,7 @@ class GameScreen(Screen):
                 continue
             if event.type == KEYDOWN:
                 if event.key == K_p:
-                    State.push_screen(PauseScreen(self.player))
+                    State.push_screen(PauseScreen(self.player, self.tileMap))
                 if event.key == K_i:
                     State.push_screen(InventoryScreen(self.player))
 

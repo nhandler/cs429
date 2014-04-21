@@ -1,11 +1,12 @@
+import os
 import sys
 import pygame
 from pygame.locals import *
 from screen import Screen
 from interactiveScreen import InteractiveScreen
 from gameScreen import GameScreen
-from state import State
-from locals import NEW_GAME_DIR, USER_SAVES_DIR
+from state import State, load
+from locals import CURRENT_GAME_DIR, NEW_GAME_DIR, USER_SAVES_DIR
 
 class GameMenuScreenLine:
     numElements = 3
@@ -41,9 +42,15 @@ class GameMenuScreen(InteractiveScreen):
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     if self.currLine == GameMenuScreenLine.NewGame:
-                        State.push_screen(GameScreen(NEW_GAME_DIR))
+                        load(NEW_GAME_DIR)
+                        State.push_screen(GameScreen(CURRENT_GAME_DIR))
                     elif self.currLine == GameMenuScreenLine.LoadGame:
-                        print 'Load Game'
+                        save_name = raw_input('Enter name of save: ')
+                        if not os.path.exists(USER_SAVES_DIR + save_name):
+                            print 'Save not found!'
+                        else:
+                            load(USER_SAVES_DIR + save_name)
+                            State.push_screen(GameScreen(CURRENT_GAME_DIR))
                     elif self.currLine == GameMenuScreenLine.Exit:
                         sys.exit(0)
                 else:

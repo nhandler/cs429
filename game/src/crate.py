@@ -14,8 +14,12 @@ class ObjectSprite (EntitySprite):
         else:
             self.health = 3
             self.item = item
-        self.image = self._scale(self.normal)
-        self._reset_rect()
+
+        if self.health <= 0:
+            self.dies()
+        else:
+            self.image = self._scale(self.normal)
+            self._reset_rect()
 
     def to_json(self):
         json = EntitySprite.to_json(self)

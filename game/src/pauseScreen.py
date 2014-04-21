@@ -14,10 +14,10 @@ class PauseScreenLines:
 	Quit = 2
 
 class PauseScreen(InteractiveScreen):
-    def __init__(self, player):
+    def __init__(self, player, tileMap):
 	super(PauseScreen, self).__init__()
 	self.player = player
-        self.health = player.health
+        self.tileMap = tileMap
 	self.lines = [None] * PauseScreenLines.numElements
 	self.lines[PauseScreenLines.Resume] = 'Resume'
 	self.lines[PauseScreenLines.Save] = 'Save'
@@ -29,7 +29,7 @@ class PauseScreen(InteractiveScreen):
 	textColor = (255, 255, 0)
         State.screen.fill(black)
         title = monospace_font.render('Game Paused', 1, textColor)
-        health = monospace_font.render('Health: {0}'.format(self.health), 1, textColor)
+        health = monospace_font.render('Health: {0}'.format(self.player.health), 1, textColor)
         State.screen.blit(title, (100, 100))
         State.screen.blit(health, (100, 110))
 	
@@ -47,6 +47,7 @@ class PauseScreen(InteractiveScreen):
 			if self.currLine == PauseScreenLines.Resume:
 				State.pop_screen()
 			if self.currLine == PauseScreenLines.Save:
+                            self.tileMap.save(self.player)
                             save_name = raw_input('Enter name of save: ')
                             save(USER_SAVES_DIR + save_name)
 			elif self.currLine == PauseScreenLines.Quit:
