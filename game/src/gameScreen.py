@@ -138,6 +138,7 @@ class GameScreen(Screen):
                     except ValueError:
                         try:
                             self.tileMap.tile.shooters.remove(enemy)
+                            self.shooters.remove(enemy)
                         except ValueError:
                             self.tileMap.tile.bosses.remove(enemy)
                             self.victory()
