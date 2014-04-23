@@ -19,6 +19,7 @@ class PlayerSprite (CreatureSprite):
             self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
             self.final_inventory = []
             self.count = 0
+            self.weapon_tier = 0
         self.fire_sound = pymix.Sound(LASER)
         self.laser = 1
 
@@ -26,6 +27,7 @@ class PlayerSprite (CreatureSprite):
         json = CreatureSprite.to_json(self)
         json['health'] = self.health
         json['count'] = self.count
+        json['wep_tier'] = self.weapon_tier
         json['inventory'] = {}
         for item, num in self.inventory.items():
             json['inventory'][item.name] = num
@@ -39,6 +41,7 @@ class PlayerSprite (CreatureSprite):
         CreatureSprite.from_json(self, json)
         self.health = json['health']
         self.count = json['count']
+        self.weapon_tier = json['wep_tier']
         items = get_items()
         for name, num in json['inventory'].items():
             for i in range(0, num):
@@ -91,16 +94,32 @@ class PlayerSprite (CreatureSprite):
                 self.inventory[item] = 0
             self.inventory[item] += 1
 
-    def upgrade(self):
-        pass
+    def upgrade(self, tier):
+        if self.weapon_tier != tier:
+            self.weapon_tier = tier
+
+    def check_count(self):
+        if self.count == 5:
+            self.upgrade(1)
+        elif self.count == 10:
+            self.upgrade(2)
+        elif self.count == 15:
+            self.upgrade(3)
 
     def takeItem(self, source):
         self.addItemToInventory(source.item)
         source.item = None
 
     def fire(self, group):
-        bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
-        group.add(bullet)
+
+        if self.weapon_tier == 0:
+            bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
+            group.add(bullet)
+        else:
+            bullet1 = BulletSprite(BULLET_IMAGE, self.coords, (self.width + 1, self.height), self.direction)
+            bullet2 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
+            group.add(bullet1)
+            group.add(bullet2)
 
     def increment_count(self):
         self.count += 1
