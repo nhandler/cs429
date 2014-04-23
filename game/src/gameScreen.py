@@ -132,6 +132,7 @@ class GameScreen(Screen):
             for enemy in collisions:
                 self.bullet_group.remove(bullet)
                 if enemy.health <= 0:
+                    self.player.increment_count()
                     self.enemy_group.remove(enemy)
                     try:
                         self.tileMap.tile.enemies.remove(enemy)

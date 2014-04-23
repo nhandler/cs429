@@ -18,12 +18,14 @@ class PlayerSprite (CreatureSprite):
             self.health = 10
             self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
             self.final_inventory = []
-	self.fire_sound = pymix.Sound(LASER)
+            self.count = 0
+        self.fire_sound = pymix.Sound(LASER)
         self.laser = 1
 
     def to_json(self):
         json = CreatureSprite.to_json(self)
         json['health'] = self.health
+        json['count'] = self.count
         json['inventory'] = {}
         for item, num in self.inventory.items():
             json['inventory'][item.name] = num
@@ -36,6 +38,7 @@ class PlayerSprite (CreatureSprite):
     def from_json(self, json):
         CreatureSprite.from_json(self, json)
         self.health = json['health']
+        self.count = json['count']
         items = get_items()
         for name, num in json['inventory'].items():
             for i in range(0, num):
@@ -88,6 +91,9 @@ class PlayerSprite (CreatureSprite):
                 self.inventory[item] = 0
             self.inventory[item] += 1
 
+    def upgrade(self):
+        pass
+
     def takeItem(self, source):
         self.addItemToInventory(source.item)
         source.item = None
@@ -95,6 +101,10 @@ class PlayerSprite (CreatureSprite):
     def fire(self, group):
         bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
         group.add(bullet)
+
+    def increment_count(self):
+        self.count += 1
+        print self.count
 
     def check_final_condition(self):
         if(set([x for x in self.final_inventory]) == set(ItemType.final_items)):
