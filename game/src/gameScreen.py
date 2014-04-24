@@ -53,6 +53,15 @@ class GameScreen(Screen):
         self.player_group.draw(State.screen)
         self.enemy_group.draw(State.screen)
 
+    def reset_sprite_groups(self):
+        self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
+        self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
+        self.gate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.gates)
+        self.enemies = self.tileMap.tile.enemies
+        self.boss = self.tileMap.tile.bosses
+        self.shooters = self.tileMap.tile.shooters + self.boss
+        enemies = self.enemies + self.shooters
+        self.enemy_group = pygame.sprite.RenderPlain(*enemies)
 
     def update(self, events):
 
@@ -79,22 +88,22 @@ class GameScreen(Screen):
             self.player_group.update()
             self.enemy_group.update()
         else:
-            self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
-            self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
-            self.gate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.gates)
-            self.enemies = self.tileMap.tile.enemies
-            self.boss = self.tileMap.tile.bosses
-            self.shooters = self.tileMap.tile.shooters + self.boss
-            enemies = self.enemies + self.shooters
-            self.enemy_group = pygame.sprite.RenderPlain(*enemies)
+            self.reset_sprite_groups()
 
         if self.player.health <= 0:
-            State.push_screen(
-                GameOverScreen(
-                    TileMap.width*TileMap.BLOCK_SIZE[0], 
-                    TileMap.height*TileMap.BLOCK_SIZE[1]
+            self.player.lives -= 1
+            if self.player.lives <= 0:
+                State.push_screen(
+                    GameOverScreen(
+                        TileMap.width*TileMap.BLOCK_SIZE[0], 
+                        TileMap.height*TileMap.BLOCK_SIZE[1]
+                    )
                 )
-            )
+            else:
+                self.tileMap.set_tile(self.player, 0, 0)
+                self.player.health = self.player.std_health
+                self.player.coords = (5, 5)
+                self.reset_sprite_groups()
 
     def handle_keyboard(self, events):
         

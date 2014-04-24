@@ -8,6 +8,8 @@ import pygame.mixer as pymix
 from state import State
 
 class PlayerSprite (CreatureSprite):
+    std_health = 10
+    std_lives = 3
     def __init__(self, position=(0, 0), size=(0, 0), direction=Direction.down, json=None):
         CreatureSprite.__init__(self, PLAYER_IMAGE, position, size, direction)
         if json:
@@ -15,7 +17,8 @@ class PlayerSprite (CreatureSprite):
             self.final_inventory = []
             self.from_json(json)
         else:
-            self.health = 10
+            self.lives = self.std_lives
+            self.health = self.std_health
             self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
             self.final_inventory = []
 	self.fire_sound = pymix.Sound(LASER)
@@ -30,12 +33,14 @@ class PlayerSprite (CreatureSprite):
         json['final inventory'] = []
         for item in self.final_inventory:
             json['final inventory'].append(item.name)
+        json['lives'] = self.lives
 
         return json
 
     def from_json(self, json):
         CreatureSprite.from_json(self, json)
         self.health = json['health']
+        self.lives = json['lives']
         items = get_items()
         for name, num in json['inventory'].items():
             for i in range(0, num):
