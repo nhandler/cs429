@@ -115,6 +115,8 @@ class Tile():
 
     def is_walkable(self, x, y):
         try:
+            if x < 0 or x > self.width or y < 0 or y > self.height:
+                return True
             return not bool(self.foreground[x][y])
         except IndexError:
             return True
