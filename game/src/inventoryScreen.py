@@ -24,7 +24,7 @@ class InventoryScreen(InteractiveScreen):
 		State.screen.fill((0, 0, 0))
 		title = monospace_font.render('Inventory:', 1, textColor)
 		final_title = monospace_font.render('Tokens:', 1, textColor)
-		State.screen.blit(title, (100, 100))
+		State.screen.blit(title, (180, 100))
 		State.screen.blit(final_title, (10, 100))
 		
 		super(InventoryScreen, self).displayInteractiveLines(110, 10, 15)
