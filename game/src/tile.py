@@ -107,7 +107,7 @@ class Tile():
             for button in self.buttons:
                 data['buttons'].append(button.to_json())
             for boss in self.bosses:
-                data['boss'].append(boss.to_json())
+                data['bosses'].append(boss.to_json())
             for gate in self.gates:
                 data['gates'].append(gate.to_json())
 
