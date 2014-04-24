@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 from screen import Screen
 from interactiveScreen import InteractiveScreen
-from gameScreen import GameScreen
+import gameScreen
 from state import State, load
 from locals import CURRENT_GAME_DIR, NEW_GAME_DIR, USER_SAVES_DIR
 
@@ -43,14 +43,14 @@ class GameMenuScreen(InteractiveScreen):
                 if event.key == K_RETURN:
                     if self.currLine == GameMenuScreenLine.NewGame:
                         load(NEW_GAME_DIR)
-                        State.push_screen(GameScreen(CURRENT_GAME_DIR))
+                        State.push_screen(gameScreen.GameScreen(CURRENT_GAME_DIR))
                     elif self.currLine == GameMenuScreenLine.LoadGame:
                         save_name = raw_input('Enter name of save: ')
                         if not os.path.exists(USER_SAVES_DIR + save_name):
                             print 'Save not found!'
                         else:
                             load(USER_SAVES_DIR + save_name)
-                            State.push_screen(GameScreen(CURRENT_GAME_DIR))
+                            State.push_screen(gameScreen.GameScreen(CURRENT_GAME_DIR))
                     elif self.currLine == GameMenuScreenLine.Exit:
                         sys.exit(0)
                 else:
