@@ -57,9 +57,6 @@ class PlayerSprite (CreatureSprite):
                     else:
                         self.direction = direction
                     self.action_taken()
-                if old_val == new_val == KEYDOWN:
-                    self.move(direction, tile)
-                    self.action_taken()
 
         for key, direction in [
             (K_w, Direction.up), 
