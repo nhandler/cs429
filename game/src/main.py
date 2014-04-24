@@ -1,7 +1,6 @@
 import pygame
 import shutil
 import sys
-from gameScreen import GameScreen
 from gameMenuScreen import GameMenuScreen
 from pygame.locals import *
 from locals import GAME_MUSIC, CURRENT_GAME_DIR
