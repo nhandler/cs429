@@ -17,7 +17,7 @@ class TileMap():
         self.save_path = filename
         self.load()
         mapdata = json.loads(open(MAPS_DIR + 'main_map.json').read())
-        self.tilemapping = zip(*mapdata["map"]) # A little magic to rotate the array
+        self.tilemapping = map(None, *mapdata["map"])
         self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
 
     def save(self, player):
@@ -64,26 +64,26 @@ class TileMap():
                 TileMap.TILE_DOWN
             )
 
-        if (px == TileMap.TILE_LEFT and self.x - 1 >= 0):
+        if (px == TileMap.TILE_LEFT and self.x - 1 >= 0 and self.tilemapping[self.x-1][self.y]):
             self.x -= 1
             self.save(player)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (self.width-1, py)
             return False
-        elif (px == TileMap.TILE_RIGHT and self.x + 1 < len(self.tilemapping)):
+        elif (px == TileMap.TILE_RIGHT and self.x + 1 < len(self.tilemapping) and self.tilemapping[self.x+1][self.y]):
             self.x += 1
             self.save(player)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (0, py)
             return False
         
-        if (py == TileMap.TILE_UP and self.y - 1 >= 0):
+        if (py == TileMap.TILE_UP and self.y - 1 >= 0 and self.tilemapping[self.x][self.y-1]):
             self.y -= 1
             self.save(player)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
             player.coords = (px, self.height-1)
             return False
-        elif (py == TileMap.TILE_DOWN and self.y + 1 < len(self.tilemapping[0])):
+        elif (py == TileMap.TILE_DOWN and self.y + 1 < len(self.tilemapping[self.x]) and self.tilemapping[self.x][self.y+1]):
             self.y += 1
             self.save(player)
             self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
