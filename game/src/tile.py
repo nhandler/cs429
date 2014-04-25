@@ -107,7 +107,7 @@ class Tile():
             for button in self.buttons:
                 data['buttons'].append(button.to_json())
             for boss in self.bosses:
-                data['boss'].append(boss.to_json())
+                data['bosses'].append(boss.to_json())
             for gate in self.gates:
                 data['gates'].append(gate.to_json())
 
@@ -115,6 +115,8 @@ class Tile():
 
     def is_walkable(self, x, y):
         try:
+            if x < 0 or x > self.width or y < 0 or y > self.height:
+                return True
             return not bool(self.foreground[x][y])
         except IndexError:
             return True

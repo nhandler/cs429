@@ -50,6 +50,6 @@ class InteractiveScreen(Screen):
                 text = font.render(line, 1, selectedColor)
             else:
                 text = font.render(line, 1, textColor)
-            State.screen.blit(text, (100, y))
+            State.screen.blit(text, (180, y))
             i += 1
             y += deltay

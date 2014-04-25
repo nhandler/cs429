@@ -47,10 +47,10 @@ class EntitySprite(pygame.sprite.Sprite):
     def update(self):
         self._reset_rect()
         (x,y) = self.shiftby
-        if x > 0: x -= 10
-        elif x < 0: x += 10
-        if y > 0: y -= 10
-        elif y < 0: y += 10
+        if x > 0: x -= 20
+        elif x < 0: x += 20
+        if y > 0: y -= 20
+        elif y < 0: y += 20
         self.shiftby = (x,y)
         
 

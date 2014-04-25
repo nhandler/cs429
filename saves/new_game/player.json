@@ -2,6 +2,7 @@
   "health": 10,
   "count": 0,
   "wep_tier": 0, 
+  "lives": 3,
   "inventory": {
     "Magic Shoes": 2,
     "Item": 1,
