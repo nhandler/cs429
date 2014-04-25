@@ -124,13 +124,11 @@ class PlayerSprite (CreatureSprite):
         source.item = None
 
     def fire(self, group):
-        print self.bullets
         for i in range(self.bullets):
             group.add(BulletSprite(BULLET_IMAGE, self.coords, (self.width + i, self.height), self.direction))
 
     def increment_count(self):
         self.count += 1
-        print self.count
 
     def check_final_condition(self):
         if(set([x for x in self.final_inventory]) == set(ItemType.final_items)):
