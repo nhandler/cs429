@@ -1,4 +1,5 @@
 import json
+from time import sleep 
 from creature import CreatureSprite
 from bullet import BulletSprite
 from item import Item, ItemType, MagicShoes, Potion, Crystal, FinalItem1, FinalItem2, get_items
@@ -117,11 +118,21 @@ class PlayerSprite (CreatureSprite):
         if self.weapon_tier == 0:
             bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
             group.add(bullet)
-        else:
-            bullet1 = BulletSprite(BULLET_IMAGE, self.coords, (self.width + 1, self.height), self.direction)
+        elif self.weapon_tier == 1:
+            bullet1 = BulletSprite(BULLET_IMAGE, self.coords, (self.width + 5, self.height), self.direction)
             bullet2 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
             group.add(bullet1)
             group.add(bullet2)
+        elif self.weapon_tier == 2:
+            self.laser += 1
+        elif self.weapon_tier == 3:
+            bullet1 = BulletSprite(BULLET_IMAGE, self.coords, (self.width + 5, self.height), self.direction)
+            bullet2 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
+            bullet3 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height + 5), self.direction)
+            group.add(bullet1)
+            group.add(bullet2)
+            group.add(bullet3)
+
 
     def increment_count(self):
         self.count += 1
