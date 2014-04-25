@@ -36,6 +36,13 @@ class TileMap():
         json = {'x': self.x, 'y': self.y}
         return json
 
+    def set_tile(self, player, x, y):
+        self.x = x
+        self.y = y
+        self.save(player)
+        self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+
+
     def update(self, player, enemy_group):
         
         (px, py) = player.isOutOfBounds(

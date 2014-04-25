@@ -1,5 +1,6 @@
 {
   "health": 10,
+  "lives": 3,
   "inventory": {
     "Magic Shoes": 2,
     "Item": 1,
