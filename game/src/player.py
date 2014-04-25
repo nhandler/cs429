@@ -11,6 +11,7 @@ from state import State
 class PlayerSprite (CreatureSprite):
     std_health = 10
     std_lives = 3
+
     def __init__(self, position=(0, 0), size=(0, 0), direction=Direction.down, json=None):
         CreatureSprite.__init__(self, PLAYER_IMAGE, position, size, direction)
         if json:
@@ -23,6 +24,7 @@ class PlayerSprite (CreatureSprite):
             self.inventory = {MagicShoes : 2, Item : 1, Potion : 2, Crystal : 3}
             self.final_inventory = []
             self.count = 0
+            self.bullets = 1
             self.weapon_tier = 0
         self.fire_sound = pymix.Sound(LASER)
         self.laser = 1
@@ -38,6 +40,7 @@ class PlayerSprite (CreatureSprite):
         json['final inventory'] = []
         for item in self.final_inventory:
             json['final inventory'].append(item.name)
+        json["bullets"] = self.bullets
         json['lives'] = self.lives
 
         return json
@@ -48,6 +51,7 @@ class PlayerSprite (CreatureSprite):
         self.count = json['count']
         self.weapon_tier = json['wep_tier']
         self.lives = json['lives']
+        self.bullets = json['bullets']
         items = get_items()
         for name, num in json['inventory'].items():
             for i in range(0, num):
@@ -98,8 +102,15 @@ class PlayerSprite (CreatureSprite):
             self.inventory[item] += 1
 
     def upgrade(self, tier):
-        if self.weapon_tier != tier:
-            self.weapon_tier = tier
+        if self.weapon_tier == tier:
+            return 
+        elif tier == 1:
+            self.bullets = 2
+        elif tier == 2:
+            self.laser += 1
+        elif tier == 3:
+            self.laser += 1
+            self.bullets = 3
 
     def check_count(self):
         if self.count == 5:
@@ -114,25 +125,9 @@ class PlayerSprite (CreatureSprite):
         source.item = None
 
     def fire(self, group):
-
-        if self.weapon_tier == 0:
-            bullet = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
-            group.add(bullet)
-        elif self.weapon_tier == 1:
-            bullet1 = BulletSprite(BULLET_IMAGE, self.coords, (self.width + 5, self.height), self.direction)
-            bullet2 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
-            group.add(bullet1)
-            group.add(bullet2)
-        elif self.weapon_tier == 2:
-            self.laser += 1
-        elif self.weapon_tier == 3:
-            bullet1 = BulletSprite(BULLET_IMAGE, self.coords, (self.width + 5, self.height), self.direction)
-            bullet2 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height), self.direction)
-            bullet3 = BulletSprite(BULLET_IMAGE, self.coords, (self.width, self.height + 5), self.direction)
-            group.add(bullet1)
-            group.add(bullet2)
-            group.add(bullet3)
-
+        print self.bullets
+        for i in range(self.bullets):
+            group.add(BulletSprite(BULLET_IMAGE, self.coords, (self.width + i, self.height), self.direction))
 
     def increment_count(self):
         self.count += 1
