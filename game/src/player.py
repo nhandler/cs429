@@ -1,5 +1,4 @@
 import json
-from time import sleep 
 from creature import CreatureSprite
 from bullet import BulletSprite
 from item import Item, ItemType, MagicShoes, Potion, Crystal, FinalItem1, FinalItem2, get_items
@@ -102,7 +101,7 @@ class PlayerSprite (CreatureSprite):
             self.inventory[item] += 1
 
     def upgrade(self, tier):
-        if self.weapon_tier == tier:
+        if self.weapon_tier >= tier:
             return 
         elif tier == 1:
             self.bullets = 2
