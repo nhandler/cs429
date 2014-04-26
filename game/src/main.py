@@ -37,7 +37,7 @@ def main():
         events = pygame.event.get()
         for event in events:
             if event.type == KEYDOWN and event.key == K_ESCAPE:
-                shutil.rmtree(CURRENT_GAME_DIR)
+                shutil.rmtree(CURRENT_GAME_DIR, ignore_errors=True)
                 sys.exit(0)
 
         current_screen = State.screens[0]
