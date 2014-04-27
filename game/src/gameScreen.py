@@ -71,7 +71,8 @@ class GameScreen(Screen):
 
         self.handle_keyboard(events)
         self.player.handle_input(self.keyboard_input, self.tileMap.tile, self.bullet_group)
-
+        self.player.check_count()
+        
         for enemy in self.enemy_group:
             enemy.act(self.tileMap.tile)
 
@@ -141,6 +142,7 @@ class GameScreen(Screen):
             for enemy in collisions:
                 self.bullet_group.remove(bullet)
                 if enemy.health <= 0:
+                    self.player.increment_count()
                     self.enemy_group.remove(enemy)
                     try:
                         self.tileMap.tile.enemies.remove(enemy)
