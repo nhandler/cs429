@@ -1,0 +1,28 @@
+Iteration 6 Meeting
+Monday, April 28, 5:00pm
+
+Iteration 6 Requirements: https://wiki.engr.illinois.edu/display/cs428sp14/Iteration+6
+
+Moderator: Nathan Handler
+Scribe: Andrew Roth
+
+New code demo-ed:
+Save and load functionality
+GUI for saving
+Guardian
+Weapon Upgrades
+New Unit Tests
+Test coverage is up
+
+Refactorings:
+Andrew moved save functionality out of GameScreen and into more appropriate locations.
+Ian altered the json files so they better accounted for the increased tile size.
+
+Bugs:
+Spacing of bullets is based on position
+Add tests for saving and loading, and saving when switching tiles
+Add more tests for everything, including weird cases like being bounced between enemies.
+Add a mock version of the random function. Possibly pass in a function as a parameter.
+Try to add lettuce tests to the coverage tool.
+Add more lettuce tests.
+Consider creating script to run lettuce, unittests, and coverage tool all at once.
