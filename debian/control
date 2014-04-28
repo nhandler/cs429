@@ -1,0 +1,14 @@
+Source: cs429
+Section: python
+Priority: optional
+Maintainer: Nathan Handler <nhandler@debian.org>
+Build-Depends: debhelper (>= 9), python (>= 2.7)
+Standards-Version: 3.9.5
+X-Python-Version: >= 2.7
+
+Package: cs429
+Architecture: all
+Section: python
+Depends: ${misc:Depends}, ${python:Depends}, python-pygame
+Description: cs429 final project for rcs
+ The final UIUC CS 429 project for team RPG Coming Soon (rcs) written in pygame

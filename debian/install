@@ -1,0 +1,5 @@
+bin/cs429 usr/bin/
+game/* usr/share/games/cs429/game/
+maps/* usr/share/games/cs429/maps/
+pytmx/* usr/share/games/cs429/pytmx/
+saves/* usr/share/games/cs429/saves/
