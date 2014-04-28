@@ -19,11 +19,10 @@ class InventoryScreen(InteractiveScreen):
 	
 	def render(self):
 		black = (0, 0, 0)
-		textColor = (255, 255, 0)
 		monospace_font = pygame.font.SysFont('monospace', 15)
 		State.screen.fill((0, 0, 0))
-		title = monospace_font.render('Inventory:', 1, textColor)
-		final_title = monospace_font.render('Tokens:', 1, textColor)
+		title = monospace_font.render('Inventory:', 1, InteractiveScreen.textColor)
+		final_title = monospace_font.render('Tokens:', 1, InteractiveScreen.textColor)
 		State.screen.blit(title, (180, 100))
 		State.screen.blit(final_title, (10, 100))
 		

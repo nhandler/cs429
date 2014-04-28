@@ -5,6 +5,9 @@ from state import State
 from locals import *
 
 class InteractiveScreen(Screen):
+
+    textColor = (255, 255, 0)
+    selectedColor = (255, 0, 0)
     
     def __init__(self):
         self.currLine = 0
@@ -40,16 +43,14 @@ class InteractiveScreen(Screen):
 
     def displayInteractiveLines(self, ystart, deltay, size):
         font = pygame.font.SysFont('monospace', size)
-        textColor = (255, 255, 0)
-        selectedColor = (255, 0, 0)
 
         i = 0
         y = ystart
         for line in self.lines:
             if i == self.currLine:
-                text = font.render(line, 1, selectedColor)
+                text = font.render(line, 1, InteractiveScreen.selectedColor)
             else:
-                text = font.render(line, 1, textColor)
+                text = font.render(line, 1, InteractiveScreen.textColor)
             State.screen.blit(text, (180, y))
             i += 1
             y += deltay
