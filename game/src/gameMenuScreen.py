@@ -28,7 +28,7 @@ class GameMenuScreen(InteractiveScreen):
         self.lines[GameMenuScreenLine.Exit] = 'Exit'
     
     def render(self):
-        title_font = pygame.font.SysFont('monospace', 75)   
+        title_font = pygame.font.SysFont('monospace', 65)   
         regular_font = pygame.font.SysFont('monospace', 50)
         black = (0, 0, 0)
         State.screen.fill(black)
