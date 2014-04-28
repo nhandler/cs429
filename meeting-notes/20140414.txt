@@ -1,0 +1,28 @@
+Iteration 5 Meeting
+Monday, April 14, 2014 5:00pm
+
+Iteration 5 Requirements: https://wiki.engr.illinois.edu/display/cs428sp14/Iteration+5
+
+Moderator: Kyle Nusbaum
+Scribe: Nathan Handler
+Reviewer/Author: All
+
+1) Due to issues caused by a bad merge, we were unable to demonstrate the boss related code for this iteration, despite it being complete.
+
+2) We were able to demonstrate our new sound/music that is present throughout the game
+
+3) The game is able to be saved/loaded, but the menu to do so is not present
+
+4) More usable items were added
+
+5) We have a script to show the code coverage of our tests
+
+6) Lettuce tests were our advanced testing tool. They allow us to use plain English to specify the behavior of a section of code, and then we can visualize the results in a clean and simple format.
+
+Issues:
+
+1) The main issue to resolve is the bad merge.
+
+2) Scrolling quickly through the menu causes a weird sound glitch. We should stop the playing of a sound once they leave the menu item that triggered it.
+
+3) For next (or final) iteration, coding will have to stop before the iteration meeting itself (watch Piazza)
