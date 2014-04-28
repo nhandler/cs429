@@ -113,6 +113,7 @@ class GameScreen(Screen):
             for key, (old_val, new_val) 
             in self.keyboard_input.items() 
         }
+	
 
         for event in events:
             if not hasattr(event, 'key'): 

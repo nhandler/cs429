@@ -19,6 +19,7 @@ class State:
     boss_ready = False
     screen = None
     screens = []
+    save_name = ''
 
     @staticmethod
     def push_screen(new_screen):

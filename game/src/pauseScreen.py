@@ -26,11 +26,10 @@ class PauseScreen(InteractiveScreen):
     def render(self):
         monospace_font = pygame.font.SysFont('monospace', 15)
 	black = (0, 0, 0)
-	textColor = (255, 255, 0)
         State.screen.fill(black)
-        title = monospace_font.render('Game Paused', 1, textColor)
-        health = monospace_font.render('Health: {0}'.format(self.player.health), 1, textColor)
-        lives = monospace_font.render('Lives: {0}'.format(self.player.lives), 1, textColor)
+        title = monospace_font.render('Game Paused', 1, InteractiveScreen.textColor)
+        health = monospace_font.render('Health: {0}'.format(self.player.health), 1, InteractiveScreen.textColor)
+        lives = monospace_font.render('Lives: {0}'.format(self.player.lives), 1, InteractiveScreen.textColor)
         State.screen.blit(title, (100, 100))
         State.screen.blit(health, (100, 110))
         State.screen.blit(lives, (100, 120))
@@ -50,8 +49,7 @@ class PauseScreen(InteractiveScreen):
 				State.pop_screen()
 			if self.currLine == PauseScreenLines.Save:
                             self.tileMap.save(self.player)
-                            save_name = raw_input('Enter name of save: ')
-                            save(USER_SAVES_DIR + save_name)
+                            save(USER_SAVES_DIR + State.save_name)
 			elif self.currLine == PauseScreenLines.Quit:
 				State.pop_screen()
 				State.pop_screen()

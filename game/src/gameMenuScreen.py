@@ -2,9 +2,12 @@ import os
 import sys
 import pygame
 from pygame.locals import *
+from Tkinter import *
+from enterSaveNameGUI import EnterSaveNameGUI
 from screen import Screen
 from interactiveScreen import InteractiveScreen
 import gameScreen
+import loadGameScreen
 from state import State, load
 from locals import CURRENT_GAME_DIR, NEW_GAME_DIR, USER_SAVES_DIR
 
@@ -28,10 +31,8 @@ class GameMenuScreen(InteractiveScreen):
         title_font = pygame.font.SysFont('monospace', 75)   
         regular_font = pygame.font.SysFont('monospace', 50)
         black = (0, 0, 0)
-        textColor = (255, 255, 0)
-        selectedColor = (255, 0, 0)
         State.screen.fill(black)
-        title = title_font.render('Really Cool Game', 1, textColor)
+        title = title_font.render('Really Cool Game', 1, InteractiveScreen.textColor)
         State.screen.blit(title, (25, 50))
         super(GameMenuScreen, self).displayInteractiveLines(200, 50, 50)
     
@@ -42,15 +43,15 @@ class GameMenuScreen(InteractiveScreen):
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     if self.currLine == GameMenuScreenLine.NewGame:
-                        load(NEW_GAME_DIR)
+			gui = EnterSaveNameGUI()
+			save_name = gui.saveName
+			if len(save_name) <= 0:
+				continue
+			load(NEW_GAME_DIR)
+			State.save_name = save_name
                         State.push_screen(gameScreen.GameScreen(CURRENT_GAME_DIR))
                     elif self.currLine == GameMenuScreenLine.LoadGame:
-                        save_name = raw_input('Enter name of save: ')
-                        if not os.path.exists(USER_SAVES_DIR + save_name):
-                            print 'Save not found!'
-                        else:
-                            load(USER_SAVES_DIR + save_name)
-                            State.push_screen(gameScreen.GameScreen(CURRENT_GAME_DIR))
+			State.push_screen(loadGameScreen.LoadGameScreen())
                     elif self.currLine == GameMenuScreenLine.Exit:
                         sys.exit(0)
                 else:
