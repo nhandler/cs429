@@ -1,14 +1,16 @@
 import pygame
+import json
 import sys
 import unittest
 sys.path.insert(0,'../src')
 from item import Item, MagicShoes
-from locals import Direction
+from locals import Direction, NEW_GAME_DIR
 from player import PlayerSprite
 
 class TestPlayer(unittest.TestCase):
 
     player = None
+    load_player = None
     item = None
     screen = pygame.display.set_mode((600, 600))
     clock = pygame.time.Clock()
@@ -19,7 +21,7 @@ class TestPlayer(unittest.TestCase):
 
     def setUp(self):
         pygame.mixer.init()
-        self.player = PlayerSprite((5, 5), (60, 60), Direction.down)
+        self.player = PlayerSprite((5, 5), (60, 60), Direction.up)
         self.item = MagicShoes
 
     def test_AddItemToInventory(self):
@@ -41,7 +43,24 @@ class TestPlayer(unittest.TestCase):
         pass
 
     def test_load(self):
-        pass
+        data = json.loads(open('{0}player.json'.format(NEW_GAME_DIR)).read())
+
+        self.load_player = PlayerSprite(json=data)
+        self.assertEquals(self.player.health, self.load_player.health)
+        self.assertEquals(self.player.lives, self.load_player.lives)
+        self.assertEquals(self.player.inventory, self.load_player.inventory)
+        self.assertEquals(self.player.final_inventory, self.load_player.final_inventory)
+        self.assertEquals(self.player.count, self.load_player.count)
+        self.assertEquals(self.player.bullets, self.load_player.bullets)
+        self.assertEquals(self.player.weapon_tier, self.load_player.weapon_tier)
+        self.assertEquals(self.player.laser, self.load_player.laser)
+        self.assertEquals(self.player.action_wait_val, self.load_player.action_wait_val)
+        self.assertEquals(self.player.iters_until_action, self.load_player.iters_until_action)
+        self.assertEquals(self.player.direction, self.load_player.direction)
+        self.assertEquals(self.player.coords, self.load_player.coords)
+        self.assertEquals(self.player.width, self.load_player.width)
+        self.assertEquals(self.player.height, self.load_player.height)
+        #self.assertEquals(self.player, self.load_player)
 
     def test_save(self):
         pass
