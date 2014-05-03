@@ -28,6 +28,25 @@ class TestPlayer(unittest.TestCase):
         self.player.addItemToInventory(self.item)
         self.assertEqual(inventory[self.item], current_amount + 1)
 
+    def test_AddItemToInventoryNone(self):
+        item = None
+        inventory = self.player.inventory.copy()
+        self.player.addItemToInventory(item)
+        self.assertEqual(inventory, self.player.inventory)
+
+    def test_finalInventory(self):
+        pass
+    
+    def test_final_condition(self):
+        pass
+
+    def test_load(self):
+        pass
+
+    def test_save(self):
+        pass
+
+
 if __name__ == '__main__':
     unittest.main()
 
