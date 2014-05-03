@@ -42,6 +42,11 @@ class TestPlayer(unittest.TestCase):
     def test_final_condition(self):
         pass
 
+    def test_increment(self):
+        incr = self.player.count
+        self.player.increment_count()
+        self.assertEquals(incr+1, self.player.count)
+
     def test_upgrade_weapon_t1(self):
         self.player.count = 5
         self.player.check_count()
