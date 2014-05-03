@@ -42,6 +42,24 @@ class TestPlayer(unittest.TestCase):
     def test_final_condition(self):
         pass
 
+    def test_upgrade_weapon_t1(self):
+        self.player.count = 5
+        self.player.check_count()
+        self.assertEquals(self.player.weapon_tier, 1)
+        self.assertEquals(self.player.bullets, 2)
+
+        self.player.count = 10
+        self.player.check_count()
+        self.assertEquals(self.player.weapon_tier, 2)
+        self.assertEquals(self.player.laser, 2)
+
+        self.player.count = 15
+        self.player.check_count()
+        self.assertEquals(self.player.weapon_tier, 3)
+        self.assertEquals(self.player.laser, 3)
+        self.assertEquals(self.player.bullets, 3)
+
+
     def test_load(self):
         data = json.loads(open('{0}player.json'.format(NEW_GAME_DIR)).read())
 
@@ -63,7 +81,9 @@ class TestPlayer(unittest.TestCase):
         #self.assertEquals(self.player, self.load_player)
 
     def test_save(self):
-        pass
+        player_json = self.player.to_json()
+        loaded_json = json.loads(open('{0}player.json'.format(NEW_GAME_DIR)).read())
+        self.assertEquals(player_json, loaded_json)
 
 
 if __name__ == '__main__':

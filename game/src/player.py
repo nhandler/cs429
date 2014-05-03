@@ -114,10 +114,13 @@ class PlayerSprite (CreatureSprite):
     def check_count(self):
         if self.count == 5:
             self.upgrade(1)
+            self.weapon_tier = 1
         elif self.count == 10:
             self.upgrade(2)
+            self.weapon_tier = 2
         elif self.count == 15:
             self.upgrade(3)
+            self.weapon_tier = 3
 
     def takeItem(self, source):
         self.addItemToInventory(source.item)
