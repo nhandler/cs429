@@ -44,7 +44,7 @@ class GameOverScreen(InteractiveScreen):
         super(GameOverScreen, self).displayInteractiveLines(self.h/2, 50, 50)
 
     def update(self, events):
-         '''
+        '''
         Updates the screen when an event happens 
 
         @param - list of game events
