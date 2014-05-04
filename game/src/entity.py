@@ -4,6 +4,12 @@ class EntitySprite(pygame.sprite.Sprite):
     shiftby = (0,0)
     
     def __init__(self, position, size):
+        '''
+        Constructor
+
+        @postion - x,y coords of sprite
+        @size - size of the image in game
+        '''
         pygame.sprite.Sprite.__init__(self)
         self.coords = position
         self.width, self.height = size
@@ -41,6 +47,9 @@ class EntitySprite(pygame.sprite.Sprite):
         self.health = json['health']
 
     def convertCoords(self):
+        '''
+        Converts tile coordinate to screen coordinate
+        '''
         (x, y) = self.coords
         new_x = x*self.width + self.width/2
         new_y = y*self.height + self.height/2
@@ -53,6 +62,9 @@ class EntitySprite(pygame.sprite.Sprite):
         self.rect = self.rect.move(self.shiftby)
 
     def update(self):
+        '''
+        updates the sprite coordinate by shifting it between tiles
+        '''
         self._reset_rect()
         (x,y) = self.shiftby
         if x > 0: x -= 20
@@ -63,10 +75,18 @@ class EntitySprite(pygame.sprite.Sprite):
         
 
     def takeHit(self, amount):
+        '''
+        Handles what happens when the entity is hit
+
+        @param amount - amount of damage dealt
+        '''
         if self.health > 0:
             self.health -= amount
         if self.health <= 0:
             self.dies()
 
     def dies(self):
+        '''
+        Function to handle what happens when the entity is killed
+        '''
         pass
