@@ -12,6 +12,9 @@ from state import State, load
 from locals import CURRENT_GAME_DIR, NEW_GAME_DIR, USER_SAVES_DIR
 
 class GameMenuScreenLine:
+    '''
+    The elements that will be displayed in the game menu
+    '''
     numElements = 3
 
     NewGame = 0
@@ -21,6 +24,9 @@ class GameMenuScreenLine:
 class GameMenuScreen(InteractiveScreen):
 
     def __init__(self):
+        '''
+        Intialize the screen for the game menu
+        '''
         super(GameMenuScreen, self).__init__()
         self.lines = [None] * GameMenuScreenLine.numElements
         self.lines[GameMenuScreenLine.NewGame] = 'New Game'
@@ -28,6 +34,9 @@ class GameMenuScreen(InteractiveScreen):
         self.lines[GameMenuScreenLine.Exit] = 'Exit'
     
     def render(self):
+        '''
+        Renders the menu to the screen 
+        '''
         title_font = pygame.font.SysFont('monospace', 65)   
         regular_font = pygame.font.SysFont('monospace', 50)
         black = (0, 0, 0)
@@ -37,6 +46,11 @@ class GameMenuScreen(InteractiveScreen):
         super(GameMenuScreen, self).displayInteractiveLines(200, 50, 50)
     
     def update(self, events):
+        '''
+        Updates the screen when an event happens 
+
+        @param - list of game events
+        '''
         for event in events:
             if not hasattr(event, 'key'):
                 continue

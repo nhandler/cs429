@@ -10,6 +10,10 @@ class InteractiveScreen(Screen):
     selectedColor = (255, 0, 0)
     
     def __init__(self):
+        '''
+        Initializes an InteractiveScreen
+
+        '''
         self.currLine = 0
         self.lines = []
 
@@ -23,12 +27,27 @@ class InteractiveScreen(Screen):
             }
 
     def render(self):
+        '''
+        To be defined in subclasses
+        '''
         pass
 
     def update(self, events):
+        '''
+        To be defined in subclasses
+
+        @param events - List of game events
+        '''
+
         pass
 
     def interact(self, event):
+        '''
+        When input happens this is called to change the state of the screen
+
+        @param event - The list of events
+        '''
+
         if not hasattr(event, 'key'):
             return
         if event.type == KEYDOWN:
@@ -42,6 +61,13 @@ class InteractiveScreen(Screen):
                     self.currLine += 1
 
     def displayInteractiveLines(self, ystart, deltay, size):
+        '''
+        Displays the screens lines to the screen
+
+        @param ystart - The starting y coordinate
+        @param deltay - The change in y 
+        @param size - Size of the font
+        '''
         font = pygame.font.SysFont('monospace', size)
 
         i = 0

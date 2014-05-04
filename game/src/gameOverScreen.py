@@ -7,6 +7,9 @@ from interactiveScreen import InteractiveScreen
 import gameMenuScreen
 
 class GameOverScreenLine:
+    '''
+    The elements that will be displayed in the game over menu
+    '''
     numElements = 2
 
     Menu = 0
@@ -15,6 +18,9 @@ class GameOverScreenLine:
 class GameOverScreen(InteractiveScreen):
 
     def __init__(self, w, h):
+        '''
+        Intialize the screen for the game over menu
+        '''
         pygame.font.init()
         self.w = w
         self.h = h
@@ -25,6 +31,10 @@ class GameOverScreen(InteractiveScreen):
         self.lines[GameOverScreenLine.Exit] = 'Exit'
 
     def render(self):
+        '''
+        Renders the menu to the screen 
+        '''
+        
         temp = pygame.Surface(State.screen.get_size(), flags=pygame.SRCALPHA)
         temp.fill((0,0,0,1))
         label = self.font.render("Game Over", 1, (255,255,255,1))
@@ -34,6 +44,12 @@ class GameOverScreen(InteractiveScreen):
         super(GameOverScreen, self).displayInteractiveLines(self.h/2, 50, 50)
 
     def update(self, events):
+         '''
+        Updates the screen when an event happens 
+
+        @param - list of game events
+        '''
+
         for event in events:
             if not hasattr(event, 'key'):
                 continue
