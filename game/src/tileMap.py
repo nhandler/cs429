@@ -18,7 +18,7 @@ class TileMap():
         self.load()
         mapdata = json.loads(open(MAPS_DIR + 'main_map.json').read())
         self.tilemapping = map(None, *mapdata["map"])
-        self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+        self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y])
 
     def save(self, player):
         self.tile.save()
@@ -67,26 +67,26 @@ class TileMap():
         if (px == TileMap.TILE_LEFT and self.x - 1 >= 0 and self.tilemapping[self.x-1][self.y]):
             self.x -= 1
             self.save(player)
-            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y])
             player.coords = (self.width-1, py)
             return False
         elif (px == TileMap.TILE_RIGHT and self.x + 1 < len(self.tilemapping) and self.tilemapping[self.x+1][self.y]):
             self.x += 1
             self.save(player)
-            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y])
             player.coords = (0, py)
             return False
         
         if (py == TileMap.TILE_UP and self.y - 1 >= 0 and self.tilemapping[self.x][self.y-1]):
             self.y -= 1
             self.save(player)
-            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y])
             player.coords = (px, self.height-1)
             return False
         elif (py == TileMap.TILE_DOWN and self.y + 1 < len(self.tilemapping[self.x]) and self.tilemapping[self.x][self.y+1]):
             self.y += 1
             self.save(player)
-            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y], TileMap.BLOCK_SIZE)
+            self.tile = Tile(self.save_path, self.tilemapping[self.x][self.y])
             player.coords = (px, 0)
             return False
         

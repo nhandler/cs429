@@ -13,7 +13,7 @@ from state import State
 @step('The creature is at \((\d+),\s*(\d+)\)')
 def creature_at(step, x, y):
     world.TestCreature.creature = CreatureSprite(PLAYER_IMAGE, (int(x), int(y)), (60, 60), Direction.up)
-    world.TestCreature.tile = Tile(None, None, (int(x), int(y)))
+    world.TestCreature.tile = Tile(None, None)
 
 @step('The player is at \((\d+),\s*(\d+)\)')
 def player_at(step, x, y):
