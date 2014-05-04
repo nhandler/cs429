@@ -28,6 +28,11 @@ class EnemySprite (CreatureSprite):
         self.health = json['health']
 
     def act(self, tile):
+        '''
+        Does the action of this particular EnemySprite
+
+        @param tile - The tile the sprite is on
+        '''
         i = random.randint(1, 4)
 
         if self.can_take_action():
@@ -41,6 +46,16 @@ class EnemySprite (CreatureSprite):
         self.iters_until_action -= 1
 
     def handleOutOfBounds(self, px, py, left, right, up, down):
+        '''
+        Handles the case where the sprite would go out of bounds
+
+        @param px - x coordinate
+        @param py - y coordinate
+        @param left - coordinate of left side of game world
+        @param right - coordinate of right side of game world
+        @param down - coordinate of bottom of game world
+        @param up - coordinate of bootom of game world
+        '''
         if px == left:
             self.direction = Direction.right
         if px == right:
