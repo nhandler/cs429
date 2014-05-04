@@ -16,7 +16,7 @@ from item import get_items
 from locals import Direction, MAPS_DIR
 
 class Tile():
-    def __init__(self, path, num, block_size):
+    def __init__(self, path, num):
         self.save_path = None
         self.map_path = None
         self.height = 0
@@ -39,10 +39,10 @@ class Tile():
             self.width = tmxdata.width
             data = json.loads(open('{0}.json'.format(self.save_path)).read())
 
-            self._initialize_entities(data, block_size)
+            self._initialize_entities(data)
             self._initialize_map(tmxdata)
 
-    def _initialize_entities(self, data, block_size):
+    def _initialize_entities(self, data):
         items = get_items() 
         for crate in data['crates']:
             self.crates.append(

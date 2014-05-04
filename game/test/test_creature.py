@@ -18,7 +18,7 @@ class TestCreature(unittest.TestCase):
 
     def setUp(self):
         self.creature = CreatureSprite(PLAYER_IMAGE, (5, 5), (60, 60), Direction.up)
-        self.tile = Tile(None, None, (60, 60))
+        self.tile = Tile(None, None)
 
     def test_move_up(self):
         self.creature.move(Direction.up, self.tile)
@@ -38,7 +38,7 @@ class TestCreature(unittest.TestCase):
 
     def test_foreground(self):
         creature = CreatureSprite(PLAYER_IMAGE, (0, 0), (60, 60), Direction.up)
-        tile = Tile(None, None, (60, 60))
+        tile = Tile(None, None)
         tile.height = 2
         tile.width = 2
         tile.background.append([0, 0])
