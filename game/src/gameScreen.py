@@ -14,6 +14,11 @@ from tileMap import TileMap
 
 class GameScreen(Screen):
     def __init__(self, save_dir):
+        '''
+        Initializes the main screen that gameplay takes place on
+
+        @param save_dir - The directory to be saved to
+        '''
         self.sound = pygame.mixer.Sound(LASER)
         self.tileMap = TileMap(save_dir)
         
@@ -44,6 +49,12 @@ class GameScreen(Screen):
         self.enemy_group.update()
 
     def render(self):
+        '''
+        Renders each of the groups to the main game screen
+
+        That includes tile, crates, button, bullets, enemies and the player
+        '''
+
         self.tileMap.draw(State.screen)
         self.crate_group.draw(State.screen)
         self.button_group.draw(State.screen)
@@ -54,6 +65,9 @@ class GameScreen(Screen):
         self.enemy_group.draw(State.screen)
 
     def reset_sprite_groups(self):
+        '''
+        Resets each of the sprite groups back to their original parameters
+        '''
         self.crate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.crates)
         self.button_group = pygame.sprite.RenderPlain(*self.tileMap.tile.buttons)
         self.gate_group = pygame.sprite.RenderPlain(*self.tileMap.tile.gates)
@@ -64,7 +78,19 @@ class GameScreen(Screen):
         self.enemy_group = pygame.sprite.RenderPlain(*enemies)
 
     def update(self, events):
+        '''
+        Updates everything in the game
 
+        This includes: 
+            - checking to see if the final condition has been met
+            - handling keybour events
+            - Checking kill count
+            - Having each enemy call their act functions
+            - Checking collisions
+            - Updating each tile
+            - Checking the health of the player
+
+        '''
         if State.boss_ready:
             self.gate_group.empty()
             self.tileMap.tile.gates = []
@@ -107,7 +133,12 @@ class GameScreen(Screen):
                 self.reset_sprite_groups()
 
     def handle_keyboard(self, events):
-        
+        '''
+        Function to handle the keyboard events and act accordingly
+
+        @param events - The list of events from the game
+        '''
+
         self.keyboard_input = { 
             key: (new_val, new_val) 
             for key, (old_val, new_val) 
@@ -130,6 +161,10 @@ class GameScreen(Screen):
 
 
     def check_collisions(self):
+        '''
+        Checks the collisions between each of the sprite groups and removes them if health is 0 
+        '''
+
         player_crate_collisions = pygame.sprite.spritecollide(self.player, self.crate_group, False, self.did_player_crate_collide)
         player_button_collisions = pygame.sprite.spritecollide(self.player, self.button_group, False, self.did_player_button_collide)
         player_gate_collisions = pygame.sprite.spritecollide(self.player, self.gate_group, False, self.did_player_gate_collide)
@@ -175,6 +210,12 @@ class GameScreen(Screen):
                 self.enemy_bullet_group.remove(bullet)
 
     def player_enemy_collide(self, player, enemy):
+        '''
+        Function to test if a player and enemy have collided
+
+        @param player - The player sprite
+        @param enemy - The enemy that might have collided with the player
+        '''
         if player.coords == enemy.coords:
             self.player.takeHit(1)
             self.throwBack(player, enemy.direction)
@@ -183,6 +224,13 @@ class GameScreen(Screen):
             return False
 
     def throwBack(self, entity, direction):
+        '''
+        Throws the player/enemy back if they collide with each other
+
+        @param entity - The entity to be thrown back
+        @param direction - The direction the entity will be thrown
+
+        '''
         (ox, oy) = entity.coords
         entity.move(direction, self.tileMap.tile)
         (x, y) = entity.coords
@@ -212,6 +260,11 @@ class GameScreen(Screen):
             )
 
     def oppositeDirection(self, direction):
+        '''
+        Changes the direction to the opposite one
+
+        @param direction - The direction currently being faced
+        '''
         if direction == Direction.up: 
             return Direction.down
         elif direction == Direction.down: 
@@ -222,6 +275,13 @@ class GameScreen(Screen):
             return Direction.left
 
     def did_player_crate_collide(self, player_sprite, crate_sprite):
+        '''
+        Checks to see if a player and crate have collided and if it has an item in it
+        it will be collected
+
+        @param player_sprite - The player's sprite
+        @param crate_sprite - The crate's sprite
+        '''
         if player_sprite.coords == crate_sprite.coords:
             crate_sprite.takeHit(1)
             self.player.takeItem(crate_sprite)
@@ -230,6 +290,12 @@ class GameScreen(Screen):
             return False
 
     def did_bullet_collide(self, sprite_one, crate_sprite):
+        '''
+        Checks to see if a bullet collided with a crate
+
+        @param sprite_one - The bullet's sprite 
+        @param crate_sprite - The crate's sprite
+        '''
         if sprite_one.coords == crate_sprite.coords:
             crate_sprite.takeHit(self.player.laser)
             return True
@@ -237,6 +303,12 @@ class GameScreen(Screen):
             return False
 
     def did_player_button_collide(self, player_sprite, button_sprite):
+        '''
+        Checks to see if the button and player have collided
+
+        @param player_sprite - The player's sprite
+        @param button_sprite - THe button's sprite
+        '''
         if player_sprite.coords == button_sprite.coords:
             if self.boss:
                 self.enemy_group.remove(self.boss[0])
@@ -247,6 +319,12 @@ class GameScreen(Screen):
             return False
 
     def did_player_gate_collide(self, player_sprite, gate_sprite):
+        '''
+        Checks to see if player and gate have collided
+
+        @param player_sprite - The player's sprite
+        @param gate_sprite - The gate's sprite
+        '''
         if player_sprite.coords == gate_sprite.coords:
             self.throwBack(player_sprite, self.oppositeDirection(player_sprite.direction))
             return True
@@ -254,6 +332,9 @@ class GameScreen(Screen):
             return False
 
     def victory(self):
+        '''
+        Once the victory condition has been met, it will push the victory screen to state
+        '''
         State.push_screen(
             VictoryScreen(
                 TileMap.width*TileMap.BLOCK_SIZE[0], 
