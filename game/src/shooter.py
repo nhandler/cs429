@@ -11,6 +11,15 @@ class ShooterSprite (EnemySprite):
         self._create_spritesheet(SHOOTER_IMAGE)
 
     def shouldShoot(self, px, py):
+        '''
+        Function to decide if the enemy should shoot or not. 
+        Based of off a random number and happens if the enemy shares
+        an x or y coordinate with the player. 
+
+        @param px - the x coord of the player
+        @param py - the y coord of the player
+        '''
+
         (x, y) = self.coords
         i = random.randint(1, 10)
 
@@ -22,6 +31,12 @@ class ShooterSprite (EnemySprite):
             return False
 
     def shoot(self, sprite, group):
+        '''
+        Function to shoot the bullet 
+
+        @param sprite - The sprite that is shooting
+        @param group - The group for the bullet to added to
+        '''
         bullet = BulletSprite(SHOOTER_BULLET_IMAGE, sprite.coords, (self.width, self.height), sprite.direction)
         group.add(bullet)
         
