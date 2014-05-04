@@ -31,6 +31,8 @@ class Tile():
         self.foreground = []
         self.top = []
 
+        # If path an num are provided, find the corresponding .json and .tmx
+        # files and load them
         if path and num:
             self.save_path = '{0}{1}'.format(path, num)
             self.map_path = '{0}{1}'.format(MAPS_DIR, num)
@@ -43,6 +45,12 @@ class Tile():
             self._initialize_map(tmxdata)
 
     def _initialize_entities(self, data):
+        '''
+        Takes the data json from the .json file and uses it to intialize
+        the objects and enemies for that tile
+
+            @data - the json data from the .json file
+        '''
         items = get_items() 
         for crate in data['crates']:
             self.crates.append(
@@ -75,6 +83,10 @@ class Tile():
             )
 
     def _initialize_map(self, tmxdata):
+        '''
+        Takes the data from the .tmx file and uses it to initialize 
+        the various layers of the map.
+        '''
         background_index = tmxdata.tilelayers.index(
             tmxdata.getTileLayerByName('Background'))
         foreground_index = tmxdata.tilelayers.index(
@@ -96,6 +108,9 @@ class Tile():
                 self.top[x].append(element if element else None)
 
     def save(self):
+        '''
+        Update the .json file with the current state of each entity.
+        '''
         with open('{0}.json'.format(self.save_path), 'w') as f:
             data = {'crates': [], 'shooters': [], 'enemies': [], 'buttons': [], 'bosses': [], 'gates': []}
             for crate in self.crates:
@@ -114,6 +129,12 @@ class Tile():
             f.write(json.dumps(data))
 
     def is_walkable(self, x, y):
+        '''
+        Determine if the current square can be moved to.
+
+        @param x - the x position of the square
+        @param y - the y position of the square
+        '''
         try:
             if x < 0 or x > self.width or y < 0 or y > self.height:
                 return True
@@ -122,11 +143,24 @@ class Tile():
             return True
 
     def _convert(self, surface, x, y):
+        '''
+        Convert between square and screen coordinates
+
+        @param surface - the surface who's coordinates we're converting to
+        @param x - the x position of the current square
+        @param y - the y position of the current square
+        '''
         new_x = (x * surface.get_width()) / self.width
         new_y = (y * surface.get_height()) / self.height
         return (new_x, new_y)
 
     def _scale(self, element, surface):
+        '''
+        Scale the current square to display on the screen correctly
+
+        @param element - the current square
+        @param surface - the surface we're scaling to
+        '''
         width = surface.get_width()
         height = surface.get_height()
         num_rows = len(self.background)
@@ -137,6 +171,12 @@ class Tile():
         )
 
     def _draw(self, surface, data):
+        '''
+        Draw a layer to a surface
+
+        @param surface - the surface we're drawing to
+        @param data - the tile layer to be drawn
+        '''
         for x, column in enumerate(data):
             for y, element in enumerate(column):
                 if element:
@@ -152,4 +192,4 @@ class Tile():
         self._draw(surface, self.foreground)
 
     def draw_top(self, surface):
-            self._draw(surface, self.top)
+        self._draw(surface, self.top)

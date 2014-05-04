@@ -22,6 +22,9 @@ class ObjectSprite (EntitySprite):
             self._reset_rect()
 
     def to_json(self):
+        '''
+        Serialize the important members of this class as a json object.
+        '''
         json = EntitySprite.to_json(self)
         json['health'] = self.health
         if self.item:
@@ -32,6 +35,11 @@ class ObjectSprite (EntitySprite):
         return json
 
     def from_json(self, json):
+        '''
+        Restore this object from the passed in json object
+
+        @param json - the json object
+        '''
         EntitySprite.from_json(self, json)
         self.health = json['health']
         self.item = get_items()[json['item']]
