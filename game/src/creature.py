@@ -12,6 +12,9 @@ class CreatureSprite(EntitySprite):
         self._create_spritesheet(image_filename)
 
     def to_json(self):
+        '''
+        Serialize the import members of this class as a json object
+        '''
         json = EntitySprite.to_json(self)
         json['action_wait_val'] = self.action_wait_val
         json['iters_until_action'] = self.iters_until_action
@@ -20,6 +23,11 @@ class CreatureSprite(EntitySprite):
         return json
 
     def from_json(self, json):
+        '''
+        Restore this object from the passed in json object
+
+        @param json - the json object
+        '''
         EntitySprite.from_json(self, json)
         self.action_wait_val = json['action_wait_val']
         self.iters_until_action = json['iters_until_action']

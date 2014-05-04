@@ -13,6 +13,9 @@ class EntitySprite(pygame.sprite.Sprite):
         self.shiftby = (0,0)
 
     def to_json(self):
+        '''
+        Serialize the important members of this class as a json object
+        '''
         (x, y) = self.coords
         json = {
             'x': x,
@@ -25,6 +28,11 @@ class EntitySprite(pygame.sprite.Sprite):
         return json
 
     def from_json(self, json):
+        '''
+        Restore this object from the passed in json object
+
+        @param json - the json object
+        '''
         x = json['x']
         y = json['y']
         self.coords = (x, y)

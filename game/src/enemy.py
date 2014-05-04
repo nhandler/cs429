@@ -11,11 +11,19 @@ class EnemySprite (CreatureSprite):
             self.health = 3
 
     def to_json(self):
+        '''
+        Serialize the important members of this class as a json object
+        '''
         json = CreatureSprite.to_json(self)
         json['health'] = self.health
         return json
 
     def from_json(self, json):
+        '''
+        Restore this object from the passed in json object
+
+        @param json - the json object
+        '''
         CreatureSprite.from_json(self, json)
         self.health = json['health']
 
