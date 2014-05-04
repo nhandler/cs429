@@ -9,6 +9,9 @@ from state import State
 class InventoryScreen(InteractiveScreen):
 
 	def __init__(self, player):
+		'''
+        Intialize the screen for the inventory menu
+        '''
 		super(InventoryScreen, self).__init__()
 		self.lines = []
 		self.player = player
@@ -18,6 +21,9 @@ class InventoryScreen(InteractiveScreen):
 			
 	
 	def render(self):
+		'''
+        Renders the menu to the screen 
+        '''
 		black = (0, 0, 0)
 		monospace_font = pygame.font.SysFont('monospace', 15)
 		State.screen.fill((0, 0, 0))
@@ -35,6 +41,11 @@ class InventoryScreen(InteractiveScreen):
             		y += 10
 		
 	def update(self, events):
+		'''
+        Updates the screen when an event happens 
+
+        @param - list of game events
+        '''
 		for event in events:
 			if not hasattr(event, 'key'): 
 				continue

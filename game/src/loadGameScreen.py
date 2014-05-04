@@ -8,6 +8,9 @@ from state import State, load
 from locals import CURRENT_GAME_DIR, NEW_GAME_DIR, USER_SAVES_DIR
 
 class LoadGameScreenLine:
+	'''
+    The elements that will be displayed in the load game menu
+    '''
 	numElements = 1
 
 	ReturnToMainMenu = 0
@@ -15,6 +18,9 @@ class LoadGameScreenLine:
 class LoadGameScreen(InteractiveScreen):
 	
 	def __init__(self):
+		'''
+        Intialize the screen for the load game menu
+        '''
 		super(LoadGameScreen, self).__init__()
 		self.lines = [None] * LoadGameScreenLine.numElements
 		self.lines[LoadGameScreenLine.ReturnToMainMenu] = 'Return To Main Menu'
@@ -25,6 +31,9 @@ class LoadGameScreen(InteractiveScreen):
 				self.lines.append(line)
 
 	def render(self):
+		'''
+        Renders the menu to the screen 
+        '''
 		font = pygame.font.SysFont('monospace', 50)
 		black = (0, 0, 0)
 		State.screen.fill(black)
@@ -33,6 +42,11 @@ class LoadGameScreen(InteractiveScreen):
 		super(LoadGameScreen, self).displayInteractiveLines(200, 50, 50)
 	
 	def update(self, events):
+		'''
+        Updates the screen when an event happens 
+
+        @param - list of game events
+        '''
 		for event in events:
 			if not hasattr(event, 'key'):
 				continue

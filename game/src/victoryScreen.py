@@ -7,6 +7,9 @@ from interactiveScreen import InteractiveScreen
 import gameMenuScreen
 
 class VictoryScreenLine:
+    '''
+    The elements that will be displayed in the victory menu
+    '''
     numElements = 2
 
     Menu = 0
@@ -15,6 +18,9 @@ class VictoryScreenLine:
 class VictoryScreen(InteractiveScreen):
 
     def __init__(self, w, h):
+        '''
+        Intialize the screen for the victory menu
+        '''
         pygame.font.init()
         self.w = w
         self.h = h
@@ -25,6 +31,9 @@ class VictoryScreen(InteractiveScreen):
         self.lines[VictoryScreenLine.Exit] = 'Exit'
 
     def render(self):
+        '''
+        Renders the menu to the screen 
+        '''
         temp = pygame.Surface(State.screen.get_size(), flags=pygame.SRCALPHA)
         temp.fill((0,0,0,1))
         label = self.font.render("You Win", 1, (255,255,255,1))
@@ -34,6 +43,11 @@ class VictoryScreen(InteractiveScreen):
         super(VictoryScreen, self).displayInteractiveLines(self.h/2, 50, 50)
 
     def update(self, events):
+        '''
+        Updates the screen when an event happens 
+
+        @param - list of game events
+        '''
         for event in events:
             if not hasattr(event, 'key'):
                 continue
