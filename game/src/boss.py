@@ -14,12 +14,20 @@ class BossSprite (ShooterSprite):
         self._create_spritesheet(BOSS_IMAGE)
 
     def to_json(self):
+        '''
+        Serialize the important members of this class as a json object
+        '''
         json = ShooterSprite.to_json(self)
         json['health'] = 50
 
         return json
 
     def from_json(self, json):
+        '''
+        Restore this object from the passed in json object
+
+        @param json - the json object
+        '''
         ShooterSprite.from_json(self, json)
         self.health = json['health']
 
