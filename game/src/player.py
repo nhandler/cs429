@@ -32,6 +32,7 @@ class PlayerSprite (CreatureSprite):
         '''
         Serialize the important members of this class as a json object
         '''
+
         json = CreatureSprite.to_json(self)
         json['health'] = self.health
         json['count'] = self.count
@@ -53,6 +54,7 @@ class PlayerSprite (CreatureSprite):
 
         @param json - the json object
         '''
+
         CreatureSprite.from_json(self, json)
         self.health = json['health']
         self.count = json['count']
@@ -67,6 +69,12 @@ class PlayerSprite (CreatureSprite):
             self.addItemToInventory(items[name])
 
     def save(self, save_dir):
+        '''
+        saves the current state of the player
+
+        @param save_dir - directory that the current game is saved to
+        '''
+
         with open('{0}player.json'.format(save_dir), 'w') as f:
             f.write(json.dumps(self.to_json()))
 
@@ -98,6 +106,12 @@ class PlayerSprite (CreatureSprite):
             self.takeHit(1)
 
     def addItemToInventory(self, item):
+        '''
+            Adds an item to player's inventory
+
+            @param item - item to be added
+        '''
+
         if item is None:
             return
         if item in ItemType.final_items:
@@ -109,6 +123,11 @@ class PlayerSprite (CreatureSprite):
             self.inventory[item] += 1
 
     def upgrade(self, tier):
+        '''
+            Upgrades the player's weapon based
+
+            @param tier - tier to be upgraded to
+        '''
         if self.weapon_tier >= tier:
             return 
         elif tier == 1:
@@ -120,6 +139,11 @@ class PlayerSprite (CreatureSprite):
             self.bullets = 3
 
     def check_count(self):
+        '''
+            Checks to see if the player is ready to have their weapon
+            upgraded
+        '''
+
         if self.count == 5:
             self.upgrade(1)
             self.weapon_tier = 1
@@ -131,17 +155,36 @@ class PlayerSprite (CreatureSprite):
             self.weapon_tier = 3
 
     def takeItem(self, source):
+        '''
+            Function to take an item from the source
+
+            @param source - The thing that is holding the item
+        '''
         self.addItemToInventory(source.item)
         source.item = None
 
     def fire(self, group):
+        '''
+        Fires the bullet(s)
+
+        @param group - The group that the bullets will be added to
+        '''
+
         for i in range(self.bullets):
             group.add(BulletSprite(BULLET_IMAGE, self.coords, (self.width + i, self.height), self.direction))
 
     def increment_count(self):
+        '''
+        increments the enemies killed counter
+        '''
+
         self.count += 1
 
     def check_final_condition(self):
+        '''
+        Checks to see if the final condition to meet the boss has been met
+        '''
+        
         if(set([x for x in self.final_inventory]) == set(ItemType.final_items)):
             print "All final items collected!"
             State.boss_ready = True
